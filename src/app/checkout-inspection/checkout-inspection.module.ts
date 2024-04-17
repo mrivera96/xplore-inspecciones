@@ -2,19 +2,21 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Tab1Page } from './tab1.page';
+import { CheckoutInspectionPage } from './checkout-inspection.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { Tab1PageRoutingModule } from './tab1-routing.module';
-
+import { CheckoutInspectionPageRoutingModule } from './checkout-inspection-routing.module';
+import { IonicSelectableComponent } from 'ionic-selectable';
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab1PageRoutingModule
+    CheckoutInspectionPageRoutingModule,
+    IonicSelectableComponent,
   ],
-  declarations: [Tab1Page]
+  declarations: [CheckoutInspectionPage],
+  providers: [],
 })
-export class Tab1PageModule {}
+export class CheckoutInspectionPageModule {}

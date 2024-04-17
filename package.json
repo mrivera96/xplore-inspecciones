@@ -1,7 +1,7 @@
 {
   "name": "xplore-inspecciones",
-  "version": "0.0.1",
-  "author": "Ionic Framework",
+  "version": "1.0.0",
+  "author": "Melvin Rivera",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",
@@ -27,6 +27,7 @@
     "@capacitor/keyboard": "6.0.0",
     "@capacitor/status-bar": "6.0.0",
     "@ionic/angular": "^7.0.0",
+    "ionic-selectable": "^5.0.3",
     "ionicons": "^7.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
