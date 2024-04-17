@@ -1,0 +1,8 @@
+{
+  "name": "Xplore Inspecciones",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular",
+  "id": "d876c761"
+}
