@@ -10,7 +10,7 @@ import { Inspection } from '../interfaces/inspection';
 export class CheckoutInspectionPage {
   private carsService = inject(CarsService);
   cars = this.carsService.filteredCars;
-  title = 'Inspección de Check-out';
+  title = '';
   protected newInspection = <Inspection> {};
 
   searchCar(e: any) {

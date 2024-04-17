@@ -6,17 +6,20 @@
 
     <div class="content">
       <div>
-        <h2>{{title}}</h2>
+        <h2>Inspección</h2>
+        <h2 style="color: var(--ion-color-secondary) !important;">Check-out</h2>
       </div>
       <div class="search-card">
-        <ion-row>
+       
+          <ion-label>Seleccione un Vehiculo</ion-label>
+          
+        <ion-item lines="none">
           @defer (when cars()) {
-            <ion-col size="12">
-              <ion-label>Seleccione un Vehiculo</ion-label>
-            </ion-col>
-          <ion-col size="12">
-            <!-- <fa-icon icon="arrow-up"> </fa-icon> -->
-            <!-- <div class="autocomplete">
+          <ion-icon color="secondary" slot="start" name="car"></ion-icon>
+         
+
+          <!-- <fa-icon icon="arrow-up"> </fa-icon> -->
+          <!-- <div class="autocomplete">
                 <ion-searchbar
                 placeholder="Buscar Vehiculo"
                 type="text"
@@ -29,25 +32,27 @@
                 <ion-item *ngFor="let res of cars()"> {{res.nemVehiculo}} </ion-item>
               </ion-list>
               </div> -->
-           
-            <ionic-selectable
-              [items]="cars()!"
-              itemValueField="idVehiculo"
-              itemTextField="nemVehiculo"
-              [canSearch]="true"
-              (onChange)="searchCar($event)"
-            >
-            </ionic-selectable>
-          </ion-col>
+
+          <ionic-selectable
+            [(ngModel)]="newInspection.idVehiculo"
+            color="secondary"
+            [items]="cars()!"
+            itemValueField="idVehiculo"
+            itemTextField="nemVehiculo"
+            [canSearch]="true"
+            (onChange)="searchCar($event)"
+          >
+          </ionic-selectable>
+
           } @placeholder {
           <span>Obteniendo datos..</span>
           } @error {
           <span>Error</span>
           } @loading() {
           <span>Loading...</span>
-          
+
           }
-        </ion-row>
+        </ion-item>
       </div>
     </div>
   </div>
