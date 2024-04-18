@@ -1,4 +1,4 @@
 export interface Inspection {
-    idInspeccion: number,
-    idVehiculo: number
+  idInspeccion?: number;
+  idVehiculo?: number;
 }

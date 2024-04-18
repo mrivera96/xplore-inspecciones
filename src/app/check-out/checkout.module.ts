@@ -2,23 +2,25 @@ import { IonicModule } from '@ionic/angular';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { CheckoutInspectionPage } from './checkout-inspection.page';
+import { CheckoutPage } from './checkout.page';
 import { ExploreContainerComponentModule } from '../explore-container/explore-container.module';
 
-import { CheckoutInspectionPageRoutingModule } from './checkout-inspection-routing.module';
+import { CheckoutPageRoutingModule } from './checkout-routing.module';
 import { IonicSelectableComponent } from 'ionic-selectable';
 import { GeneralDataComponent } from './components/general-data/general-data.component';
+import { DamagesComponent } from './components/damages/damages.component';
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    CheckoutInspectionPageRoutingModule,
+    CheckoutPageRoutingModule,
     IonicSelectableComponent,
-    GeneralDataComponent
+    GeneralDataComponent,
+    DamagesComponent,
   ],
-  declarations: [CheckoutInspectionPage],
+  declarations: [CheckoutPage],
   providers: [],
 })
-export class CheckoutInspectionPageModule {}
+export class CheckoutPageModule {}

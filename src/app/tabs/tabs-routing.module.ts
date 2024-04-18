@@ -8,8 +8,8 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'checkout-inspection',
-        loadChildren: () => import('../checkout-inspection/checkout-inspection.module').then(m => m.CheckoutInspectionPageModule)
+        path: 'checkout',
+        loadChildren: () => import('../check-out/checkout.module').then(m => m.CheckoutPageModule)
       },
       {
         path: 'tab2',
@@ -21,14 +21,14 @@ const routes: Routes = [
       },
       {
         path: '',
-        redirectTo: '/tabs/checkout-inspection',
+        redirectTo: '/tabs/checkout',
         pathMatch: 'full'
       }
     ]
   },
   {
     path: '',
-    redirectTo: '/tabs/checkout-inspection',
+    redirectTo: '/tabs/checkout',
     pathMatch: 'full'
   }
 ];

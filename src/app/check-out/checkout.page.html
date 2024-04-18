@@ -1,13 +1,14 @@
 <ion-header class="ion-no-border">
   <div class="bubble">
-    <ion-buttons>
-      <ion-menu-button></ion-menu-button>
-    </ion-buttons>
-
     <div class="content">
       <div>
-        <h2>Inspección</h2>
-        <h1 style="color: var(--ion-color-secondary) !important">Check-out</h1>
+        <img src="/assets/img/logo.png" width="180px" />
+        <h2>
+          <span>Inspección</span>
+          <span style="color: var(--ion-color-secondary) !important">
+            Check-out</span
+          >
+        </h2>
       </div>
       <div class="search-card">
         <ion-label>Seleccione un Vehiculo</ion-label>
@@ -16,22 +17,21 @@
           @defer (when cars()) {
           <ion-icon color="secondary" slot="start" name="car"></ion-icon>
           <ionic-selectable
-          class="ion-margin-start"
-            [(ngModel)]="newInspection.idVehiculo"
+            class="ion-margin-start"
             color="secondary"
             [items]="cars()!"
             itemValueField="idVehiculo"
             itemTextField="nemVehiculo"
             [canSearch]="true"
-            (onChange)="searchCar($event)"
+            (onChange)="selectCar($event)"
           >
           </ionic-selectable>
 
           } @placeholder {
-          <ion-item>
-            <ion-label>Obteniendo datos..</ion-label>
-            <ion-spinner color="secondary" name="crescent"></ion-spinner>
-          </ion-item>
+
+          <ion-label>Obteniendo datos..</ion-label>
+          <ion-spinner color="secondary" name="crescent"></ion-spinner>
+
           } @error {
           <span>Error</span>
           } @loading() {
@@ -45,14 +45,18 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  @if (newInspection.idVehiculo != null) {
-    <app-general-data></app-general-data>
-  }@else{
-    <ion-row class="ion-align-items-center">
-      <ion-col size="12" >
-        <span>Aún no ha seleccionado un vehículo...</span>
-      </ion-col>
-    </ion-row>
+  @if (currentInspection.idVehiculo != undefined) { @switch (step) { @case (1) {
+  <app-general-data
+    [step]="step"
+    (newItemEvent)="changeStep($event)"
+  ></app-general-data>
+  } @case (2) {
+  <app-damages [step]="step"></app-damages>
+  } } }@else{
+  <ion-row class="ion-align-items-center">
+    <ion-col size="12">
+      <span>Aún no ha seleccionado un vehículo...</span>
+    </ion-col>
+  </ion-row>
   }
-  
 </ion-content>

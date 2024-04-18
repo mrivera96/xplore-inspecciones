@@ -24,16 +24,13 @@ export class CarsService {
   filteredCars = toSignal(this._cars);
 
   selectCar(id: number) {
-    
     const selectedCar = this.cars()?.find((x) => x.idVehiculo == id);
     this.currentCar.set(selectedCar);
-    console.log(selectedCar)
   }
 
   searchCar(vehicleName: string) {
     this.filteredCars()?.filter((x) =>
       x.nemVehiculo.toLowerCase().includes(vehicleName.toLowerCase())
     );
-
   }
 }

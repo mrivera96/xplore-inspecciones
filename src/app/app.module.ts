@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicSelectableComponent } from 'ionic-selectable';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,7 +17,8 @@ import { IonicSelectableComponent } from 'ionic-selectable';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    IonicSelectableComponent
+    IonicSelectableComponent,
+    FormsModule
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
