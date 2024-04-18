@@ -1,0 +1,113 @@
+<ion-content>
+  <ion-list>
+    <ion-row>
+      <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
+        <ion-item>
+          <ion-input
+            color="secondary"
+            ngDefaultControl
+            [ngModel]="currentCar()?.model?.brand?.descMarca"
+            labelPlacement="stacked"
+            label="Marca de Vehículo"
+            type="text"
+            placeholder="Awesome Input"
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
+        <ion-item>
+          <ion-input
+            color="secondary"
+            ngDefaultControl
+            [ngModel]="currentCar()?.modelo"
+            labelPlacement="stacked"
+            label="Modelo de Vehículo"
+            type="text"
+            readonly
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item>
+          <ion-input
+            color="secondary"
+            ngDefaultControl
+            [ngModel]="currentCar()?.contract?.customer?.nomCliente"
+            labelPlacement="stacked"
+            label="Nombre del cliente"
+            type="text"
+            readonly
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12">
+        <ion-item>
+          <ion-input
+            color="secondary"
+            ngDefaultControl
+            [ngModel]="currentCar()?.contract?.customer?.correoI"
+            labelPlacement="stacked"
+            label="Correo electrónico del cliente"
+            type="text"
+            readonly
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12">
+        <ion-item>
+          <ion-input
+            color="secondary"
+            ngDefaultControl
+            [ngModel]="currentCar()?.contract?.customer?.celularI"
+            labelPlacement="stacked"
+            label="Número celular del cliente"
+            type="text"
+            readonly
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12">
+        <ion-item>
+          <ion-input
+            ngDefaultControl
+            color="secondary"
+            [ngModel]="currentCar()?.contract?.numContrato"
+            labelPlacement="stacked"
+            label="Número de contrato"
+            type="text"
+            readonly
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-input
+            color="secondary"
+            ngDefaultControl
+            [ngModel]="currentCar()?.odometro"
+            labelPlacement="stacked"
+            label="Kilometraje"
+            type="text"
+            readonly
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-input
+            color="secondary"
+            ngDefaultControl
+            [ngModel]="currentCar()?.fuel"
+            labelPlacement="stacked"
+            label="Nivel de combustible"
+            type="text"
+          ></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-list>
+</ion-content>

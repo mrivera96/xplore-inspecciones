@@ -7,33 +7,16 @@
     <div class="content">
       <div>
         <h2>Inspección</h2>
-        <h2 style="color: var(--ion-color-secondary) !important;">Check-out</h2>
+        <h1 style="color: var(--ion-color-secondary) !important">Check-out</h1>
       </div>
       <div class="search-card">
-       
-          <ion-label>Seleccione un Vehiculo</ion-label>
-          
+        <ion-label>Seleccione un Vehiculo</ion-label>
+
         <ion-item lines="none">
           @defer (when cars()) {
           <ion-icon color="secondary" slot="start" name="car"></ion-icon>
-         
-
-          <!-- <fa-icon icon="arrow-up"> </fa-icon> -->
-          <!-- <div class="autocomplete">
-                <ion-searchbar
-                placeholder="Buscar Vehiculo"
-                type="text"
-                (input)="searchCar($event)"
-                [debounce]="250"
-                showCancelButton="always"
-              ></ion-searchbar>
-              
-              <ion-list>
-                <ion-item *ngFor="let res of cars()"> {{res.nemVehiculo}} </ion-item>
-              </ion-list>
-              </div> -->
-
           <ionic-selectable
+          class="ion-margin-start"
             [(ngModel)]="newInspection.idVehiculo"
             color="secondary"
             [items]="cars()!"
@@ -45,7 +28,10 @@
           </ionic-selectable>
 
           } @placeholder {
-          <span>Obteniendo datos..</span>
+          <ion-item>
+            <ion-label>Obteniendo datos..</ion-label>
+            <ion-spinner color="secondary" name="crescent"></ion-spinner>
+          </ion-item>
           } @error {
           <span>Error</span>
           } @loading() {
@@ -59,11 +45,14 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  @if (newInspection.idVehiculo != null) {
+    <app-general-data></app-general-data>
+  }@else{
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12" >
+        <span>Aún no ha seleccionado un vehículo...</span>
+      </ion-col>
+    </ion-row>
+  }
+  
 </ion-content>

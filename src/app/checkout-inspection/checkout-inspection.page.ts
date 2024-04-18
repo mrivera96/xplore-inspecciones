@@ -14,7 +14,7 @@ export class CheckoutInspectionPage {
   protected newInspection = <Inspection> {};
 
   searchCar(e: any) {
-    console.log(e)
+    
     this.carsService.selectCar(e.value.idVehiculo)
   }
 }

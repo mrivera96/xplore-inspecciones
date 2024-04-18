@@ -7,6 +7,7 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { CheckoutInspectionPageRoutingModule } from './checkout-inspection-routing.module';
 import { IonicSelectableComponent } from 'ionic-selectable';
+import { GeneralDataComponent } from './components/general-data/general-data.component';
 @NgModule({
   imports: [
     IonicModule,
@@ -15,6 +16,7 @@ import { IonicSelectableComponent } from 'ionic-selectable';
     ExploreContainerComponentModule,
     CheckoutInspectionPageRoutingModule,
     IonicSelectableComponent,
+    GeneralDataComponent
   ],
   declarations: [CheckoutInspectionPage],
   providers: [],
