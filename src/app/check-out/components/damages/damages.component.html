@@ -1,3 +1,13 @@
-<p>
-  damages works!
-</p>
+@if (photoService.photos.length == 0) {
+<ion-title>Agregar fotografías de daños</ion-title>
+<ion-list>
+  @defer (when damageParts()) { @for (part of damageParts(); track $index) {
+  <ion-item (click)="setDamagePart()">
+    <ion-label>{{ part.descPieza }}</ion-label>
+    <ion-icon slot="end" name="camera"></ion-icon>
+  </ion-item>
+  } }
+</ion-list>
+} @if (photoService.photos) {
+<app-damage-photos></app-damage-photos>
+}

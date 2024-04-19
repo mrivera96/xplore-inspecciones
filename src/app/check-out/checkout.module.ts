@@ -9,6 +9,7 @@ import { CheckoutPageRoutingModule } from './checkout-routing.module';
 import { IonicSelectableComponent } from 'ionic-selectable';
 import { GeneralDataComponent } from './components/general-data/general-data.component';
 import { DamagesComponent } from './components/damages/damages.component';
+import { DamagePhotosComponent } from './components/damage-photos/damage-photos.component';
 @NgModule({
   imports: [
     IonicModule,
@@ -19,6 +20,7 @@ import { DamagesComponent } from './components/damages/damages.component';
     IonicSelectableComponent,
     GeneralDataComponent,
     DamagesComponent,
+    DamagePhotosComponent
   ],
   declarations: [CheckoutPage],
   providers: [],

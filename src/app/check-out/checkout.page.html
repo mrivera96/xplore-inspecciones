@@ -48,7 +48,7 @@
   @if (currentInspection.idVehiculo != undefined) { @switch (step) { @case (1) {
   <app-general-data
     [step]="step"
-    (newItemEvent)="changeStep($event)"
+    (addDamagesEvent)="addDamagesEvent($event)"
   ></app-general-data>
   } @case (2) {
   <app-damages [step]="step"></app-damages>

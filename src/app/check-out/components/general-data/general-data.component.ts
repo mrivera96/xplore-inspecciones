@@ -26,12 +26,12 @@ export class GeneralDataComponent implements OnInit {
   protected currentCar = this.carsServices.currentCar;
 
   @Input('step') currentStep: number = 2;
-  @Output() currentStepEvent = new EventEmitter<number>();
+  @Output() addDamagesEvent = new EventEmitter<number>();
   protected currentInspection = this.inspectionsServices.getCurrentInspection();
 
   ngOnInit() {}
 
-  showDamages(step: number) {
-    this.currentStepEvent.emit(step);
+  protected showDamages(step: number) {
+    this.addDamagesEvent.emit(step);
   }
 }

@@ -17,12 +17,14 @@ export class CheckoutPage {
   protected currentInspection = {} as Inspection;
 
   selectCar(e: any) {
-    this.carsService.selectCar(e.value.idVehiculo);
-    this.currentInspection.idVehiculo = e.value.idVehiculo;
-    this.inspectionsServices.updateCurrentInspection(this.currentInspection);
+    if (this.step == 1) {
+      this.carsService.selectCar(e.value.idVehiculo);
+      this.currentInspection.idVehiculo = e.value.idVehiculo;
+      this.inspectionsServices.updateCurrentInspection(this.currentInspection);
+    }
   }
 
-  changeStep(e: any) {
+  addDamagesEvent(e: any) {
     this.step = e;
   }
 }
