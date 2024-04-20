@@ -2,9 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ApiResponse } from '../interfaces/api-response';
-import { map, shareReplay } from 'rxjs';
+import { catchError, map, shareReplay } from 'rxjs';
 import { Car } from '../interfaces/car';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,10 +13,19 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class CarsService {
   private apiEndPoint = `${environment.apiUrl}/cars`;
   private httpClient = inject(HttpClient);
+  private alertService = inject(AlertService);
   private _cars = this.httpClient
     .get<ApiResponse>(`${this.apiEndPoint}/list`)
     .pipe(
       map((res) => res.data as Car[]),
+      catchError((error) => {
+        this.alertService.basicAlert(
+          'Error',
+          'Ocurrió un error al conectarse al servidor',
+          ['Ok']
+        );
+        return [];
+      }),
       shareReplay(1)
     );
 

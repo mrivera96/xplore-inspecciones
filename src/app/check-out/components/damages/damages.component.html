@@ -1,13 +1,22 @@
 @if (photoService.photos.length == 0) {
-<ion-title>Agregar fotografías de daños</ion-title>
+<ion-title><p>Agregar fotografías de daños</p></ion-title>
 <ion-list>
   @defer (when damageParts()) { @for (part of damageParts(); track $index) {
-  <ion-item (click)="setDamagePart()">
+  <ion-item>
     <ion-label>{{ part.descPieza }}</ion-label>
-    <ion-icon slot="end" name="camera"></ion-icon>
+    <ion-button
+      (click)="setDamagePart()"
+      expand="block"
+      fill="clear"
+      shape="round"
+    >
+      <ion-icon slot="end" name="camera"></ion-icon>
+    </ion-button>
   </ion-item>
-  } }
+  } }@loading(){
+  <span>Obteniendo datos...</span>
+  }
 </ion-list>
-} @if (photoService.photos) {
+} @if (photoService.photos.length > 0) {
 <app-damage-photos></app-damage-photos>
 }
