@@ -16,14 +16,18 @@ export class PhotoService {
   public async addNewToGallery() {
     // Take a photo
     const capturedPhoto = await Camera.getPhoto({
-      resultType: CameraResultType.Uri,
+      resultType: CameraResultType.Base64,
       source: CameraSource.Camera,
       quality: 100,
     });
 
     this.photos.unshift({
       filepath: 'soon...',
-      webviewPath: capturedPhoto.webPath!,
+      data: capturedPhoto.base64String,
     });
+  }
+
+  clearPhotos(){
+    this.photos = []
   }
 }

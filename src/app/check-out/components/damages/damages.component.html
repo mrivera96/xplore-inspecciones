@@ -5,18 +5,24 @@
   <ion-item>
     <ion-label>{{ part.descPieza }}</ion-label>
     <ion-button
-      (click)="setDamagePart()"
+      (click)="setDamagePart(part.idPieza)"
       expand="block"
       fill="clear"
       shape="round"
     >
       <ion-icon slot="end" name="camera"></ion-icon>
     </ion-button>
+    <ion-chip [color]="part.count! > 0 ? 'secondary' : 'default'">{{
+      part.count
+    }}</ion-chip>
   </ion-item>
-  } }@loading(){
-  <span>Obteniendo datos...</span>
+  } }@placeholder(){
+    <ion-label>Obteniendo datos..</ion-label>
+    <ion-spinner color="secondary" name="crescent"></ion-spinner>
   }
 </ion-list>
 } @if (photoService.photos.length > 0) {
-<app-damage-photos></app-damage-photos>
+<app-damage-photos
+  [damage]="damage"
+></app-damage-photos>
 }

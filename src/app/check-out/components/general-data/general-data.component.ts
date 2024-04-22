@@ -9,8 +9,7 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { IonContent } from '@ionic/angular/standalone';
-import { CarsService } from 'src/app/services/cars.service';
+import { Car } from 'src/app/interfaces/car';
 import { InspectionsService } from 'src/app/services/inspections.service';
 
 @Component({
@@ -21,9 +20,11 @@ import { InspectionsService } from 'src/app/services/inspections.service';
   imports: [IonicModule, CommonModule, FormsModule],
 })
 export class GeneralDataComponent implements OnInit {
-  private carsServices = inject(CarsService);
+  //inyeccion de servicios
   private inspectionsServices = inject(InspectionsService);
-  protected currentCar = this.carsServices.currentCar;
+
+  //declaracion de propiedades
+  @Input() currentCar: Car | undefined = {} as Car;
 
   @Input('step') currentStep: number = 2;
   @Output() addDamagesEvent = new EventEmitter<number>();

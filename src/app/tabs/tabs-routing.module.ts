@@ -8,29 +8,34 @@ const routes: Routes = [
     component: TabsPage,
     children: [
       {
-        path: 'checkout',
-        loadChildren: () => import('../check-out/checkout.module').then(m => m.CheckoutPageModule)
+        path: 'home',
+        loadChildren: () =>
+          import('../home/home.module').then((m) => m.HomePageModule),
       },
       {
-        path: 'tab2',
-        loadChildren: () => import('../tab2/tab2.module').then(m => m.Tab2PageModule)
+        path: 'checkout',
+        loadChildren: () =>
+          import('../check-out/checkout.module').then(
+            (m) => m.CheckoutPageModule
+          ),
       },
       {
         path: 'tab3',
-        loadChildren: () => import('../tab3/tab3.module').then(m => m.Tab3PageModule)
+        loadChildren: () =>
+          import('../tab3/tab3.module').then((m) => m.Tab3PageModule),
       },
       {
         path: '',
-        redirectTo: '/tabs/checkout',
-        pathMatch: 'full'
-      }
-    ]
+        redirectTo: '/tabs/home',
+        pathMatch: 'full',
+      },
+    ],
   },
   {
     path: '',
-    redirectTo: '/tabs/checkout',
-    pathMatch: 'full'
-  }
+    redirectTo: '/tabs/home',
+    pathMatch: 'full',
+  },
 ];
 
 @NgModule({

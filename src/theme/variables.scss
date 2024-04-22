@@ -3,6 +3,10 @@
 
 /** Ionic CSS Variables **/
 :root {
+
+  --ion-background-color:#f2f2f2;
+  --ion-item-background: #ffffff;
+
   /** primary **/
   --ion-color-primary: #016fa0;
   --ion-color-primary-rgb: 1, 111, 160;
@@ -242,3 +246,4 @@ html {
    */
   --ion-dynamic-font: var(--ion-default-dynamic-font);
 }
+

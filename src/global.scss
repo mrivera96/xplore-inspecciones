@@ -29,3 +29,40 @@
 body{
     font-family: 'Montserrat', Helvetica, Arial, Lucida, sans-serif;
 }
+
+.bubble {
+    position: relative;
+    width: 100%;
+    height: 188px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    color: var(--ion-color-secondary-contrast);
+    align-items: self-start;
+  }
+  
+  .bubble::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform-origin: bottom;
+    transform: translateX(-50%) scale(2);
+    margin: -400px auto 0;
+    width: 99%; 
+    height: 570px;
+    overflow: hidden;
+    border-radius: 0 0 70% 70%;
+    background-color: var(--ion-color-primary);
+    box-shadow: 1px 4px 7px #0000005e;
+  }
+  
+  .content {
+    position: relative;
+    z-index: 1;
+    max-width: 1000px;
+    text-align: center;
+    padding-bottom: 2%;
+  
+  }
+

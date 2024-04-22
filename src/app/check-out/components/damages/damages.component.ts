@@ -1,9 +1,16 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
-import { DamagePartsService } from 'src/app/services/damage-parts.service';
-import { IonList } from '@ionic/angular/standalone';
+import {
+  Component,
+  Input,
+  OnInit,
+  effect,
+  inject
+} from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { DamagePhotosComponent } from '../damage-photos/damage-photos.component';
+import { Damage } from 'src/app/interfaces/damage';
+import { DamagePartsService } from 'src/app/services/damage-parts.service';
+import { DamagesService } from 'src/app/services/damages.service';
 import { PhotoService } from 'src/app/services/photo.service';
+import { DamagePhotosComponent } from '../damage-photos/damage-photos.component';
 
 @Component({
   selector: 'app-damages',
@@ -13,16 +20,33 @@ import { PhotoService } from 'src/app/services/photo.service';
   imports: [IonicModule, DamagePhotosComponent],
 })
 export class DamagesComponent implements OnInit {
+  //inyeccion de servicios
+  protected photoService = inject(PhotoService);
+  private damagesService = inject(DamagesService);
+  private damagePartsService = inject(DamagePartsService);
+
+  //declaracion de propiedades
   @Input('step') currentStep: number = 3;
 
-  private damagePartsService = inject(DamagePartsService);
   protected damageParts = this.damagePartsService.damageParts;
-  protected photoService = inject(PhotoService);
-  constructor() {}
+  damages = this.damagesService.damages;
+  damage = {} as Damage;
+
+  constructor() {
+    effect(() => {
+      this.damageParts()?.forEach((x) => {
+        x.count = this.damagesService
+          .damages()
+          .filter((y) => x.idPieza == y.idPieza).length;
+      });
+      this.damage = {} as Damage;
+    });
+  }
 
   ngOnInit() {}
 
-  setDamagePart() {
+  setDamagePart(idPieza: number) {
+    this.damage.idPieza = idPieza;
     this.photoService.addNewToGallery();
   }
 }

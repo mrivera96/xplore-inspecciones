@@ -1,0 +1,65 @@
+<ion-header class="ion-no-border">
+  <div class="bubble">
+    <div class="content">
+      <div>
+        <img src="/assets/img/logo.png" width="180px" />
+        <h2>
+          <span>Xplore</span>
+          <span style="color: var(--ion-color-secondary) !important">
+            Inspecciones</span
+          >
+        </h2>
+      </div>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content>
+  <ion-row>
+    <ion-col size="12">
+      <h4>Bienvenido(a), [$$usuario]</h4>
+    </ion-col>
+    
+  </ion-row>
+
+  @defer (when openInspections()) {
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Inspecciones abiertas</ion-label>
+    </ion-list-header>
+    @for (openInspection of openInspections(); track $index) {
+    <ion-item>
+      <ion-label>
+        <h3>{{openInspection.idInspeccion}}</h3>
+        <span>{{openInspection.car?.modelo}}</span>
+      </ion-label>
+    </ion-item>
+    }@empty() {
+    <ion-item>
+      <ion-label>No se encontraron inspecciones abiertas</ion-label>
+    </ion-item>
+    }
+  </ion-list>
+  }@placeholder {
+  <ion-item>
+    <ion-label>Obteniendo datos..</ion-label>
+    <ion-spinner color="secondary" name="crescent"></ion-spinner>
+  </ion-item>
+
+  }
+
+  <ion-fab
+    style="margin-bottom: 40px"
+    vertical="bottom"
+    horizontal="end"
+    slot="fixed"
+  >
+    <ion-fab-button
+      (click)="goToCheckOut()"
+      aria-labelledby="Agregar inspeccion"
+      aria-label="Agregar una inspección"
+    >
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

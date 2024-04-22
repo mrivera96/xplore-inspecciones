@@ -1,30 +1,30 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { AlertService } from './alert.service';
 import { ApiResponse } from '../interfaces/api-response';
 import { catchError, map, shareReplay } from 'rxjs';
-import { Car } from '../interfaces/car';
+import { Accessory } from '../interfaces/accessory';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { AlertService } from './alert.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class CarsService {
+export class AccessoriesService {
   //inyecta el cliente para hacer peticiones HTTP
   private httpClient = inject(HttpClient);
 
   //declara el endpoint de la API para el recurso
-  private apiEndPoint = `${environment.apiUrl}/cars`;
+  private apiEndPoint = `${environment.apiUrl}/accessories`;
 
   //inyeccion de servicios
   private alertService = inject(AlertService);
 
   //se obtienen los vehiculos de la API y se almacena en la variable _cars para su posterior uso
-  private _cars = this.httpClient
+  private _accessories = this.httpClient
     .get<ApiResponse>(`${this.apiEndPoint}/list`)
     .pipe(
-      map((res) => res.data as Car[]),
+      map((res) => res.data as Accessory[]),
       catchError((error) => {
         this.alertService.basicAlert(
           'Error',
@@ -37,13 +37,6 @@ export class CarsService {
     );
 
   //declaracion de signal a partir de los vehiculos
-  cars = toSignal(this._cars);
-  filteredCars = toSignal(this._cars);
-
-  //método para buscar vehículo y filtrar el listado general
-  searchCar(vehicleName: string) {
-    this.filteredCars()?.filter((x) =>
-      x.nemVehiculo.toLowerCase().includes(vehicleName.toLowerCase())
-    );
-  }
+  accessories = toSignal(this._accessories);
+  constructor() {}
 }

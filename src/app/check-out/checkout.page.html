@@ -1,62 +1,85 @@
 <ion-header class="ion-no-border">
   <div class="bubble">
     <div class="content">
-      <div>
-        <img src="/assets/img/logo.png" width="180px" />
+      <ion-buttons >
+        @if (step >1) {
+        <ion-button  slot="start" (click)="goToPrev()">
+          Regresar
+          <ion-icon slot="start" name="arrow-back"></ion-icon>
+        </ion-button>
+        }
+        <ion-button [style]="step ==1 ?'margin-left:80%':''"  slot="end" (click)="goToNext()">
+          Siguiente
+          <ion-icon slot="end" name="arrow-forward"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+
+
+      <ion-col sizeLg="12">
         <h2>
-          <span>Inspección</span>
           <span style="color: var(--ion-color-secondary) !important">
             Check-out</span
-          >
+          ><span> Inspección</span>
         </h2>
-      </div>
-      <div class="search-card">
-        <ion-label>Seleccione un Vehiculo</ion-label>
-
-        <ion-item lines="none">
-          @defer (when cars()) {
-          <ion-icon color="secondary" slot="start" name="car"></ion-icon>
-          <ionic-selectable
-            class="ion-margin-start"
-            color="secondary"
-            [items]="cars()!"
-            itemValueField="idVehiculo"
-            itemTextField="nemVehiculo"
-            [canSearch]="true"
-            (onChange)="selectCar($event)"
-          >
-          </ionic-selectable>
-
-          } @placeholder {
-
-          <ion-label>Obteniendo datos..</ion-label>
-          <ion-spinner color="secondary" name="crescent"></ion-spinner>
-
-          } @error {
-          <span>Error</span>
-          } @loading() {
-          <span>Loading...</span>
-
-          }
-        </ion-item>
-      </div>
+      </ion-col>
     </div>
   </div>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  @if (currentInspection.idVehiculo != undefined) { @switch (step) { @case (1) {
-  <app-general-data
-    [step]="step"
-    (addDamagesEvent)="addDamagesEvent($event)"
-  ></app-general-data>
-  } @case (2) {
-  <app-damages [step]="step"></app-damages>
-  } } }@else{
-  <ion-row class="ion-align-items-center">
-    <ion-col size="12">
-      <span>Aún no ha seleccionado un vehículo...</span>
-    </ion-col>
-  </ion-row>
-  }
+  <ion-grid fixed>
+    @switch (step) { @case (1) {
+
+    <ion-row>
+      <ion-col>
+        <ion-card style="border-radius: 10px">
+          <ion-item lines="none">
+            <ion-label>Seleccione un Vehiculo</ion-label>
+            @defer (when cars()) {
+            <ion-icon color="secondary" slot="start" name="car"></ion-icon>
+            <ionic-selectable
+              [(ngModel)]="currentInspection.idVehiculo"
+              class="ion-margin-start"
+              color="secondary"
+              [items]="cars()!"
+              itemValueField="idVehiculo"
+              itemTextField="nemVehiculo"
+              [canSearch]="true"
+              (onChange)="selectCar($event)"
+            >
+            </ionic-selectable>
+
+            } @placeholder {
+
+            <ion-label>Obteniendo datos..</ion-label>
+            <ion-spinner color="secondary" name="crescent"></ion-spinner>
+
+            } @error {
+            <span>Error</span>
+            } @loading() {
+            <span>Loading...</span>
+
+            }
+          </ion-item>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    @if(currentInspection.idVehiculo == undefined){
+    <ion-row class="ion-align-items-center">
+      <ion-col size="12">
+        <span>Aún no ha seleccionado un vehículo...</span>
+      </ion-col>
+    </ion-row>
+    }@else {
+    <app-general-data
+      [currentCar]="currentCar"
+      [step]="step"
+      (addDamagesEvent)="addDamagesEvent($event)"
+    ></app-general-data>
+    } } @case(2) {
+    <app-damages></app-damages>
+    }@case (3) {
+      <app-accessories></app-accessories>
+    }}
+  </ion-grid>
 </ion-content>
