@@ -1,9 +1,9 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { NavController } from '@ionic/angular';
-import { Inspection } from '../interfaces/inspection';
-import { CarsService } from '../services/cars.service';
-import { InspectionsService } from '../services/inspections.service';
-import { Car } from '../interfaces/car';
+import { Inspection } from '../shared/interfaces/inspection';
+import { CarsService } from '../shared/services/cars.service';
+import { InspectionsService } from '../shared/services/inspections.service';
+import { Car } from '../shared/interfaces/car';
 @Component({
   selector: 'app-checkout',
   templateUrl: 'checkout.page.html',

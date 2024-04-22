@@ -9,8 +9,8 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { Car } from 'src/app/interfaces/car';
-import { InspectionsService } from 'src/app/services/inspections.service';
+import { Car } from 'src/app/shared/interfaces/car';
+import { InspectionsService } from 'src/app/shared/services/inspections.service';
 
 @Component({
   selector: 'app-general-data',

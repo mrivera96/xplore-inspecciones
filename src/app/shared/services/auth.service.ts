@@ -31,6 +31,7 @@ export class AuthService {
   }
 
   login(nickname: string, password: string): Observable<ApiResponse> {
+    console.log(`${environment.apiUrl}/${this.apiEndpoint}/login`)
     return this.httplClient.post<any>(
       `${environment.apiUrl}/${this.apiEndpoint}/login`,
       { nickname, password }
@@ -42,8 +43,8 @@ export class AuthService {
     this.currentUserSubject.next(undefined);
   }
 
-  setCurrUser(token: any) {
-    this.currentUserSubject.next(token);
+  setCurrUser(user: any) {
+    this.currentUserSubject.next(user);
   }
 
   getCurrentUser(): User | undefined {

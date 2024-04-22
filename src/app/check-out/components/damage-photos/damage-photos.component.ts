@@ -8,10 +8,10 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { Damage } from 'src/app/interfaces/damage';
-import { DamageTypesService } from 'src/app/services/damage-types.service';
-import { DamagesService } from 'src/app/services/damages.service';
-import { PhotoService } from 'src/app/services/photo.service';
+import { Damage } from 'src/app/shared/interfaces/damage';
+import { DamageTypesService } from 'src/app/shared/services/damage-types.service';
+import { DamagesService } from 'src/app/shared/services/damages.service';
+import { PhotoService } from 'src/app/shared/services/photo.service';
 
 @Component({
   selector: 'app-damage-photos',

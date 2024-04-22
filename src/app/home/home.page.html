@@ -17,9 +17,8 @@
 <ion-content>
   <ion-row>
     <ion-col size="12">
-      <h4>Bienvenido(a), [$$usuario]</h4>
+      <h4>Bienvenido(a), {{currentUser?.nomUsuario}}</h4>
     </ion-col>
-    
   </ion-row>
 
   @defer (when openInspections()) {

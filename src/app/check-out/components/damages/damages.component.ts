@@ -6,10 +6,10 @@ import {
   inject
 } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
-import { Damage } from 'src/app/interfaces/damage';
-import { DamagePartsService } from 'src/app/services/damage-parts.service';
-import { DamagesService } from 'src/app/services/damages.service';
-import { PhotoService } from 'src/app/services/photo.service';
+import { Damage } from 'src/app/shared/interfaces/damage';
+import { DamagePartsService } from 'src/app/shared/services/damage-parts.service';
+import { DamagesService } from 'src/app/shared/services/damages.service';
+import { PhotoService } from 'src/app/shared/services/photo.service';
 import { DamagePhotosComponent } from '../damage-photos/damage-photos.component';
 
 @Component({

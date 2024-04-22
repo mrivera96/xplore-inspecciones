@@ -29,7 +29,7 @@
     </ion-card-header>
     <ion-card-content>
       <ion-grid fixed>
-        <form [formGroup]="loginForm">
+        <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
           <ion-row>
 
             <ion-col size="12">
@@ -54,7 +54,7 @@
               <ion-button
                 expand="block"
                 shape="round"
-                (click)="onLogin()"
+                type="submit"
                 expand="block"
                 fill="clear"
                 shape="round"

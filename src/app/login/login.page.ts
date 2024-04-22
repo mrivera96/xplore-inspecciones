@@ -1,9 +1,9 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../shared/services/auth.service';
 import { Router } from '@angular/router';
-import { AlertService } from '../services/alert.service';
+import { AlertService } from '../shared/services/alert.service';
 import { NavController } from '@ionic/angular';
-import { LocalService } from '../services/local.service';
+import { LocalService } from '../shared/services/local.service';
 import { addIcons } from 'ionicons';
 import { FormControl, FormGroup, NgForm } from '@angular/forms';
 
@@ -48,12 +48,13 @@ export class LoginPage implements OnInit {
 
   async onLogin() {
     if (this.loginForm.valid) {
+      console.log(this.loginForm.controls)
       await this.alertService.presentLoading();
 
       this.authService
         .login(
-          this.loginForm.controls['nickname'].value,
-          this.loginForm.controls['password'].value
+          this.loginForm.controls['nickname'].value.toString().trim(),
+          this.loginForm.controls['password'].value.toString().trim()
         )
         .subscribe({
           next: async (res) => {
@@ -79,7 +80,7 @@ export class LoginPage implements OnInit {
             await this.alertService.dismissDefaultLoading();
             await this.alertService.basicAlert(
               'Error!',
-              err.error.message ||
+              err.error?.message ||
                 'Ocurrió un error al conectar con el servidor',
               ['Ok']
             );

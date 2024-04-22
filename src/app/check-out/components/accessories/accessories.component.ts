@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { AccessoriesService } from 'src/app/services/accessories.service';
+import { AccessoriesService } from 'src/app/shared/services/accessories.service';
 import { IonTitle } from '@ionic/angular/standalone';
 import { IonicModule } from '@ionic/angular';
 

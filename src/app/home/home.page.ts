@@ -1,6 +1,7 @@
 import { Component, computed, inject } from '@angular/core';
-import { InspectionsService } from '../services/inspections.service';
+import { InspectionsService } from '../shared/services/inspections.service';
 import { NavController } from '@ionic/angular';
+import { AuthService } from '../shared/services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -10,6 +11,7 @@ import { NavController } from '@ionic/angular';
 export class HomePage {
   //inyeccion de servicios
   private inspectionsServices = inject(InspectionsService);
+  private authService = inject(AuthService);
 
   //inyeccion de dependencias
   private navCtr = inject(NavController);
@@ -20,6 +22,9 @@ export class HomePage {
       .inspections()
       ?.filter((x) => x.state.descEstado == 'Abierta');
   });
+
+  //declaracion de propiedades
+  currentUser = this.authService.getCurrentUser();
   constructor() {}
 
   goToCheckOut() {
