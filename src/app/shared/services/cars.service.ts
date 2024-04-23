@@ -49,10 +49,10 @@ export class CarsService {
   }
 
   setCurrentCar(car: Car) {
-    this.currentCar.set(car);
+    this.currentCar.update(() => {
+      return car;
+    });
   }
 
-  updateCurrentCar(car: Car){
- 
-  }
+  updateCurrentCar(car: Car) {}
 }

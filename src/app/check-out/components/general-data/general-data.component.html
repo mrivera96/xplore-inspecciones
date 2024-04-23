@@ -1,116 +1,115 @@
-<form [formGroup]="generalDataForm">
-  <ion-list>
-    <ion-row>
-      <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
-        <ion-item>
-          <ion-input
-            color="secondary"
-            formControlName="marca"
-            labelPlacement="stacked"
-            label="Marca de Vehículo"
-            type="text"
-            placeholder="Awesome Input"
-            readonly
-          ></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
-        <ion-item>
-          <ion-input
-            color="secondary"
-            formControlName="modelo"
-            labelPlacement="stacked"
-            label="Modelo de Vehículo"
-            type="text"
-            readonly
-          ></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="12">
-        <ion-item>
-          <ion-input
-            color="secondary"
-            formControlName="nomCliente"
-            labelPlacement="stacked"
-            label="Nombre del cliente"
-            type="text"
-            readonly
-          ></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="12">
-        <ion-item>
-          <ion-input
-            color="secondary"
-            formControlName="correoI"
-            labelPlacement="stacked"
-            label="Correo electrónico del cliente"
-            type="text"
-            readonly
-          ></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="12">
-        <ion-item>
-          <ion-input
-            color="secondary"
-            formControlName="celularI"
-            labelPlacement="stacked"
-            label="Número celular del cliente"
-            type="text"
-            readonly
-          ></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="12">
-        <ion-item>
-          <ion-input
-            ngDefaultControl
-            color="secondary"
-            formControlName="numContrato"
-            labelPlacement="stacked"
-            label="Número de contrato"
-            type="text"
-            readonly
-          ></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="6">
-        <ion-item lines="none">
-          <ion-input
-            required
-            color="secondary"
-            formControlName="odometro"
-            labelPlacement="stacked"
-            label="Kilometraje"
-            type="number"
-            [min]="currentCar().odometro || 1"
-            errorText="Valor no válido"
-            (ionChange)="setOdometer($event)"
-          ></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col size="6">
-        <ion-item>
-          <ion-input
-            required
-            color="secondary"
-            formControlName="fuel"
-            labelPlacement="stacked"
-            label="Nivel de combustible"
-            type="text"
-            errorText="Este campo es obligatorio"
-            (ionChange)="setFuel($event)"
-          ></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-list>
-</form>
+<ion-list>
+  <ion-row>
+    <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
+      <ion-item>
+        <ion-input
+          color="secondary"
+          [(ngModel)]="currentCar().model.brand.descMarca"
+          labelPlacement="stacked"
+          label="Marca de Vehículo"
+          type="text"
+          placeholder="Awesome Input"
+          readonly
+        ></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
+      <ion-item>
+        <ion-input
+          color="secondary"
+          [(ngModel)]="currentCar().modelo"
+          labelPlacement="stacked"
+          label="Modelo de Vehículo"
+          type="text"
+          readonly
+        ></ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="12">
+      <ion-item>
+        <ion-input
+          color="secondary"
+          [(ngModel)]="currentCar().contract.customer.nomCliente"
+          labelPlacement="stacked"
+          label="Nombre del cliente"
+          type="text"
+          readonly
+        ></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col size="12">
+      <ion-item>
+        <ion-input
+          color="secondary"
+          [(ngModel)]="currentCar().contract.customer.correoI"
+          labelPlacement="stacked"
+          label="Correo electrónico del cliente"
+          type="text"
+          readonly
+        ></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col size="12">
+      <ion-item>
+        <ion-input
+          color="secondary"
+          [(ngModel)]="currentCar().contract.customer.celularI"
+          labelPlacement="stacked"
+          label="Número celular del cliente"
+          type="text"
+          readonly
+        ></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col size="12">
+      <ion-item>
+        <ion-input
+          ngDefaultControl
+          color="secondary"
+          [(ngModel)]="currentCar().contract.numContrato"
+          labelPlacement="stacked"
+          label="Número de contrato"
+          type="text"
+          readonly
+        ></ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="6">
+      <ion-item lines="none">
+        <ion-input
+          required
+          color="secondary"
+          [(ngModel)]="currentCar().odometro"
+          labelPlacement="stacked"
+          label="Kilometraje"
+          type="number"
+          [min]="currentCar().odometro || 1"
+          errorText="Valor no válido"
+          (ionChange)="setOdometer($event)"
+        ></ion-input>
+      </ion-item>
+    </ion-col>
+    <ion-col size="6">
+      <ion-item lines="none">
+        <ion-input
+          required
+          color="secondary"
+          [(ngModel)]="currentCar().fuel"
+          labelPlacement="stacked"
+          label="Nivel de combustible"
+          type="text"
+          errorText="Este campo es obligatorio"
+          (ionChange)="setFuel($event)"
+        ></ion-input>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+</ion-list>
+
 <ion-fab vertical="bottom" horizontal="end" slot="">
   <ion-fab-button>
     <ion-icon name="document-attach"></ion-icon>

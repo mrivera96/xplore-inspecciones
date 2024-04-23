@@ -5,9 +5,11 @@ import {
   Input,
   OnInit,
   Output,
+  computed,
+  effect,
   inject,
 } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { CarsService } from 'src/app/shared/services/cars.service';
 import { InspectionsService } from 'src/app/shared/services/inspections.service';
@@ -17,7 +19,7 @@ import { InspectionsService } from 'src/app/shared/services/inspections.service'
   templateUrl: './general-data.component.html',
   styleUrls: ['./general-data.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, ReactiveFormsModule],
+  imports: [IonicModule, CommonModule, FormsModule],
 })
 export class GeneralDataComponent implements OnInit {
   //inyeccion de servicios
@@ -25,7 +27,10 @@ export class GeneralDataComponent implements OnInit {
   private carsService = inject(CarsService);
 
   //declaracion de propiedades
-  currentCar = this.carsService.currentCar;
+  _currentCar = this.carsService.currentCar;
+  currentCar = computed(() => {
+    return this._currentCar();
+  });
   @Input('step') currentStep: number = 2;
   @Output() addDamagesEvent = new EventEmitter<number>();
   generalDataForm: FormGroup;
@@ -44,6 +49,9 @@ export class GeneralDataComponent implements OnInit {
       odometro: new FormControl(this.currentCar().odometro),
       fuel: new FormControl(this.currentCar().fuel),
     });
+    effect(() => {
+      this.generalDataForm.controls;
+    });
   }
   ngOnInit() {}
 
@@ -54,7 +62,7 @@ export class GeneralDataComponent implements OnInit {
   setOdometer(e: any) {
     this.carsService.currentCar.update((value) => {
       const current = { ...value };
-      current.odometro = e.target.value;
+      current.odometro = this.currentCar().odometro;
       return current;
     });
   }
@@ -62,9 +70,8 @@ export class GeneralDataComponent implements OnInit {
   setFuel(e: any) {
     this.carsService.currentCar.update((value) => {
       const current = { ...value };
-      current.fuel = e.target.value;
+      current.fuel = this.currentCar().fuel;
       return current;
     });
-    console.log(this.carsService.currentCar());
   }
 }
