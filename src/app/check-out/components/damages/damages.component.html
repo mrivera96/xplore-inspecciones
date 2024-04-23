@@ -1,5 +1,5 @@
 @if (photoService.photos.length == 0) {
-<ion-title><p>Agregar fotografías de daños</p></ion-title>
+<h3>Agregar fotografías de daños</h3>
 <ion-list>
   @defer (when damageParts()) { @for (part of damageParts(); track $index) {
   <ion-item>
@@ -17,12 +17,13 @@
     }}</ion-chip>
   </ion-item>
   } }@placeholder(){
+  <ion-item>
     <ion-label>Obteniendo datos..</ion-label>
     <ion-spinner color="secondary" name="crescent"></ion-spinner>
+  </ion-item>
+
   }
 </ion-list>
 } @if (photoService.photos.length > 0) {
-<app-damage-photos
-  [damage]="damage"
-></app-damage-photos>
+<app-damage-photos [damage]="damage"></app-damage-photos>
 }

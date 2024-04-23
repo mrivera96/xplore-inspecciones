@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
+import { Inspection } from 'src/app/shared/interfaces/inspection';
 import { CarsService } from 'src/app/shared/services/cars.service';
 import { InspectionsService } from 'src/app/shared/services/inspections.service';
 
@@ -60,6 +61,14 @@ export class GeneralDataComponent implements OnInit {
   }
 
   setOdometer(e: any) {
+    this.inspectionsServices.currentInspection.update((values) => {
+      const current = { ...values };
+      {
+        current.odoSalida = this.currentCar().odometro;
+      }
+
+      return current as Inspection;
+    });
     this.carsService.currentCar.update((value) => {
       const current = { ...value };
       current.odometro = this.currentCar().odometro;
@@ -68,6 +77,15 @@ export class GeneralDataComponent implements OnInit {
   }
 
   setFuel(e: any) {
+    this.inspectionsServices.currentInspection.update((values) => {
+      const current = { ...values };
+      {
+        current.combSalida = this.currentCar().fuel;
+      }
+
+      return current as Inspection;
+    });
+
     this.carsService.currentCar.update((value) => {
       const current = { ...value };
       current.fuel = this.currentCar().fuel;

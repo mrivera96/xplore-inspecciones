@@ -16,11 +16,11 @@
 
 <ion-content>
   <ion-row>
-    <ion-col size="8">
+    <ion-col size="10">
       <h4>Bienvenido(a), {{currentUser?.nomUsuario}}</h4>
       
     </ion-col>
-    <ion-col size="4">
+    <ion-col size="2">
       <ion-button (click)="onLogout()" expand="block" fill="clear" shape="round">
         <ion-icon slot="start" name="log-out"></ion-icon>
       </ion-button>
@@ -40,13 +40,15 @@
       </ion-label>
     </ion-item>
     }@empty() {
-    <ion-item>
+    <ion-item lines="none">
+      <ion-icon slot="start" name="alert-circle"></ion-icon>
       <ion-label>No se encontraron inspecciones abiertas</ion-label>
     </ion-item>
     }
   </ion-list>
   }@placeholder {
   <ion-item>
+    <ion-icon slot="start" name="alert-circle"></ion-icon>
     <ion-label>Obteniendo datos..</ion-label>
     <ion-spinner color="secondary" name="crescent"></ion-spinner>
   </ion-item>

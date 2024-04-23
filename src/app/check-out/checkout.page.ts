@@ -45,8 +45,15 @@ export class CheckoutPage {
       this.carsService.setCurrentCar(currentCar);
       this.inspectionsServices.currentInspection.update((values) => {
         const current = { ...values };
-        current.idVehiculo = currentCar.idVehiculo;
-        return current;
+        {
+          current.idVehiculo = currentCar.idVehiculo;
+          current.idContrato = currentCar.contract.idContrato;
+          current.idCliente = currentCar.contract.idCliente;
+          current.idAgenciaSalida = currentCar.contract.idAgenciaSalida;
+          current.fechaSalida = currentCar.contract.fechaSalida;
+        }
+
+        return current as Inspection;
       });
     }
   }
@@ -112,7 +119,7 @@ export class CheckoutPage {
               'Cancel',
             ]
           );
-        }else {
+        } else {
           this.step += 1;
         }
         break;
