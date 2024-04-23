@@ -35,10 +35,12 @@ export class DamagePhotosComponent implements OnInit {
   ngOnInit() {}
 
   addDamage() {
-    this.damage.fotos = this.photoService.photos[0];
-    this.photoService.clearPhotos();
-    this.damagesService.addDamage(this.damage);
+    if (this.damage.idTipoDanio != null) {
+      this.damage.fotos = this.photoService.photos[0];
+      this.photoService.clearPhotos();
+      this.damagesService.addDamage(this.damage);
 
-    this.damageAdded.emit(true);
+      this.damageAdded.emit(true);
+    }
   }
 }

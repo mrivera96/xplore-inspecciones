@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ApiResponse } from '../interfaces/api-response';
 import { environment } from 'src/environments/environment';
 import { User } from '../interfaces/user';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,7 @@ export class AuthService {
   private apiEndpoint: string = 'auth';
   private localService = inject(LocalService);
   private httplClient = inject(HttpClient);
+  private router = inject(Router);
 
   constructor() {
     const localUser = this.localService.getData('currentUser')! as User;
@@ -31,7 +33,7 @@ export class AuthService {
   }
 
   login(nickname: string, password: string): Observable<ApiResponse> {
-    console.log(`${environment.apiUrl}/${this.apiEndpoint}/login`)
+    console.log(`${environment.apiUrl}/${this.apiEndpoint}/login`);
     return this.httplClient.post<any>(
       `${environment.apiUrl}/${this.apiEndpoint}/login`,
       { nickname, password }
@@ -41,6 +43,7 @@ export class AuthService {
   logout() {
     this.localService.clearData();
     this.currentUserSubject.next(undefined);
+    this.router.navigateByUrl('login')
   }
 
   setCurrUser(user: any) {

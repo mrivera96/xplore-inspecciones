@@ -1,5 +1,6 @@
 import {
   HttpHandler,
+  HttpHeaders,
   HttpInterceptor,
   HttpRequest,
 } from '@angular/common/http';
@@ -19,11 +20,27 @@ export class AuthInterceptor implements HttpInterceptor {
     // cloned headers, updated with the authorization.
 
     if (currentUser && currentUser.access_token) {
+      let headers = new HttpHeaders();
+      headers = headers.set('Content-Type', 'application/json');
+      headers = headers.set(
+        'Authorization',
+        `Bearer ${currentUser.access_token}`
+      );
+      headers = headers.set('Access-Control-Allow-Origin', 'http://localhost;http://localhost:8100');
+      headers = headers.set('Access-Control-Allow-Credentials', 'true');
+
       req = req.clone({
-        headers: req.headers.set(
-          'Authorization',
-          `Bearer ${currentUser.access_token}`
-        ),
+        headers,
+      });
+    } else {
+      let headers = new HttpHeaders();
+      headers = headers.set('Content-Type', 'application/json');
+     
+      headers = headers.set('Access-Control-Allow-Origin', 'http://localhost;http://localhost:8100');
+      headers = headers.set('Access-Control-Allow-Credentials', 'true');
+
+      req = req.clone({
+        headers,
       });
     }
 

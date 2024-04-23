@@ -2,7 +2,7 @@
   <div class="bubble">
     <div class="content">
       <div>
-        <img src="/assets/img/logo.png" width="180px" />
+        <img src="assets/img/logo.png" width="180px" />
         <h2>
           <span>Xplore</span>
           <span style="color: var(--ion-color-secondary) !important">
@@ -16,8 +16,14 @@
 
 <ion-content>
   <ion-row>
-    <ion-col size="12">
+    <ion-col size="8">
       <h4>Bienvenido(a), {{currentUser?.nomUsuario}}</h4>
+      
+    </ion-col>
+    <ion-col size="4">
+      <ion-button (click)="onLogout()" expand="block" fill="clear" shape="round">
+        <ion-icon slot="start" name="log-out"></ion-icon>
+      </ion-button>
     </ion-col>
   </ion-row>
 

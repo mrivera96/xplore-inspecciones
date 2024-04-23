@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AlertService } from './alert.service';
 import { ApiResponse } from '../interfaces/api-response';
@@ -38,5 +38,18 @@ export class AccessoriesService {
 
   //declaracion de signal a partir de los vehiculos
   accessories = toSignal(this._accessories);
+  currentAccessories = signal<Accessory[]>([]);
   constructor() {}
+
+  addCurrentAccessory(accessory: Accessory) {
+    this.currentAccessories.update((values) => {
+      return [...values, accessory];
+    });
+  }
+
+  removeCurrentAccessory(accessory: Accessory) {
+    this.currentAccessories.update((values) => {
+      return values.filter((x) => x.idAccesorio != accessory.idAccesorio);
+    });
+  }
 }

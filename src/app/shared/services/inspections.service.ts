@@ -20,7 +20,7 @@ export class InspectionsService {
     );
 
   inspections = toSignal(this._inspections);
-  private currentInspection = signal<Inspection | undefined>(undefined);
+  currentInspection = signal<Inspection | undefined>(undefined);
 
   selectInspection(id: number) {
     const selectedInspection = this.inspections()?.find(
@@ -31,10 +31,6 @@ export class InspectionsService {
 
   updateCurrentInspection(inspect: Inspection) {
     this.currentInspection.update((x) => inspect);
-    console.log(this.currentInspection())
-  }
-
-  getCurrentInspection() {
-    return this.currentInspection();
+    console.log(this.currentInspection());
   }
 }

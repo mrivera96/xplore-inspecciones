@@ -70,6 +70,7 @@ export class LoginPage implements OnInit {
                   text: 'OK',
                   role: 'OK',
                   handler: () => {
+                    this.loginForm.reset()
                     this.navController.navigateForward(this.returnUrl);
                   },
                 },

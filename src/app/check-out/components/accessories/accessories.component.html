@@ -3,7 +3,7 @@
   @defer (when accessories()) { @for (accessory of accessories(); track $index)
   {
   <ion-item>
-    <ion-checkbox [value]="accessory.idAccesorio">{{
+    <ion-checkbox (ionChange)="onAccessoryAdd($event, accessory)" [value]="accessory.idAccesorio">{{
       accessory.nomAccesorio
     }}</ion-checkbox>
   </ion-item>

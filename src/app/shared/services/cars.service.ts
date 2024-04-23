@@ -39,11 +39,20 @@ export class CarsService {
   //declaracion de signal a partir de los vehiculos
   cars = toSignal(this._cars);
   filteredCars = toSignal(this._cars);
+  currentCar = signal<Car>({} as Car);
 
   //método para buscar vehículo y filtrar el listado general
   searchCar(vehicleName: string) {
     this.filteredCars()?.filter((x) =>
       x.nemVehiculo.toLowerCase().includes(vehicleName.toLowerCase())
     );
+  }
+
+  setCurrentCar(car: Car) {
+    this.currentCar.set(car);
+  }
+
+  updateCurrentCar(car: Car){
+ 
   }
 }
