@@ -1,9 +1,22 @@
 <ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-title slot="start"><p>{{currentUser?.nomUsuario}}</p> </ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="onLogout()"
+        expand="block"
+        fill="clear"
+        shape="round"
+      >
+        <ion-icon slot="start" name="log-out"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
   <div class="bubble">
     <div class="content">
       <div>
         <img src="assets/img/logo.png" width="40%" />
-        <h3 style="margin-top: 0;"> 
+        <h3 style="margin-top: 0">
           <span>Xplore</span>
           <span style="color: var(--ion-color-secondary) !important">
             Inspecciones</span
@@ -15,28 +28,19 @@
 </ion-header>
 
 <ion-content>
-  <ion-row>
-    <ion-col size="10">
-      <h4>Bienvenido(a), {{currentUser?.nomUsuario}}</h4>
-      
-    </ion-col>
-    <ion-col size="2">
-      <ion-button (click)="onLogout()" expand="block" fill="clear" shape="round">
-        <ion-icon slot="start" name="log-out"></ion-icon>
-      </ion-button>
-    </ion-col>
-  </ion-row>
-
   @defer (when openInspections()) {
   <ion-list>
     <ion-list-header>
       <ion-label>Inspecciones abiertas</ion-label>
     </ion-list-header>
     @for (openInspection of openInspections(); track $index) {
-    <ion-item>
+    <ion-item detail="true">
       <ion-label>
-        <h3>{{openInspection.idInspeccion}}</h3>
-        <span>{{openInspection.car?.modelo}}</span>
+        <p>No. Inspección: {{openInspection.idInspeccion}}</p>
+        <h3 color="primary">
+          Cliente: {{openInspection.contract?.customer?.nomCliente}}
+        </h3>
+        <p>Modelo de Vehículo: {{openInspection.car?.modelo}}</p>
       </ion-label>
     </ion-item>
     }@empty() {
@@ -55,17 +59,22 @@
 
   }
 
-  <ion-fab
-    vertical="bottom"
-    horizontal="end"
-    slot="fixed"
-  >
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button
-      (click)="goToCheckOut()"
       aria-labelledby="Agregar inspeccion"
       aria-label="Agregar una inspección"
     >
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="goToCheckIn()"><ion-icon name="arrow-undo"></ion-icon></ion-fab-button>
+      <ion-fab-button
+        (click)="goToCheckOut()"
+        aria-labelledby="Agregar inspeccion"
+        aria-label="Agregar una inspección"
+      >
+        <ion-icon name="arrow-redo"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
   </ion-fab>
 </ion-content>

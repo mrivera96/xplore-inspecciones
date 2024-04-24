@@ -21,13 +21,10 @@ export class PhotoService {
       quality: 100,
     });
 
-    this.photos.unshift({
-      filepath: 'soon...',
-      data: capturedPhoto.base64String,
-    });
+    this.photos.unshift(capturedPhoto.base64String);
   }
 
-  clearPhotos(){
-    this.photos = []
+  clearPhotos() {
+    this.photos = [];
   }
 }

@@ -1,0 +1,33 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button slot="start" (click)="goToPrev()">
+        Regresar
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button slot="end" (click)="goToNext()">
+        Finalizar
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <div class="bubble">
+    <div class="content">
+      <h2>
+        <span style="color: var(--ion-color-secondary) !important">
+          Check-out</span
+        ><span> Inspección</span>
+      </h2>
+    </div>
+  </div>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+   
+        <h3>Resumen</h3>
+  </ion-grid>
+</ion-content>

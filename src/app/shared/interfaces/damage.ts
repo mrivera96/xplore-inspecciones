@@ -2,6 +2,6 @@ export interface Damage {
   idDanio?: number;
   idInspeccion?: number;
   idPieza?: number;
-  foto?: string;
+  foto?: string |{};
   idTipoDanio: number;
 }

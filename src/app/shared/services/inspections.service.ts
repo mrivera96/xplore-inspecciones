@@ -49,4 +49,21 @@ export class InspectionsService {
   updateCurrentInspection(inspect: Inspection) {
     this.currentInspection.update((x) => inspect);
   }
+
+  createInspection() {
+    this.httpClient
+      .post<ApiResponse>(`${this.apiEndPoint}/add`, this.currentInspection())
+      .pipe(
+        map((res) => res.data as Inspection[]),
+        catchError((error) => {
+          this.alertsService.basicAlert(
+            'Error',
+            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
+            ['Ok']
+          );
+          return [];
+        }),
+        shareReplay(1)
+      );
+  }
 }

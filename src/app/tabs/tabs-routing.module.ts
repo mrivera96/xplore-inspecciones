@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
+import { InspectionGuard } from '../shared/guards/inspection.guard';
 
 const routes: Routes = [
   {
@@ -13,10 +14,10 @@ const routes: Routes = [
           import('../home/home.module').then((m) => m.HomePageModule),
       },
       {
-        path: 'checkout',
+        path: 'inspection',
         loadChildren: () =>
-          import('../check-out/checkout.module').then(
-            (m) => m.CheckoutPageModule
+          import('../inspections/inspection.module').then(
+            (m) => m.InspectionPageModule
           ),
       },
       {

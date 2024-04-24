@@ -2,10 +2,10 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import { CheckoutPage } from './checkout.page';
+import { InspectionPage } from './inspection.page';
 
 import { IonicSelectableComponent } from 'ionic-selectable';
-import { CheckoutPageRoutingModule } from './checkout-routing.module';
+import { InspectionPageRoutingModule } from './inspection-routing.module';
 import { AccessoriesComponent } from './components/accessories/accessories.component';
 import { DamagePhotosComponent } from './components/damage-photos/damage-photos.component';
 import { DamagesComponent } from './components/damages/damages.component';
@@ -14,7 +14,7 @@ import { SigningComponent } from './components/signing/signing.component';
   imports: [
     IonicModule,
     CommonModule,
-    CheckoutPageRoutingModule,
+    InspectionPageRoutingModule,
     IonicSelectableComponent,
     DamagesComponent,
     DamagePhotosComponent,
@@ -23,7 +23,7 @@ import { SigningComponent } from './components/signing/signing.component';
     ReactiveFormsModule,
     FormsModule,
   ],
-  declarations: [CheckoutPage],
+  declarations: [InspectionPage],
   providers: [],
 })
-export class CheckoutPageModule {}
+export class InspectionPageModule {}

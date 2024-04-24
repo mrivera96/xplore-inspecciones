@@ -31,7 +31,7 @@
               [formControl]="carForm"
               class="ion-margin-start"
               color="secondary"
-              [items]="contracts()!"
+              [items]="cars()!"
               itemValueField="idVehiculo"
               itemTextField="nemVehiculo"
               [canSearch]="true"
@@ -80,7 +80,7 @@
           <ion-item>
             <ion-input
               color="secondary"
-              [value]="currentContract?.car?.modelo"
+              [value]="currentContract.car?.modelo"
               labelPlacement="stacked"
               label="Modelo de Vehículo"
               type="text"
@@ -159,12 +159,13 @@
             <ion-input
               required
               color="secondary"
-              [(ngModel)]="currentContract.odometro"
+              [value]="currentContract.car?.odometro"
               labelPlacement="stacked"
               label="Kilometraje"
               type="number"
-              [min]="currentContract.odometro || 1"
+              [min]="currentContract.car?.odometro || 1"
               errorText="Valor no válido"
+              (ionChange)="setOdometer($event)"
             ></ion-input>
           </ion-item>
         </ion-col>
@@ -173,11 +174,12 @@
             <ion-input
               required
               color="secondary"
-              [(ngModel)]="currentContract.fuel"
+              [value]="currentContract.car?.fuel"
               labelPlacement="stacked"
               label="Nivel de combustible"
               type="text"
               errorText="Este campo es obligatorio"
+              (ionChange)="setFuel($event)"
             ></ion-input>
           </ion-item>
         </ion-col>

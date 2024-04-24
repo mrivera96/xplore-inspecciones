@@ -6,6 +6,7 @@ import { DamagesService } from 'src/app/shared/services/damages.service';
 import { PhotoService } from 'src/app/shared/services/photo.service';
 import { DamagePhotosComponent } from '../damage-photos/damage-photos.component';
 import { AlertService } from 'src/app/shared/services/alert.service';
+import { InspectionsService } from 'src/app/shared/services/inspections.service';
 
 @Component({
   selector: 'app-damages',
@@ -20,6 +21,7 @@ export class DamagesComponent implements OnInit {
   private damagesService = inject(DamagesService);
   private damagePartsService = inject(DamagePartsService);
   private alertsService = inject(AlertService);
+  private inspectionsService = inject(InspectionsService);
 
   //inyeccion de dependencias
   navCtrl = inject(NavController);
@@ -32,14 +34,17 @@ export class DamagesComponent implements OnInit {
 
   constructor() {
     effect(() => {
+      
       this.damageParts()?.forEach((x) => {
-        x.count = this.damagesService
-          .damages()
-          .filter((y) => x.idPieza == y.idPieza).length;
+        x.count = this.currentInspection()?.danios.filter(
+          (y) => x.idPieza == y.idPieza
+        ).length;
       });
       this.damage = {} as Damage;
     });
   }
+
+  currentInspection = this.inspectionsService.currentInspection;
 
   ngOnInit() {}
 
@@ -49,7 +54,7 @@ export class DamagesComponent implements OnInit {
   }
 
   goToNext() {
-    if (this.damagesService.damages().length == 0) {
+    if (this.currentInspection()?.danios.length == 0) {
       this.alertsService.basicAlert(
         'Atención!',
         'No ha registrado ningún daño. ¿Desea continuar?',
@@ -58,41 +63,17 @@ export class DamagesComponent implements OnInit {
             text: 'Ok',
             role: 'ok',
             handler: () => {
-              this.navCtrl.navigateForward(['checkout/accessories']);
+              this.navCtrl.navigateForward(['tabs/inspection/accessories']);
             },
           },
           'Cancel',
         ]
       );
     } else {
-      this.navCtrl.navigateForward([]);
+      this.navCtrl.navigateForward(['tabs/inspection/accessories']);
     }
   }
-  // switch (this.step) {
-  //   case 2:
-  //
-  //     break;
-  //   case 3:
-  //     if (this.accessoriesService.currentAccessories().length == 0) {
-  //       this.alertsService.basicAlert(
-  //         'Atención!',
-  //         'No ha registrado ningún accesorio. ¿Desea continuar?',
-  //         [
-  //           {
-  //             text: 'Ok',
-  //             role: 'ok',
-  //             handler: () => {
-  //               this.step += 1;
-  //             },
-  //           },
-  //           'Cancel',
-  //         ]
-  //       );
-  //     } else {
-  //       this.step += 1;
-  //     }
-  //     break;
-  // }
+  
 
   goToPrev() {
     this.navCtrl.back();

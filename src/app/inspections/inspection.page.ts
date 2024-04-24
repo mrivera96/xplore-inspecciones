@@ -1,5 +1,6 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { Contract } from '../shared/interfaces/contract';
 import { Inspection } from '../shared/interfaces/inspection';
@@ -7,11 +8,11 @@ import { AlertService } from '../shared/services/alert.service';
 import { ContractsService } from '../shared/services/contracts.service';
 import { InspectionsService } from '../shared/services/inspections.service';
 @Component({
-  selector: 'app-checkout',
-  templateUrl: 'checkout.page.html',
-  styleUrls: ['checkout.page.scss'],
+  selector: 'app-inspection',
+  templateUrl: 'inspection.page.html',
+  styleUrls: ['inspection.page.scss'],
 })
-export class CheckoutPage {
+export class InspectionPage {
   //inyeccion de servicios
   private contractsService = inject(ContractsService);
   private inspectionsServices = inject(InspectionsService);
@@ -19,6 +20,7 @@ export class CheckoutPage {
 
   //inyeccion de dependencias
   navCtlr = inject(NavController);
+  router = inject(Router);
 
   //declaracion de propiedades
   contracts = this.contractsService.contracts;
@@ -27,8 +29,15 @@ export class CheckoutPage {
   _currentContract = this.contractsService.currentContract;
   currentContract: Contract = {} as Contract;
   carForm: FormControl;
+  cars = computed(() => {
+    return this.contracts()?.map((a) => a.car);
+  });
+  currentStage: string;
 
   constructor() {
+    this.currentStage =
+      this.router.getCurrentNavigation()?.extras?.state?.['stage'];
+      
     this.carForm = new FormControl(this.currentContract.idVehiculo || null);
     effect(() => {
       this.currentContract = this.contractsService.currentContract();
@@ -52,6 +61,8 @@ export class CheckoutPage {
         current.idAgenciaSalida = currentContract.idAgenciaSalida;
         current.fechaSalida = currentContract.fechaSalida;
         current.odoSalida = currentContract.car?.odometro;
+        current.danios = [];
+        current.accesorios = [];
       }
 
       return current as Inspection;
@@ -64,17 +75,7 @@ export class CheckoutPage {
     const odoSet = this.currentInspection()?.odoSalida != null;
 
     if (carSet && fuelSet && odoSet) {
-      this.inspectionsServices.currentInspection.update((values) => {
-        const current = { ...values };
-        {
-          current.odoSalida = this.currentContract?.car?.odometro;
-          current.combSalida = this.currentContract?.car?.fuel;
-        }
-
-        return current as Inspection;
-      });
-      console.log(this.currentInspection);
-      this.navCtlr.navigateForward(['checkout/damages']);
+      this.navCtlr.navigateForward(['tabs/inspection/damages']);
     } else {
       const message = !carSet
         ? 'No ha seleccionado un vehículo'
@@ -84,7 +85,25 @@ export class CheckoutPage {
     }
   }
 
-  goToPrev() {
-    this.step -= 1;
+  setOdometer(e: any) {
+    this.inspectionsServices.currentInspection.update((values) => {
+      const current = { ...values };
+      {
+        current.odoSalida = parseInt(e.target.value);
+      }
+
+      return current as Inspection;
+    });
+  }
+
+  setFuel(e: any) {
+    this.inspectionsServices.currentInspection.update((values) => {
+      const current = { ...values };
+      {
+        current.combSalida = e.target.value.toString().trim();
+      }
+
+      return current as Inspection;
+    });
   }
 }

@@ -1,5 +1,6 @@
 import { Accessory } from './accessory';
-import { Contract } from './car';
+import { Car } from './car';
+import { Contract } from './contract';
 import { Damage } from './damage';
 
 export interface Inspection {
@@ -10,7 +11,7 @@ export interface Inspection {
   idAgenciaSalida?: number;
   combSalida?: string;
   odoSalida?: number;
-  firmaClienteSalida?: string;
+  firmaClienteSalida?: string | {};
   idAgenciaEntrega?: number;
   combEntrega?: string;
   rendCombEntrega?: string;
@@ -18,13 +19,18 @@ export interface Inspection {
   firmaClienteEntrega?: string;
   nomRecibeVehiculo?: string;
   nomEntregaVehiculo?: string;
-  fotoLicencia: string;
+  fotoLicencia?: string;
   danios: Damage[];
   accesorios: Accessory[];
   state?: any;
-  car?: Contract;
+  contract?: Contract;
   fechaSalida?: Date;
   idUsuarioSalida?: number;
   fechaEntrega?: Date;
   idUsuarioEntrega?: number;
+  car?: Car;
+  comentariosLlantasDelanteras?: string;
+  comentariosLlantasTraseras?: string;
+  comentariosBateria?: string;
+  stage?: string;
 }

@@ -1,17 +1,16 @@
 import {
   Component,
-  EventEmitter,
   Input,
   OnInit,
-  Output,
-  inject,
+  inject
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Damage } from 'src/app/shared/interfaces/damage';
+import { Inspection } from 'src/app/shared/interfaces/inspection';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { DamageTypesService } from 'src/app/shared/services/damage-types.service';
-import { DamagesService } from 'src/app/shared/services/damages.service';
+import { InspectionsService } from 'src/app/shared/services/inspections.service';
 import { PhotoService } from 'src/app/shared/services/photo.service';
 
 @Component({
@@ -25,13 +24,12 @@ export class DamagePhotosComponent implements OnInit {
   //inyeccion de servicios
   protected photoService = inject(PhotoService);
   private damageTypesService = inject(DamageTypesService);
-  private damagesService = inject(DamagesService);
   private alertService = inject(AlertService);
+  private inspectionsService = inject(InspectionsService);
 
   //declaracion de propiedades
   damageTypes = this.damageTypesService.damageTypes;
   @Input() damage = {} as Damage;
-  @Output('damageAdded') damageAdded = new EventEmitter<boolean>();
   constructor() {}
 
   ngOnInit() {}
@@ -40,9 +38,14 @@ export class DamagePhotosComponent implements OnInit {
     if (this.damage.idTipoDanio != null) {
       this.damage.foto = this.photoService.photos[0];
       this.photoService.clearPhotos();
-      this.damagesService.addDamage(this.damage);
+      this.inspectionsService.currentInspection.update((values) => {
+        const current = { ...values };
+        {
+          current.danios?.push(this.damage);
+        }
 
-      this.damageAdded.emit(true);
+        return current as Inspection;
+      });
     } else {
       this.alertService.basicAlert(
         'Atención!',
