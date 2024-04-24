@@ -1,3 +1,4 @@
+import { Car } from './car';
 import { Customer } from './customer';
 
 export interface Contract {
@@ -5,7 +6,9 @@ export interface Contract {
   idAgenciaSalida: number | undefined;
   idContrato: number;
   idCliente: number;
+  idVehiculo: number;
   idEstado: number;
   numContrato: string;
   customer: Customer;
+  car?: Car;
 }

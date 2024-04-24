@@ -1,30 +1,11 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
-    @if(step > 1){
-
-    <ion-buttons slot="start">
-      <ion-button slot="start" (click)="goToPrev()">
-        Regresar
-        <ion-icon slot="start" name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    } @if (step == 4) {
-    <ion-buttons slot="end">
-      <ion-button slot="end" (click)="goToNext()">
-        Finalizar
-        <ion-icon slot="end" name="checkmark"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
-    }@else{
-
     <ion-buttons slot="end">
       <ion-button slot="end" (click)="goToNext()">
         Siguiente
         <ion-icon slot="end" name="arrow-forward"></ion-icon>
       </ion-button>
     </ion-buttons>
-    }
   </ion-toolbar>
   <div class="bubble">
     <div class="content">
@@ -39,24 +20,22 @@
 
 <ion-content [fullscreen]="true">
   <ion-grid fixed>
-    @switch (step) { @case (1) {
-
     <ion-row>
       <ion-col>
         <ion-card style="border-radius: 10px">
           <ion-item lines="none">
             <ion-label>Seleccione un Vehiculo</ion-label>
-            @defer (when cars()) {
+            @defer (when contracts()) {
             <ion-icon color="secondary" slot="start" name="car"></ion-icon>
             <ionic-selectable
               [formControl]="carForm"
               class="ion-margin-start"
               color="secondary"
-              [items]="cars()!"
+              [items]="contracts()!"
               itemValueField="idVehiculo"
               itemTextField="nemVehiculo"
               [canSearch]="true"
-              (onChange)="selectCar($event)"
+              (onChange)="selectContract($event)"
             >
             </ionic-selectable>
 
@@ -82,16 +61,144 @@
       </ion-col>
     </ion-row>
     }@else {
-    <app-general-data
-      [step]="step"
-      (addDamagesEvent)="addDamagesEvent($event)"
-    ></app-general-data>
-    } } @case(2) {
+    <ion-list>
+      <ion-row>
+        <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
+          <ion-item>
+            <ion-input
+              color="secondary"
+              [value]="currentContract.car?.model?.brand?.descMarca"
+              labelPlacement="stacked"
+              label="Marca de Vehículo"
+              type="text"
+              placeholder="Awesome Input"
+              readonly
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
+          <ion-item>
+            <ion-input
+              color="secondary"
+              [value]="currentContract?.car?.modelo"
+              labelPlacement="stacked"
+              label="Modelo de Vehículo"
+              type="text"
+              readonly
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <ion-item>
+            <ion-input
+              color="secondary"
+              [value]="currentContract.customer.nomCliente"
+              labelPlacement="stacked"
+              label="Nombre del cliente"
+              type="text"
+              readonly
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12">
+          <ion-item>
+            <ion-input
+              color="secondary"
+              [value]="currentContract.customer.correoI"
+              labelPlacement="stacked"
+              label="Correo electrónico del cliente"
+              type="text"
+              readonly
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12">
+          <ion-item>
+            <ion-input
+              color="secondary"
+              [value]="currentContract.customer.celularI"
+              labelPlacement="stacked"
+              label="Número celular del cliente"
+              type="text"
+              readonly
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12">
+          <ion-item>
+            <ion-input
+              ngDefaultControl
+              color="secondary"
+              [value]="currentContract.numContrato"
+              labelPlacement="stacked"
+              label="Número de contrato"
+              type="text"
+              readonly
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="12">
+          <ion-item>
+            <ion-input
+              ngDefaultControl
+              color="secondary"
+              [(ngModel)]="currentContract.numContrato"
+              labelPlacement="stacked"
+              label="Número de contrato"
+              type="text"
+              readonly
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <ion-item lines="none">
+            <ion-input
+              required
+              color="secondary"
+              [(ngModel)]="currentContract.odometro"
+              labelPlacement="stacked"
+              label="Kilometraje"
+              type="number"
+              [min]="currentContract.odometro || 1"
+              errorText="Valor no válido"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item lines="none">
+            <ion-input
+              required
+              color="secondary"
+              [(ngModel)]="currentContract.fuel"
+              labelPlacement="stacked"
+              label="Nivel de combustible"
+              type="text"
+              errorText="Este campo es obligatorio"
+            ></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-list>
+
+    }
+
+    <!-- } @case(2) {
     <app-damages></app-damages>
     }@case (3) {
     <app-accessories></app-accessories>
     }@case (4) {
     <app-signing></app-signing>
-    }}
+    }} -->
   </ion-grid>
+  @if(currentInspection()?.idVehiculo != undefined){
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="document-attach"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+  }
 </ion-content>

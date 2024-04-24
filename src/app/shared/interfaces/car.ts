@@ -5,9 +5,9 @@ export interface Car {
   idVehiculo: number;
   nemVehiculo: string;
   numMatricula: string;
-  modelo: string;
-  model: Model;
-  contract: Contract;
-  odometro: number;
+  modelo?: string;
+  model?: Model;
+  contract?: Contract;
+  odometro?: number;
   fuel: string;
 }

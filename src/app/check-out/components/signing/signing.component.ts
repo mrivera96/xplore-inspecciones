@@ -1,7 +1,13 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import SignaturePad from 'signature_pad';
-import { IonLabel, IonItem } from '@ionic/angular/standalone';
+import {
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  inject,
+} from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import SignaturePad from 'signature_pad';
+import { InspectionsService } from 'src/app/shared/services/inspections.service';
 
 @Component({
   selector: 'app-signing',
@@ -11,6 +17,9 @@ import { IonicModule } from '@ionic/angular';
   imports: [IonicModule],
 })
 export class SigningComponent implements OnInit {
+  //inyeccion de servicios
+  inspectionsService = inject(InspectionsService);
+
   @ViewChild('canvas') canvasref!: ElementRef<HTMLCanvasElement>;
   canvas: HTMLCanvasElement | undefined = undefined;
   signaturePad: SignaturePad | undefined = undefined;
@@ -25,7 +34,7 @@ export class SigningComponent implements OnInit {
 
     //const parentWidth = this.signContainer.nativeElement.offsetWidth;
 
-    this.canvas.width = window.innerWidth * 0.70;
+    this.canvas.width = window.innerWidth * 0.7;
     // console.log(parentWidth);
 
     this.signaturePad = new SignaturePad(this.canvas, {

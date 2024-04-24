@@ -33,7 +33,7 @@ export class AuthService {
   }
 
   login(nickname: string, password: string): Observable<ApiResponse> {
-    console.log(`${environment.apiUrl}/${this.apiEndpoint}/login`);
+    
     return this.httplClient.post<any>(
       `${environment.apiUrl}/${this.apiEndpoint}/login`,
       { nickname, password }

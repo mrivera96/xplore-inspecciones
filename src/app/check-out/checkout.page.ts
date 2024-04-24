@@ -1,13 +1,11 @@
-import { Component, inject } from '@angular/core';
-import { NavController } from '@ionic/angular';
-import { Car } from '../shared/interfaces/car';
-import { Inspection } from '../shared/interfaces/inspection';
-import { AccessoriesService } from '../shared/services/accessories.service';
-import { AlertService } from '../shared/services/alert.service';
-import { CarsService } from '../shared/services/cars.service';
-import { DamagesService } from '../shared/services/damages.service';
-import { InspectionsService } from '../shared/services/inspections.service';
+import { Component, effect, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { NavController } from '@ionic/angular';
+import { Contract } from '../shared/interfaces/contract';
+import { Inspection } from '../shared/interfaces/inspection';
+import { AlertService } from '../shared/services/alert.service';
+import { ContractsService } from '../shared/services/contracts.service';
+import { InspectionsService } from '../shared/services/inspections.service';
 @Component({
   selector: 'app-checkout',
   templateUrl: 'checkout.page.html',
@@ -15,114 +13,74 @@ import { FormControl } from '@angular/forms';
 })
 export class CheckoutPage {
   //inyeccion de servicios
-  private carsService = inject(CarsService);
+  private contractsService = inject(ContractsService);
   private inspectionsServices = inject(InspectionsService);
   private alertsService = inject(AlertService);
-  private damagesService = inject(DamagesService);
-  private accessoriesService = inject(AccessoriesService);
 
   //inyeccion de dependencias
   navCtlr = inject(NavController);
 
   //declaracion de propiedades
-  cars = this.carsService.cars;
+  contracts = this.contractsService.contracts;
   step: number = 1;
   protected currentInspection = this.inspectionsServices.currentInspection;
-  currentCar = this.carsService.currentCar;
+  _currentContract = this.contractsService.currentContract;
+  currentContract: Contract = {} as Contract;
   carForm: FormControl;
 
   constructor() {
-    this.carForm = new FormControl(this.currentCar().idVehiculo || null);
+    this.carForm = new FormControl(this.currentContract.idVehiculo || null);
+    effect(() => {
+      this.currentContract = this.contractsService.currentContract();
+    });
   }
 
-  selectCar(e: any) {
-    if (this.step == 1) {
-      //this.currentInspeccion.update((inspection)=>)
-      const currentCar = this.carsService
-        .cars()
-        ?.find((x) => x.idVehiculo == e.value.idVehiculo) as Car;
+  //Establece el vehiculo en el estado global de la inspección actual
+  selectContract(e: any) {
+    //this.currentInspeccion.update((inspection)=>)
+    const currentContract = this.contractsService
+      .contracts()
+      ?.find((x) => x.idVehiculo == e.value.idVehiculo) as Contract;
 
-      this.carsService.setCurrentCar(currentCar);
+    this.contractsService.setCurrentContract(currentContract);
+    this.inspectionsServices.currentInspection.update((values) => {
+      const current = { ...values };
+      {
+        current.idVehiculo = currentContract.idVehiculo;
+        current.idContrato = currentContract.idContrato;
+        current.idCliente = currentContract.idCliente;
+        current.idAgenciaSalida = currentContract.idAgenciaSalida;
+        current.fechaSalida = currentContract.fechaSalida;
+        current.odoSalida = currentContract.car?.odometro;
+      }
+
+      return current as Inspection;
+    });
+  }
+
+  goToNext() {
+    const carSet = this.currentInspection()?.idVehiculo != undefined;
+    const fuelSet = this.currentInspection()?.combSalida != null;
+    const odoSet = this.currentInspection()?.odoSalida != null;
+
+    if (carSet && fuelSet && odoSet) {
       this.inspectionsServices.currentInspection.update((values) => {
         const current = { ...values };
         {
-          current.idVehiculo = currentCar.idVehiculo;
-          current.idContrato = currentCar.contract.idContrato;
-          current.idCliente = currentCar.contract.idCliente;
-          current.idAgenciaSalida = currentCar.contract.idAgenciaSalida;
-          current.fechaSalida = currentCar.contract.fechaSalida;
+          current.odoSalida = this.currentContract?.car?.odometro;
+          current.combSalida = this.currentContract?.car?.fuel;
         }
 
         return current as Inspection;
       });
-    }
-  }
+      console.log(this.currentInspection);
+      this.navCtlr.navigateForward(['checkout/damages']);
+    } else {
+      const message = !carSet
+        ? 'No ha seleccionado un vehículo'
+        : 'No ha completado la información';
 
-  addDamagesEvent(e: any) {
-    this.step = e;
-  }
-
-  goToNext() {
-    switch (this.step) {
-      case 1:
-        if (this.currentInspection()?.idVehiculo != undefined) {
-          if (this.carsService.currentCar().fuel == null) {
-            this.alertsService.basicAlert(
-              'Atención!',
-              'No ha completado la información',
-              ['Ok']
-            );
-          } else {
-            this.step += 1;
-          }
-        } else {
-          this.alertsService.basicAlert(
-            'Atención!',
-            'No ha seleccionado un vehículo',
-            ['Ok']
-          );
-        }
-        break;
-      case 2:
-        if (this.damagesService.damages().length == 0) {
-          this.alertsService.basicAlert(
-            'Atención!',
-            'No ha registrado ningún daño. ¿Desea continuar?',
-            [
-              {
-                text: 'Ok',
-                role: 'ok',
-                handler: () => {
-                  this.step += 1;
-                },
-              },
-              'Cancel',
-            ]
-          );
-        } else {
-          this.step += 1;
-        }
-        break;
-      case 3:
-        if (this.accessoriesService.currentAccessories().length == 0) {
-          this.alertsService.basicAlert(
-            'Atención!',
-            'No ha registrado ningún accesorio. ¿Desea continuar?',
-            [
-              {
-                text: 'Ok',
-                role: 'ok',
-                handler: () => {
-                  this.step += 1;
-                },
-              },
-              'Cancel',
-            ]
-          );
-        } else {
-          this.step += 1;
-        }
-        break;
+      this.alertsService.basicAlert('Atención!', message, ['Ok']);
     }
   }
 

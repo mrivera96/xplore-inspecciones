@@ -1,11 +1,10 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { AuthService } from '../shared/services/auth.service';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AlertService } from '../shared/services/alert.service';
 import { NavController } from '@ionic/angular';
+import { AlertService } from '../shared/services/alert.service';
+import { AuthService } from '../shared/services/auth.service';
 import { LocalService } from '../shared/services/local.service';
-import { addIcons } from 'ionicons';
-import { FormControl, FormGroup, NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -48,7 +47,7 @@ export class LoginPage implements OnInit {
 
   async onLogin() {
     if (this.loginForm.valid) {
-      console.log(this.loginForm.controls)
+
       await this.alertService.presentLoading();
 
       this.authService

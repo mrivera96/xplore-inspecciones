@@ -1,16 +1,11 @@
-import {
-  Component,
-  Input,
-  OnInit,
-  effect,
-  inject
-} from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { Component, Input, OnInit, effect, inject } from '@angular/core';
+import { IonicModule, NavController } from '@ionic/angular';
 import { Damage } from 'src/app/shared/interfaces/damage';
 import { DamagePartsService } from 'src/app/shared/services/damage-parts.service';
 import { DamagesService } from 'src/app/shared/services/damages.service';
 import { PhotoService } from 'src/app/shared/services/photo.service';
 import { DamagePhotosComponent } from '../damage-photos/damage-photos.component';
+import { AlertService } from 'src/app/shared/services/alert.service';
 
 @Component({
   selector: 'app-damages',
@@ -24,9 +19,12 @@ export class DamagesComponent implements OnInit {
   protected photoService = inject(PhotoService);
   private damagesService = inject(DamagesService);
   private damagePartsService = inject(DamagePartsService);
+  private alertsService = inject(AlertService);
+
+  //inyeccion de dependencias
+  navCtrl = inject(NavController);
 
   //declaracion de propiedades
-  @Input('step') currentStep: number = 3;
 
   protected damageParts = this.damagePartsService.damageParts;
   damages = this.damagesService.damages;
@@ -48,5 +46,55 @@ export class DamagesComponent implements OnInit {
   setDamagePart(idPieza: number) {
     this.damage.idPieza = idPieza;
     this.photoService.addNewToGallery();
+  }
+
+  goToNext() {
+    if (this.damagesService.damages().length == 0) {
+      this.alertsService.basicAlert(
+        'Atención!',
+        'No ha registrado ningún daño. ¿Desea continuar?',
+        [
+          {
+            text: 'Ok',
+            role: 'ok',
+            handler: () => {
+              this.navCtrl.navigateForward(['checkout/accessories']);
+            },
+          },
+          'Cancel',
+        ]
+      );
+    } else {
+      this.navCtrl.navigateForward([]);
+    }
+  }
+  // switch (this.step) {
+  //   case 2:
+  //
+  //     break;
+  //   case 3:
+  //     if (this.accessoriesService.currentAccessories().length == 0) {
+  //       this.alertsService.basicAlert(
+  //         'Atención!',
+  //         'No ha registrado ningún accesorio. ¿Desea continuar?',
+  //         [
+  //           {
+  //             text: 'Ok',
+  //             role: 'ok',
+  //             handler: () => {
+  //               this.step += 1;
+  //             },
+  //           },
+  //           'Cancel',
+  //         ]
+  //       );
+  //     } else {
+  //       this.step += 1;
+  //     }
+  //     break;
+  // }
+
+  goToPrev() {
+    this.navCtrl.back();
   }
 }

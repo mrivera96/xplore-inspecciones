@@ -1,11 +1,14 @@
 import {
+  HttpErrorResponse,
   HttpHandler,
   HttpHeaders,
   HttpInterceptor,
   HttpRequest,
+  HttpStatusCode,
 } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { tap } from 'rxjs';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -26,7 +29,10 @@ export class AuthInterceptor implements HttpInterceptor {
         'Authorization',
         `Bearer ${currentUser.access_token}`
       );
-      headers = headers.set('Access-Control-Allow-Origin', 'http://localhost;http://localhost:8100');
+      headers = headers.set(
+        'Access-Control-Allow-Origin',
+        'http://localhost;http://localhost:8100'
+      );
       headers = headers.set('Access-Control-Allow-Credentials', 'true');
 
       req = req.clone({
@@ -35,8 +41,11 @@ export class AuthInterceptor implements HttpInterceptor {
     } else {
       let headers = new HttpHeaders();
       headers = headers.set('Content-Type', 'application/json');
-     
-      headers = headers.set('Access-Control-Allow-Origin', 'http://localhost;http://localhost:8100');
+
+      headers = headers.set(
+        'Access-Control-Allow-Origin',
+        'http://localhost;http://localhost:8100'
+      );
       headers = headers.set('Access-Control-Allow-Credentials', 'true');
 
       req = req.clone({
@@ -45,6 +54,18 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     // send cloned request with header to the next handler.
-    return next.handle(req);
+    return next.handle(req).pipe(
+      tap(
+        () => {},
+        (err: any) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.status != HttpStatusCode.Unauthorized) {
+              return;
+            }
+            this.authService.logout();
+          }
+        }
+      )
+    );
   }
 }

@@ -20,7 +20,7 @@ export class AccessoriesService {
   //inyeccion de servicios
   private alertService = inject(AlertService);
 
-  //se obtienen los vehiculos de la API y se almacena en la variable _cars para su posterior uso
+  //se obtienen los vehiculos de la API y se almacena en la variable _contracts para su posterior uso
   private _accessories = this.httpClient
     .get<ApiResponse>(`${this.apiEndPoint}/list`)
     .pipe(
@@ -28,7 +28,7 @@ export class AccessoriesService {
       catchError((error) => {
         this.alertService.basicAlert(
           'Error',
-          'Ocurrió un error al conectarse al servidor',
+          `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
           ['Ok']
         );
         return [];

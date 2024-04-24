@@ -1,5 +1,5 @@
 import { Accessory } from './accessory';
-import { Car } from './car';
+import { Contract } from './car';
 import { Damage } from './damage';
 
 export interface Inspection {
@@ -22,7 +22,7 @@ export interface Inspection {
   danios: Damage[];
   accesorios: Accessory[];
   state?: any;
-  car?: Car;
+  car?: Contract;
   fechaSalida?: Date;
   idUsuarioSalida?: number;
   fechaEntrega?: Date;

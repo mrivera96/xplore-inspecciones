@@ -31,9 +31,7 @@ export class AccessoriesComponent implements OnInit {
   currentAccessories = [] as Accessory[];
 
   constructor() {
-    effect(() => {
-      console.log(this.accessoriesServices.currentAccessories());
-    });
+
   }
 
   ngOnInit() {}
