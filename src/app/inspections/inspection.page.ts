@@ -24,7 +24,6 @@ export class InspectionPage {
 
   //declaracion de propiedades
   contracts = this.contractsService.contracts;
-  step: number = 1;
   protected currentInspection = this.inspectionsServices.currentInspection;
   _currentContract = this.contractsService.currentContract;
   currentContract: Contract = {} as Contract;
@@ -37,13 +36,16 @@ export class InspectionPage {
   constructor() {
     this.currentStage =
       this.router.getCurrentNavigation()?.extras?.state?.['stage'];
-      
+
     this.carForm = new FormControl(this.currentContract.idVehiculo || null);
     effect(() => {
       this.currentContract = this.contractsService.currentContract();
     });
   }
 
+  ngOnDestroy(){
+    this._currentContract.set({} as Contract)
+  }
   //Establece el vehiculo en el estado global de la inspección actual
   selectContract(e: any) {
     //this.currentInspeccion.update((inspection)=>)
@@ -61,8 +63,9 @@ export class InspectionPage {
         current.idAgenciaSalida = currentContract.idAgenciaSalida;
         current.fechaSalida = currentContract.fechaSalida;
         current.odoSalida = currentContract.car?.odometro;
-        current.danios = [];
-        current.accesorios = [];
+        current.nomRecibeVehiculo = currentContract.customer.nomCliente;
+        current.daniosSalida = [];
+        current.accesoriosSalida   = [];
       }
 
       return current as Inspection;

@@ -1,3 +1,4 @@
+import { Agency } from './agency';
 import { Car } from './car';
 import { Customer } from './customer';
 
@@ -11,4 +12,5 @@ export interface Contract {
   numContrato: string;
   customer: Customer;
   car?: Car;
+  check_out_agency: Agency
 }

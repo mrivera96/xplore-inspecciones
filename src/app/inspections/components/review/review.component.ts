@@ -1,5 +1,6 @@
 import { Component, OnInit, effect, inject } from '@angular/core';
 import { IonicModule, NavController } from '@ionic/angular';
+import { ContractsService } from 'src/app/shared/services/contracts.service';
 import { InspectionsService } from 'src/app/shared/services/inspections.service';
 
 @Component({
@@ -12,12 +13,15 @@ import { InspectionsService } from 'src/app/shared/services/inspections.service'
 export class ReviewComponent implements OnInit {
   //inyeccion de servicios
   inspectionsService = inject(InspectionsService);
+  contractsService = inject(ContractsService);
+
 
   //inyeccion de dependencias
   private navCtrl = inject(NavController);
 
   //declaracion de propiedades
   currentInspection = this.inspectionsService.currentInspection;
+  currentContract = this.contractsService.currentContract;
 
   constructor() {
     effect(() => {

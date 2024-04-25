@@ -1,11 +1,15 @@
-import { Injectable, Signal, inject, signal } from '@angular/core';
-import { Inspection } from '../interfaces/inspection';
 import { HttpClient } from '@angular/common/http';
-import { ApiResponse } from '../interfaces/api-response';
-import { environment } from 'src/environments/environment';
+import { Injectable, inject, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { catchError, map, shareReplay } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { ApiResponse } from '../interfaces/api-response';
+import { Contract } from '../interfaces/contract';
+import { Inspection } from '../interfaces/inspection';
 import { AlertService } from './alert.service';
+import { ContractsService } from './contracts.service';
+import { DamagesService } from './damages.service';
+import { AccessoriesService } from './accessories.service';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +22,10 @@ export class InspectionsService {
   private apiEndPoint = `${environment.apiUrl}/inspections`;
 
   //inyeccion de servicios
-  alertsService = inject(AlertService);
+  private alertsService = inject(AlertService);
+  private contractsService = inject(ContractsService);
+  private damagesService = inject(DamagesService);
+  private accessoriesService = inject(AccessoriesService);
 
   //declaracion de propiedades
   private _inspections = this.httpClient
@@ -51,19 +58,16 @@ export class InspectionsService {
   }
 
   createInspection() {
-    this.httpClient
-      .post<ApiResponse>(`${this.apiEndPoint}/add`, this.currentInspection())
-      .pipe(
-        map((res) => res.data as Inspection[]),
-        catchError((error) => {
-          this.alertsService.basicAlert(
-            'Error',
-            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
-            ['Ok']
-          );
-          return [];
-        }),
-        shareReplay(1)
-      );
+    return this.httpClient.post<ApiResponse>(
+      `${this.apiEndPoint}/add`,
+      this.currentInspection()
+    );
+  }
+
+  clearState() {
+    this.currentInspection.set(undefined);
+    this.contractsService.currentContract.set({} as Contract);
+    this.damagesService.damages.set([]);
+    this.accessoriesService.currentAccessories.set([]);
   }
 }

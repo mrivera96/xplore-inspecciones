@@ -20,8 +20,10 @@ export interface Inspection {
   nomRecibeVehiculo?: string;
   nomEntregaVehiculo?: string;
   fotoLicencia?: string;
-  danios: Damage[];
-  accesorios: Accessory[];
+  daniosSalida: Damage[];
+  daniosEntrega: Damage[];
+  accesoriosSalida: Accessory[];
+  accesoriosEntrega: Accessory[];
   state?: any;
   contract?: Contract;
   fechaSalida?: Date;

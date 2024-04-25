@@ -36,7 +36,7 @@ export class AccessoriesComponent implements OnInit {
       this.inspectionsService.currentInspection.update((values) => {
         const current = { ...values };
         {
-          current.accesorios?.push(accessory);
+          current.accesoriosSalida?.push(accessory);
         }
 
         return current as Inspection;
@@ -45,7 +45,7 @@ export class AccessoriesComponent implements OnInit {
       this.inspectionsService.currentInspection.update((values) => {
         const current = { ...values };
         {
-          current.accesorios = current.accesorios?.filter(
+          current.accesoriosSalida = current.accesoriosSalida?.filter(
             (x) => x.idAccesorio != accessory.idAccesorio
           );
         }
@@ -56,7 +56,7 @@ export class AccessoriesComponent implements OnInit {
   }
 
   goToNext() {
-    if (this.currentInspection()?.accesorios.length == 0) {
+    if (this.currentInspection()?.accesoriosSalida.length == 0) {
       this.alertsService.basicAlert(
         'Atención!',
         'No ha registrado ningún accesorio. ¿Desea continuar?',

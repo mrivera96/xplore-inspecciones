@@ -34,9 +34,8 @@ export class DamagesComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      
       this.damageParts()?.forEach((x) => {
-        x.count = this.currentInspection()?.danios.filter(
+        x.count = this.currentInspection()?.daniosSalida.filter(
           (y) => x.idPieza == y.idPieza
         ).length;
       });
@@ -48,13 +47,17 @@ export class DamagesComponent implements OnInit {
 
   ngOnInit() {}
 
+  ndOnDestroy() {
+    this.damage = {} as Damage;
+  }
+
   setDamagePart(idPieza: number) {
     this.damage.idPieza = idPieza;
     this.photoService.addNewToGallery();
   }
 
   goToNext() {
-    if (this.currentInspection()?.danios.length == 0) {
+    if (this.currentInspection()?.daniosSalida.length == 0) {
       this.alertsService.basicAlert(
         'Atención!',
         'No ha registrado ningún daño. ¿Desea continuar?',
@@ -73,7 +76,6 @@ export class DamagesComponent implements OnInit {
       this.navCtrl.navigateForward(['tabs/inspection/accessories']);
     }
   }
-  
 
   goToPrev() {
     this.navCtrl.back();

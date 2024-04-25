@@ -3,11 +3,11 @@ import {
   ElementRef,
   OnInit,
   ViewChild,
-  effect,
   inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
+import { catchError, map, shareReplay } from 'rxjs';
 import SignaturePad from 'signature_pad';
 import { Inspection } from 'src/app/shared/interfaces/inspection';
 import { AlertService } from 'src/app/shared/services/alert.service';
@@ -43,6 +43,10 @@ export class SigningComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+  ngOnDestroy() {
+    this.signaturePad?.clear();
+    this.notas = {};
+  }
 
   ngAfterViewInit(): void {
     this.canvas = this.canvasref.nativeElement;
@@ -61,7 +65,7 @@ export class SigningComponent implements OnInit {
     this.signaturePad?.clear();
   }
 
-  goToNext() {
+  async goToNext() {
     if (this.signaturePad?.isEmpty()) {
       this.alertsService.basicAlert(
         'Atención!',
@@ -72,7 +76,8 @@ export class SigningComponent implements OnInit {
       this.currentInspection.update((values) => {
         const current = { ...values };
         {
-          current.firmaClienteSalida = this.signaturePad?.toDataURL("image/png");
+          current.firmaClienteSalida =
+            this.signaturePad?.toDataURL('image/png');
           current.comentariosLlantasDelanteras =
             this.notas.comentariosLlantasDelanteras;
           current.comentariosLlantasTraseras =
@@ -82,7 +87,36 @@ export class SigningComponent implements OnInit {
 
         return current as Inspection;
       });
-      this.navCtrl.navigateForward(['tabs/inspection/review']);
+
+      await this.alertsService.presentLoading();
+      this.inspectionsService.createInspection().subscribe({
+        next: (res) => {
+          this.alertsService.dismissDefaultLoading();
+          this.inspectionsService.inspections()?.push(res.data as Inspection);
+          this.inspectionsService.clearState();
+          this.alertsService.basicAlert(
+            'Éxito!',
+            `Se creó exitosamente la inspección No. : ${res.data.idInspeccion}`,
+            [
+              {
+                text: 'Ok',
+                role: 'ok',
+                handler: () => {
+                  this.navCtrl.navigateRoot(['tabs/home']);
+                },
+              },
+            ]
+          );
+        },
+        error: (error) => {
+          this.alertsService.dismissDefaultLoading();
+          this.alertsService.basicAlert(
+            'Error',
+            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
+            ['Ok']
+          );
+        },
+      });
     }
   }
 
