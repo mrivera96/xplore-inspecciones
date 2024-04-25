@@ -88,35 +88,7 @@ export class SigningComponent implements OnInit {
         return current as Inspection;
       });
 
-      await this.alertsService.presentLoading();
-      this.inspectionsService.createInspection().subscribe({
-        next: (res) => {
-          this.alertsService.dismissDefaultLoading();
-          this.inspectionsService.inspections()?.push(res.data as Inspection);
-          this.inspectionsService.clearState();
-          this.alertsService.basicAlert(
-            'Éxito!',
-            `Se creó exitosamente la inspección No. : ${res.data.idInspeccion}`,
-            [
-              {
-                text: 'Ok',
-                role: 'ok',
-                handler: () => {
-                  this.navCtrl.navigateRoot(['tabs/home']);
-                },
-              },
-            ]
-          );
-        },
-        error: (error) => {
-          this.alertsService.dismissDefaultLoading();
-          this.alertsService.basicAlert(
-            'Error',
-            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
-            ['Ok']
-          );
-        },
-      });
+      this.inspectionsService.createInspection();
     }
   }
 

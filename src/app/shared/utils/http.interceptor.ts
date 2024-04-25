@@ -31,7 +31,7 @@ export class AuthInterceptor implements HttpInterceptor {
       );
       headers = headers.set(
         'Access-Control-Allow-Origin',
-        'http://localhost;http://localhost:8100'
+        '*'
       );
       headers = headers.set('Access-Control-Allow-Credentials', 'true');
 
@@ -44,7 +44,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
       headers = headers.set(
         'Access-Control-Allow-Origin',
-        'http://localhost;http://localhost:8100'
+        '*'
       );
       headers = headers.set('Access-Control-Allow-Credentials', 'true');
 

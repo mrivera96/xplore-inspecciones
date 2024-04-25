@@ -27,9 +27,9 @@ export class HomePage {
   //declaracion de propiedades
   currentUser = this.authService.getCurrentUser();
   constructor() {
-    // effect(()=>{
-    //   console.log(this.inspectionsServices.currentInspection())
-    // })
+     effect(()=>{
+      console.log(this.inspectionsServices.inspections())
+     })
     // //test
     // this.inspectionsServices.currentInspection.set({
     //   idVehiculo: 74,

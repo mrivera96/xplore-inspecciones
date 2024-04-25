@@ -5,7 +5,7 @@ import { InspectionGuard } from '../shared/guards/inspection.guard';
 
 const routes: Routes = [
   {
-    path: 'tabs',
+    path: '',
     component: TabsPage,
     children: [
       {
@@ -32,11 +32,7 @@ const routes: Routes = [
       },
     ],
   },
-  {
-    path: '',
-    redirectTo: '/tabs/home',
-    pathMatch: 'full',
-  },
+
 ];
 
 @NgModule({

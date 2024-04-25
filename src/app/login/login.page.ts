@@ -23,7 +23,7 @@ export class LoginPage implements OnInit {
 
   //declaracion de propiedades
   protected loading: boolean = false;
-  private returnUrl: string = 'tabs/home';
+  private returnUrl: string = 'tabs';
   protected alertHeader: string = '';
   protected alertMessage: string = '';
   protected alertButtons: any = [];
@@ -31,11 +31,11 @@ export class LoginPage implements OnInit {
   loginForm: FormGroup;
 
   constructor() {
-    var currentUser = this.authService.getCurrentUser();
+    // var currentUser = this.authService.getCurrentUser();
 
-    if (currentUser != undefined) {
-      this.router.navigate(['']);
-    }
+    // if (currentUser != undefined) {
+    //   this.router.navigate(['/tabs']);
+    // }
 
     this.loginForm = new FormGroup({
       nickname: new FormControl(localStorage.getItem('remember_user')!),

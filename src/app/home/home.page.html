@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
-    <ion-title slot="start"><p>{{currentUser?.nomUsuario}}</p> </ion-title>
+    <ion-title slot="start"><p></p> </ion-title>
     <ion-buttons slot="end">
       <ion-button
         (click)="onLogout()"
@@ -8,7 +8,8 @@
         fill="clear"
         shape="round"
       >
-        <ion-icon slot="start" name="log-out"></ion-icon>
+      {{currentUser?.nomUsuario}}
+        <ion-icon slot="end" name="log-out"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -29,18 +30,19 @@
 
 <ion-content>
   @defer (when openInspections()) {
-  <ion-list>
+  <ion-list lines="inset" inset="true">
     <ion-list-header>
       <ion-label>Inspecciones abiertas</ion-label>
     </ion-list-header>
+
     @for (openInspection of openInspections(); track $index) {
     <ion-item detail="true">
-      <ion-label>
-        <p>No. Inspección: {{openInspection.idInspeccion}}</p>
-        <h3 color="primary">
-          Cliente: {{openInspection.contract?.customer?.nomCliente}}
-        </h3>
-        <p>Modelo de Vehículo: {{openInspection.car?.modelo}}</p>
+      <ion-icon color="primary" slot="start" name="checkmark-circle"></ion-icon>
+      <ion-label color="secondary">
+        <h2 >
+          Vehículo: {{openInspection.car?.nemVehiculo}}
+        </h2>
+        <p>No. Inspección: {{openInspection.idInspeccion}} | No. Contrato: {{openInspection.contract?.numContrato}}</p>
       </ion-label>
     </ion-item>
     }@empty() {
@@ -67,7 +69,9 @@
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button (click)="goToCheckIn()"><ion-icon name="arrow-undo"></ion-icon></ion-fab-button>
+      <ion-fab-button (click)="goToCheckIn()"
+        ><ion-icon name="arrow-undo"></ion-icon
+      ></ion-fab-button>
       <ion-fab-button
         (click)="goToCheckOut()"
         aria-labelledby="Agregar inspeccion"
@@ -78,3 +82,5 @@
     </ion-fab-list>
   </ion-fab>
 </ion-content>
+
+
