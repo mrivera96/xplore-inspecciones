@@ -68,12 +68,13 @@ export class HomePage {
   }
 
   goToCheckOut() {
-    this.navCtr.navigateForward(['tabs/inspection'], {
+    this.navCtr.navigateForward(['/inspection'], {
       state: { stage: 'checkout' },
     });
   }
   goToCheckIn() {
-    this.navCtr.navigateForward(['tabs/inspection'], {
+    this.inspectionsServices.currentInspection.set()
+    this.navCtr.navigateForward(['/inspection'], {
       state: { stage: 'checkin' },
     });
   }

@@ -36,7 +36,7 @@ export class InspectionPage {
   constructor() {
     this.currentStage =
       this.router.getCurrentNavigation()?.extras?.state?.['stage'];
-
+      
     this.carForm = new FormControl(this.currentContract.idVehiculo || null);
     effect(() => {
       this.currentContract = this.contractsService.currentContract();
@@ -78,7 +78,7 @@ export class InspectionPage {
     const odoSet = this.currentInspection()?.odoSalida != null;
 
     if (carSet && fuelSet && odoSet) {
-      this.navCtlr.navigateForward(['tabs/inspection/damages']);
+      this.navCtlr.navigateForward(['/inspection/damages']);
     } else {
       const message = !carSet
         ? 'No ha seleccionado un vehículo'

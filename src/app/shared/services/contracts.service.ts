@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { ApiResponse } from '../interfaces/api-response';
-import { catchError, map, shareReplay } from 'rxjs';
+import { catchError, map, retry, shareReplay } from 'rxjs';
 import { Contract } from '../interfaces/contract';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { AlertService } from './alert.service';
@@ -10,6 +10,11 @@ import { AlertService } from './alert.service';
 @Injectable({
   providedIn: 'root',
 })
+
+/***********************************************************************************************
+ * Servicio de contratos, se encarga de las get de los contratos hacia la API y tambien
+ * se encarga de gestionar el estado global de los contratos
+ * *********************************************************************************************/
 export class ContractsService {
   //inyecta el cliente para hacer peticiones HTTP
   private httpClient = inject(HttpClient);
@@ -20,39 +25,35 @@ export class ContractsService {
   //inyeccion de servicios
   private alertService = inject(AlertService);
 
-  //se obtienen los vehiculos de la API y se almacena en la variable _contracts para su posterior uso
-  private _contracts = this.httpClient
-    .get<ApiResponse>(`${this.apiEndPoint}/list`)
-    .pipe(
-      map((res) => res.data as Contract[]),
-      catchError((error) => {
-        this.alertService.basicAlert(
-          'Error',
-          'Ocurrió un error al conectarse al servidor',
-          ['Ok']
-        );
-        return [];
-      }),
-      shareReplay(1)
-    );
-
-  //declaracion de signal a partir de los vehiculos
-  contracts = toSignal(this._contracts);
-  filteredContracts = toSignal(this._contracts);
+  //declaracion de propiedades
+  contracts = signal<Contract[]>([]);
   currentContract = signal<Contract>({} as Contract);
 
-  //método para buscar vehículo y filtrar el listado general
-  searchContract(vehicleName: string) {
-    this.filteredContracts()?.filter((x) =>
-      x.car?.nemVehiculo.toLowerCase().includes(vehicleName.toLowerCase())
-    );
+  constructor() {
+    const subsc = this.httpClient
+      .get<ApiResponse>(`${this.apiEndPoint}/list`)
+      .pipe(
+        retry(3),
+        catchError((error) => {
+          this.alertService.basicAlert(
+            'Error',
+            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
+            ['Ok']
+          );
+          return [];
+        }),
+        shareReplay(1)
+      )
+      .subscribe((response) => {
+        this.contracts.set(response.data as Contract[]);
+        subsc.unsubscribe();
+      });
   }
 
-  setCurrentContract(car: Contract) {
+  setCurrentContract(contract: Contract) {
     this.currentContract.update(() => {
-      return car;
+      return contract;
     });
   }
 
-  updateCurrentContract(car: Contract) {}
 }
