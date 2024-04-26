@@ -3,7 +3,7 @@
     <div class="content">
       <div>
         <img src="assets/img/logo.png" width="50%" />
-        <h2 style="margin-top: 0;">
+        <h2 style="margin-top: 0">
           <span>Xplore</span>
           <span style="color: var(--ion-color-secondary) !important">
             Inspecciones</span
@@ -31,24 +31,27 @@
       <ion-grid fixed>
         <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
           <ion-row>
-
             <ion-col size="12">
-              <ion-item>
+              <ion-item lines="none">
                 <ion-input
+                  required
                   formControlName="nickname"
                   label="Nombre de usuario:"
                   labelPlacement="stacked"
                   type="text"
                   placeholder="ingrese su nombre de usuario"
+                  errorText="Campo obligatorio"
                 ></ion-input>
               </ion-item>
-              <ion-item>
+              <ion-item lines="none">
                 <ion-input
+                  required
                   formControlName="password"
                   label="Contraseña:"
                   labelPlacement="stacked"
                   type="password"
                   placeholder="ingrese su contraseña"
+                  errorText="Campo obligatorio"
                 ></ion-input>
               </ion-item>
               <ion-button
@@ -63,7 +66,7 @@
               </ion-button>
             </ion-col>
           </ion-row>
-          </form>
+        </form>
       </ion-grid>
     </ion-card-content>
   </ion-card>

@@ -34,8 +34,9 @@ export class InspectionsService {
 
   //inyeccion de dependencias
   private navCtrl = inject(NavController);
+
   //declaracion de propiedades
-  inspections = signal<Inspection[] | undefined>(undefined);
+  inspections = signal<Inspection[]>([]);
   currentInspection = signal<Inspection | undefined>(undefined);
 
   constructor() {
@@ -77,7 +78,10 @@ export class InspectionsService {
       .subscribe(
         (res) => {
           this.alertsService.dismissDefaultLoading();
-          this.inspections()?.push(res.data);
+          this.inspections.update((values) => {
+            return [...values, res.data as Inspection];
+          });
+
           this.clearState();
           this.alertsService.basicAlert(
             'Éxito!',

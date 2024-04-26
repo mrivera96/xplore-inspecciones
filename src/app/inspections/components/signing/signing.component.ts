@@ -54,10 +54,9 @@ export class SigningComponent implements OnInit {
     //const parentWidth = this.signContainer.nativeElement.offsetWidth;
 
     this.canvas.width = window.innerWidth * 0.7;
-    // console.log(parentWidth);
 
     this.signaturePad = new SignaturePad(this.canvas, {
-      backgroundColor: 'white',
+      backgroundColor: '#f2f2f2',
     });
   }
 
