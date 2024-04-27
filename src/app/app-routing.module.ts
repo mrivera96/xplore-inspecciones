@@ -15,14 +15,7 @@ const routes: Routes = [
       import('./tabs/tabs.module').then((m) => m.TabsPageModule),
     canActivate: [UserGuard],
   },
-  {
-    path: 'inspection',
-    loadChildren: () =>
-      import('./inspections/inspection.module').then(
-        (m) => m.InspectionPageModule
-      ),
-      canActivate: [UserGuard],
-  },
+ 
   {
     path: 'login',
     loadChildren: () =>

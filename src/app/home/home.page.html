@@ -8,7 +8,7 @@
         fill="clear"
         shape="round"
       >
-      {{currentUser?.nomUsuario}}
+        {{currentUser?.nomUsuario}}
         <ion-icon slot="end" name="log-out"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -39,20 +39,70 @@
     <ion-item detail="true">
       <ion-icon color="primary" slot="start" name="checkmark-circle"></ion-icon>
       <ion-label color="secondary">
-        <h2 >
-          Vehículo: {{openInspection.car?.nemVehiculo}}
-        </h2>
-        <p>No. Inspección: {{openInspection.idInspeccion}} | No. Contrato: {{openInspection.contract?.numContrato}}</p>
+        <h2>Vehículo: {{openInspection.car?.nemVehiculo}}</h2>
+        <p>
+          No. Inspección: {{openInspection.idInspeccion}} | No. Contrato:
+          {{openInspection.contract?.numContrato}}
+        </p>
       </ion-label>
     </ion-item>
-    }@empty() {
+    } @empty() {
     <ion-item lines="none">
       <ion-icon slot="start" name="alert-circle"></ion-icon>
       <ion-label>No se encontraron inspecciones abiertas</ion-label>
     </ion-item>
     }
   </ion-list>
+  }@loading {
+  <ion-item>
+    <ion-icon slot="start" name="alert-circle"></ion-icon>
+    <ion-label>Obteniendo datos..</ion-label>
+    <ion-spinner color="secondary" name="crescent"></ion-spinner>
+  </ion-item>
+
   }@placeholder {
+  <ion-item>
+    <ion-icon slot="start" name="alert-circle"></ion-icon>
+    <ion-label>Obteniendo datos..</ion-label>
+    <ion-spinner color="secondary" name="crescent"></ion-spinner>
+  </ion-item>
+
+  } @defer (when closedInspections()) {
+  <ion-list lines="inset" inset="true">
+    <ion-list-header>
+      <ion-label>Inspecciones cerradas</ion-label>
+    </ion-list-header>
+
+    @for (closedInspection of closedInspections(); track $index) {
+    <ion-item detail="true">
+      <ion-icon
+        color="secondary"
+        slot="start"
+        name="checkmark-done-circle"
+      ></ion-icon>
+      <ion-label color="primary">
+        <h2>Vehículo: {{closedInspection.car?.nemVehiculo}}</h2>
+        <p>
+          No. Inspección: {{closedInspection.idInspeccion}} | No. Contrato:
+          {{closedInspection.contract?.numContrato}}
+        </p>
+      </ion-label>
+    </ion-item>
+    }@empty() {
+    <ion-item lines="none">
+      <ion-icon slot="start" name="alert-circle"></ion-icon>
+      <ion-label>No se encontraron inspecciones cerradas</ion-label>
+    </ion-item>
+    }
+  </ion-list>
+  }@placeholder {
+  <ion-item>
+    <ion-icon slot="start" name="alert-circle"></ion-icon>
+    <ion-label>Obteniendo datos..</ion-label>
+    <ion-spinner color="secondary" name="crescent"></ion-spinner>
+  </ion-item>
+
+  }@loading {
   <ion-item>
     <ion-icon slot="start" name="alert-circle"></ion-icon>
     <ion-label>Obteniendo datos..</ion-label>
@@ -82,5 +132,3 @@
     </ion-fab-list>
   </ion-fab>
 </ion-content>
-
-

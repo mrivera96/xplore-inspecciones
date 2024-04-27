@@ -10,6 +10,7 @@ import { AlertService } from './alert.service';
 import { ContractsService } from './contracts.service';
 import { DamagesService } from './damages.service';
 import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -34,6 +35,7 @@ export class InspectionsService {
 
   //inyeccion de dependencias
   private navCtrl = inject(NavController);
+  private router = inject(Router);
 
   //declaracion de propiedades
   inspections = signal<Inspection[]>([]);
@@ -91,7 +93,9 @@ export class InspectionsService {
                 text: 'Ok',
                 role: 'ok',
                 handler: () => {
-                  this.navCtrl.navigateRoot(['tabs/home']);
+                  this.router.navigate(['tabs/home'], {
+                    replaceUrl: true,
+                  });
                 },
               },
             ]
@@ -116,7 +120,7 @@ export class InspectionsService {
         (res) => {
           this.alertsService.dismissDefaultLoading();
           this.inspections.update((values) => {
-            const current = [ ...values ]
+            const current = [...values];
             const idx = current.findIndex(
               (x) => x.idInspeccion == this.currentInspection()?.idInspeccion
             );
@@ -133,7 +137,9 @@ export class InspectionsService {
                 text: 'Ok',
                 role: 'ok',
                 handler: () => {
-                  this.navCtrl.navigateRoot(['tabs/home']);
+                  this.router.navigate(['tabs/home'], {
+                    replaceUrl: true,
+                  });
                 },
               },
             ]

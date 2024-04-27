@@ -14,7 +14,7 @@ const routes: Routes = [
           import('../home/home.module').then((m) => m.HomePageModule),
       },
       {
-        path: 'settings',
+        path: 'inspection',
         loadChildren: () =>
           import('../inspections/inspection.module').then(
             (m) => m.InspectionPageModule

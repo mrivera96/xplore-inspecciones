@@ -24,6 +24,12 @@ export class HomePage {
       ?.filter((x) => x.state.descEstado == 'Abierta');
   });
 
+  protected closedInspections = computed(() => {
+    return this.inspectionsServices
+      .inspections()
+      ?.filter((x) => x.state.descEstado == 'Cerrada');
+  });
+
   //declaracion de propiedades
   currentUser = this.authService.getCurrentUser();
   constructor() {
@@ -67,7 +73,7 @@ export class HomePage {
   }
 
   goToCheckOut() {
-    this.navCtr.navigateForward(['/inspection'], {
+    this.navCtr.navigateForward(['tabs/inspection'], {
       state: { stage: 'checkout' },
     });
   }
@@ -79,7 +85,7 @@ export class HomePage {
       }
       return current as Inspection;
     });
-    this.navCtr.navigateForward(['/inspection'], {
+    this.navCtr.navigateForward(['tabs/inspection'], {
       state: { stage: 'checkin' },
     });
   }

@@ -35,4 +35,5 @@ export interface Inspection {
   comentariosLlantasTraseras?: string;
   comentariosBateria?: string;
   stage?: string;
+  idEstado?:number
 }

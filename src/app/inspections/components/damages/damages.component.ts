@@ -1,12 +1,12 @@
-import { Component, Input, OnInit, effect, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, effect, inject } from '@angular/core';
 import { IonicModule, NavController } from '@ionic/angular';
 import { Damage } from 'src/app/shared/interfaces/damage';
+import { AlertService } from 'src/app/shared/services/alert.service';
 import { DamagePartsService } from 'src/app/shared/services/damage-parts.service';
 import { DamagesService } from 'src/app/shared/services/damages.service';
+import { InspectionsService } from 'src/app/shared/services/inspections.service';
 import { PhotoService } from 'src/app/shared/services/photo.service';
 import { DamagePhotosComponent } from '../damage-photos/damage-photos.component';
-import { AlertService } from 'src/app/shared/services/alert.service';
-import { InspectionsService } from 'src/app/shared/services/inspections.service';
 
 @Component({
   selector: 'app-damages',
@@ -15,7 +15,7 @@ import { InspectionsService } from 'src/app/shared/services/inspections.service'
   standalone: true,
   imports: [IonicModule, DamagePhotosComponent],
 })
-export class DamagesComponent implements OnInit {
+export class DamagesComponent implements OnInit, OnDestroy {
   //inyeccion de servicios
   protected photoService = inject(PhotoService);
   private damagesService = inject(DamagesService);
@@ -55,7 +55,7 @@ export class DamagesComponent implements OnInit {
 
   ngOnInit() {}
 
-  ndOnDestroy() {
+  ngOnDestroy() {
     this.damage = {} as Damage;
   }
 
@@ -78,14 +78,14 @@ export class DamagesComponent implements OnInit {
             text: 'Ok',
             role: 'ok',
             handler: () => {
-              this.navCtrl.navigateForward(['/inspection/accessories']);
+              this.navCtrl.navigateForward(['tabs/inspection/accessories']);
             },
           },
           'Cancel',
         ]
       );
     } else {
-      this.navCtrl.navigateForward(['/inspection/accessories']);
+      this.navCtrl.navigateForward(['tabs/inspection/accessories']);
     }
   }
 

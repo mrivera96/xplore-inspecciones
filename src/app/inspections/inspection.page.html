@@ -25,13 +25,13 @@
         <ion-card style="border-radius: 10px">
           <ion-item lines="none">
             <ion-label>Seleccione un Vehiculo</ion-label>
-            @defer (when contracts()) {
+            @defer (when contracts) {
             <ion-icon color="secondary" slot="start" name="car"></ion-icon>
             <ionic-selectable
               [formControl]="carForm"
               class="ion-margin-start"
               color="secondary"
-              [items]="cars()!"
+              [items]="cars"
               itemValueField="idVehiculo"
               itemTextField="nemVehiculo"
               [canSearch]="true"
@@ -94,7 +94,7 @@
           <ion-item>
             <ion-input
               color="secondary"
-              [value]="currentContract.customer.nomCliente"
+              [value]="currentContract.customer?.nomCliente"
               labelPlacement="stacked"
               label="Nombre del cliente"
               type="text"
@@ -106,7 +106,7 @@
           <ion-item>
             <ion-input
               color="secondary"
-              [value]="currentContract.customer.correoI"
+              [value]="currentContract.customer?.correoI"
               labelPlacement="stacked"
               label="Correo electrónico del cliente"
               type="text"
@@ -118,7 +118,7 @@
           <ion-item>
             <ion-input
               color="secondary"
-              [value]="currentContract.customer.celularI"
+              [value]="currentContract.customer?.celularI"
               labelPlacement="stacked"
               label="Número celular del cliente"
               type="text"

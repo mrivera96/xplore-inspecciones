@@ -1,4 +1,4 @@
-import { Component, computed, effect, inject } from '@angular/core';
+import { Component, OnDestroy, effect, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
@@ -12,7 +12,7 @@ import { InspectionsService } from '../shared/services/inspections.service';
   templateUrl: 'inspection.page.html',
   styleUrls: ['inspection.page.scss'],
 })
-export class InspectionPage {
+export class InspectionPage implements OnDestroy {
   //inyeccion de servicios
   private contractsService = inject(ContractsService);
   private inspectionsServices = inject(InspectionsService);
@@ -24,14 +24,12 @@ export class InspectionPage {
 
   //declaracion de propiedades
   title = '';
-  contracts = this.contractsService.contracts;
+  contracts: Contract[] = [];
   protected currentInspection = this.inspectionsServices.currentInspection;
   _currentContract = this.contractsService.currentContract;
   currentContract: Contract = {} as Contract;
   carForm: FormControl;
-  cars = computed(() => {
-    return this.contracts()?.map((a) => a.car);
-  });
+  cars = [];
   currentStage: string;
 
   constructor() {
@@ -41,12 +39,24 @@ export class InspectionPage {
 
     this.carForm = new FormControl(this.currentContract.idVehiculo || null);
     effect(() => {
+      if (this.currentStage == 'checkin') {
+        this.contracts = this.contractsService
+          .contracts()
+          .filter((x) => x.inspection?.idEstado == 48) as Contract[];
+      } else {
+        this.contracts = this.contractsService.contracts();
+      }
+
+      this.cars = this.contracts.map((a) => a.car) as [];
+
       this.currentContract = this.contractsService.currentContract();
     });
   }
 
   ngOnDestroy() {
     this._currentContract.set({} as Contract);
+    this.currentInspection.set(undefined);
+    this.cars = [];
   }
   //Establece el vehiculo en el estado global de la inspección actual
   selectContract(e: any) {
@@ -103,13 +113,14 @@ export class InspectionPage {
         current.odoSalida =
           this.contractsService.currentContract().car?.odometro;
         current.nomRecibeVehiculo =
-          this.contractsService.currentContract().customer.nomCliente;
+          this.contractsService.currentContract().customer?.nomCliente;
         current.daniosSalida = [];
         current.accesoriosSalida = [];
       }
 
       return current as Inspection;
     });
+    console.log(this.inspectionsServices.currentInspection());
   }
 
   goToNext() {
@@ -127,7 +138,7 @@ export class InspectionPage {
     }
 
     if (carSet && fuelSet && odoSet) {
-      this.navCtlr.navigateForward(['/inspection/damages']);
+      this.navCtlr.navigateForward(['tabs/inspection/damages']);
     } else {
       const message = !carSet
         ? 'No ha seleccionado un vehículo'
