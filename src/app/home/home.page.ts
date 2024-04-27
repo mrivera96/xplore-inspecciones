@@ -27,7 +27,6 @@ export class HomePage {
   //declaracion de propiedades
   currentUser = this.authService.getCurrentUser();
   constructor() {
-    
     // //test
     // this.inspectionsServices.currentInspection.set({
     //   idVehiculo: 74,
@@ -73,7 +72,13 @@ export class HomePage {
     });
   }
   goToCheckIn() {
-    this.inspectionsServices.currentInspection.set()
+    this.inspectionsServices.currentInspection.update((value) => {
+      const current = { ...value };
+      {
+        current.stage = 'checkin';
+      }
+      return current as Inspection;
+    });
     this.navCtr.navigateForward(['/inspection'], {
       state: { stage: 'checkin' },
     });
