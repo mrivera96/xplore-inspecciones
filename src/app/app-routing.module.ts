@@ -16,10 +16,23 @@ const routes: Routes = [
     canActivate: [UserGuard],
   },
   {
+    path: 'inspection',
+    loadChildren: () =>
+      import('./inspections/inspection.module').then(
+        (m) => m.InspectionPageModule
+      ),
+      canActivate: [UserGuard],
+  },
+  {
     path: 'login',
     loadChildren: () =>
       import('./login/login.module').then((m) => m.LoginPageModule),
-      canActivate:[LoginGuard]
+    canActivate: [LoginGuard],
+  },
+  {
+    path: '**',
+    redirectTo: 'tabs',
+    pathMatch: 'full',
   },
 ];
 @NgModule({

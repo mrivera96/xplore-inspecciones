@@ -127,7 +127,7 @@ export class InspectionPage {
     }
 
     if (carSet && fuelSet && odoSet) {
-      this.navCtlr.navigateForward(['tabs/inspection/damages']);
+      this.navCtlr.navigateForward(['/inspection/damages']);
     } else {
       const message = !carSet
         ? 'No ha seleccionado un vehículo'

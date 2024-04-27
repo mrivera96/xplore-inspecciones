@@ -82,14 +82,14 @@ export class AccessoriesComponent implements OnInit {
             text: 'Ok',
             role: 'ok',
             handler: () => {
-              this.navCtrl.navigateForward(['tabs/inspection/signing']);
+              this.navCtrl.navigateForward(['/inspection/signing']);
             },
           },
           'Cancel',
         ]
       );
     } else {
-      this.navCtrl.navigateForward(['tabs/inspection/signing']);
+      this.navCtrl.navigateForward(['/inspection/signing']);
     }
   }
   goToPrev() {
