@@ -27,17 +27,25 @@ export class DamagesComponent implements OnInit {
   navCtrl = inject(NavController);
 
   //declaracion de propiedades
-
+  title = '';
   protected damageParts = this.damagePartsService.damageParts;
   damages = this.damagesService.damages;
   damage = {} as Damage;
 
   constructor() {
+    
+    this.title = this.inspectionsService.currentInspection()?.stage == 'checkin' ? ' Checkin' : ' Checkout';
     effect(() => {
       this.damageParts()?.forEach((x) => {
-        x.count = this.currentInspection()?.daniosSalida.filter(
-          (y) => x.idPieza == y.idPieza
-        ).length;
+        if (this.currentInspection()?.stage == 'checkin') {
+          x.count = this.currentInspection()?.daniosEntrega.filter(
+            (y) => x.idPieza == y.idPieza
+          ).length;
+        } else {
+          x.count = this.currentInspection()?.daniosSalida.filter(
+            (y) => x.idPieza == y.idPieza
+          ).length;
+        }
       });
       this.damage = {} as Damage;
     });
@@ -57,7 +65,11 @@ export class DamagesComponent implements OnInit {
   }
 
   goToNext() {
-    if (this.currentInspection()?.daniosSalida.length == 0) {
+    const validator =
+      this.currentInspection()?.stage == 'checkout'
+        ? this.currentInspection()?.daniosSalida.length
+        : this.currentInspection()?.daniosEntrega.length;
+    if (validator == 0) {
       this.alertsService.basicAlert(
         'Atención!',
         'No ha registrado ningún daño. ¿Desea continuar?',

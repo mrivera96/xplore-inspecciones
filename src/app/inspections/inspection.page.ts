@@ -23,6 +23,7 @@ export class InspectionPage {
   router = inject(Router);
 
   //declaracion de propiedades
+  title = '';
   contracts = this.contractsService.contracts;
   protected currentInspection = this.inspectionsServices.currentInspection;
   _currentContract = this.contractsService.currentContract;
@@ -36,6 +37,7 @@ export class InspectionPage {
   constructor() {
     this.currentStage =
       this.router.getCurrentNavigation()?.extras?.state?.['stage'];
+    this.title = this.currentStage == 'checkin' ? ' Checkin' : ' Checkout';
 
     this.carForm = new FormControl(this.currentContract.idVehiculo || null);
     effect(() => {
@@ -43,29 +45,67 @@ export class InspectionPage {
     });
   }
 
-  ngOnDestroy(){
-    this._currentContract.set({} as Contract)
+  ngOnDestroy() {
+    this._currentContract.set({} as Contract);
   }
   //Establece el vehiculo en el estado global de la inspección actual
   selectContract(e: any) {
-    //this.currentInspeccion.update((inspection)=>)
     const currentContract = this.contractsService
       .contracts()
       ?.find((x) => x.idVehiculo == e.value.idVehiculo) as Contract;
 
     this.contractsService.setCurrentContract(currentContract);
+    const current = this.inspectionsServices
+      .inspections()
+      .find((x) => x.idContrato == currentContract.idContrato);
+    if (this.currentStage == 'checkin' && current != undefined) {
+      this.initializeCheckin(current);
+    } else {
+      this.initializeCheckout();
+    }
+  }
+
+  private initializeCheckin(current: Inspection) {
+    this.inspectionsServices.currentInspection.set(current);
     this.inspectionsServices.currentInspection.update((values) => {
       const current = { ...values };
       {
-        current.idVehiculo = currentContract.idVehiculo;
-        current.idContrato = currentContract.idContrato;
-        current.idCliente = currentContract.idCliente;
-        current.idAgenciaSalida = currentContract.idAgenciaSalida;
-        current.fechaSalida = currentContract.fechaSalida;
-        current.odoSalida = currentContract.car?.odometro;
-        current.nomRecibeVehiculo = currentContract.customer.nomCliente;
+        current.stage = this.currentStage;
+        current.odoEntrega = current.odoSalida;
+        current.daniosEntrega = [];
+        current.accesoriosEntrega = [];
+      }
+      return current as Inspection;
+    });
+
+    this.contractsService.currentContract.update((values) => {
+      const current = { ...values };
+      {
+        if (current.car) {
+          current.car.odometro = this.currentInspection()?.odoSalida;
+        }
+      }
+      return current as Contract;
+    });
+  }
+  private initializeCheckout() {
+    this.inspectionsServices.currentInspection.update((values) => {
+      const current = { ...values };
+      {
+        current.stage = this.currentStage;
+        current.idVehiculo = this.contractsService.currentContract().idVehiculo;
+        current.idContrato = this.contractsService.currentContract().idContrato;
+        current.idCliente = this.contractsService.currentContract().idCliente;
+        current.idAgenciaSalida =
+          this.contractsService.currentContract().idAgenciaSalida;
+        current.fechaSalida =
+          this.contractsService.currentContract().fechaSalida;
+        current.odoSalida =
+          this.contractsService.currentContract().car?.odometro;
+        current.nomRecibeVehiculo =
+          this.contractsService.currentContract().customer.nomCliente;
         current.daniosSalida = [];
-        current.accesoriosSalida   = [];
+        current.accesoriosSalida = [];
       }
 
       return current as Inspection;
@@ -73,9 +113,18 @@ export class InspectionPage {
   }
 
   goToNext() {
-    const carSet = this.currentInspection()?.idVehiculo != undefined;
-    const fuelSet = this.currentInspection()?.combSalida != null;
-    const odoSet = this.currentInspection()?.odoSalida != null;
+    let carSet = undefined;
+    let fuelSet = undefined;
+    let odoSet = undefined;
+    if (this.currentInspection()?.stage == 'checkin') {
+      carSet = this.currentInspection()?.idVehiculo != undefined;
+      fuelSet = this.currentInspection()?.combEntrega != null;
+      odoSet = this.currentInspection()?.odoEntrega != null;
+    } else {
+      carSet = this.currentInspection()?.idVehiculo != undefined;
+      fuelSet = this.currentInspection()?.combSalida != null;
+      odoSet = this.currentInspection()?.odoSalida != null;
+    }
 
     if (carSet && fuelSet && odoSet) {
       this.navCtlr.navigateForward(['tabs/inspection/damages']);
@@ -91,8 +140,14 @@ export class InspectionPage {
   setOdometer(e: any) {
     this.inspectionsServices.currentInspection.update((values) => {
       const current = { ...values };
-      {
-        current.odoSalida = parseInt(e.target.value);
+      if (current.stage == 'checkin') {
+        {
+          current.odoEntrega = parseInt(e.target.value);
+        }
+      } else {
+        {
+          current.odoSalida = parseInt(e.target.value);
+        }
       }
 
       return current as Inspection;
@@ -102,8 +157,14 @@ export class InspectionPage {
   setFuel(e: any) {
     this.inspectionsServices.currentInspection.update((values) => {
       const current = { ...values };
-      {
-        current.combSalida = e.target.value.toString().trim();
+      if (current.stage == 'checkin') {
+        {
+          current.combEntrega = e.target.value.toString().trim();
+        }
+      } else {
+        {
+          current.combSalida = e.target.value.toString().trim();
+        }
       }
 
       return current as Inspection;

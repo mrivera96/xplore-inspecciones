@@ -47,7 +47,11 @@ export class DamagePhotosComponent implements OnInit {
       this.inspectionsService.currentInspection.update((values) => {
         const current = { ...values };
         {
-          current.daniosSalida?.push(this.damage);
+          if (current.stage == 'checkout') {
+            current.daniosSalida?.push(this.damage);
+          } else {
+            current.daniosEntrega?.push(this.damage);
+          }
         }
 
         return current as Inspection;

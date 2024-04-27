@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
-import { catchError, map, shareReplay } from 'rxjs';
 import SignaturePad from 'signature_pad';
 import { Inspection } from 'src/app/shared/interfaces/inspection';
 import { AlertService } from 'src/app/shared/services/alert.service';
@@ -40,7 +39,10 @@ export class SigningComponent implements OnInit {
   currentInspection = this.inspectionsService.currentInspection;
 
   @ViewChild('signContainer') signContainer!: ElementRef<HTMLElement>;
-  constructor() {}
+  title: string;
+  constructor() {
+    this.title = this.inspectionsService.currentInspection()?.stage == 'checkin' ? ' Checkin' : ' Checkout';
+  }
 
   ngOnInit() {}
   ngOnDestroy() {
@@ -72,23 +74,48 @@ export class SigningComponent implements OnInit {
         ['Ok']
       );
     } else {
-      this.currentInspection.update((values) => {
-        const current = { ...values };
-        {
-          current.firmaClienteSalida =
-            this.signaturePad?.toDataURL('image/png');
-          current.comentariosLlantasDelanteras =
-            this.notas.comentariosLlantasDelanteras;
-          current.comentariosLlantasTraseras =
-            this.notas.comentariosLlantasTraseras;
-          current.comentariosBateria = this.notas.comentariosBateria;
-        }
-
-        return current as Inspection;
-      });
-
-      this.inspectionsService.createInspection();
+      if (this.currentInspection()?.stage == 'checkout') {
+        this.saveCheckout();
+      } else {
+        this.saveCheckin();
+      }
     }
+  }
+
+  saveCheckout() {
+    this.currentInspection.update((values) => {
+      const current = { ...values };
+      {
+        current.firmaClienteSalida = this.signaturePad?.toDataURL('image/png');
+        current.comentariosLlantasDelanteras =
+          this.notas.comentariosLlantasDelanteras;
+        current.comentariosLlantasTraseras =
+          this.notas.comentariosLlantasTraseras;
+        current.comentariosBateria = this.notas.comentariosBateria;
+      }
+
+      return current as Inspection;
+    });
+
+    this.inspectionsService.createInspection();
+  }
+
+  saveCheckin() {
+    this.currentInspection.update((values) => {
+      const current = { ...values };
+      {
+        current.firmaClienteEntrega = this.signaturePad?.toDataURL('image/png');
+        current.comentariosLlantasDelanteras =
+          this.notas.comentariosLlantasDelanteras;
+        current.comentariosLlantasTraseras =
+          this.notas.comentariosLlantasTraseras;
+        current.comentariosBateria = this.notas.comentariosBateria;
+      }
+
+      return current as Inspection;
+    });
+
+    this.inspectionsService.closeInspection();
   }
 
   goToPrev() {

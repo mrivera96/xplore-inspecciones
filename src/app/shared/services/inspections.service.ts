@@ -108,6 +108,48 @@ export class InspectionsService {
       );
   }
 
+  async closeInspection() {
+    await this.alertsService.presentLoading();
+    this.httpClient
+      .post<ApiResponse>(`${this.apiEndPoint}/close`, this.currentInspection())
+      .subscribe(
+        (res) => {
+          this.alertsService.dismissDefaultLoading();
+          this.inspections.update((values) => {
+            const current = [ ...values ]
+            const idx = current.findIndex(
+              (x) => x.idInspeccion == this.currentInspection()?.idInspeccion
+            );
+            current[idx] = res.data as Inspection;
+            return current;
+          });
+
+          this.clearState();
+          this.alertsService.basicAlert(
+            'Éxito!',
+            `Se cerró exitosamente la inspección No. : ${res.data.idInspeccion}`,
+            [
+              {
+                text: 'Ok',
+                role: 'ok',
+                handler: () => {
+                  this.navCtrl.navigateRoot(['tabs/home']);
+                },
+              },
+            ]
+          );
+        },
+        (error: any) => {
+          this.alertsService.dismissDefaultLoading();
+          this.alertsService.basicAlert(
+            'Error',
+            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
+            ['Ok']
+          );
+        }
+      );
+  }
+
   clearState() {
     this.currentInspection.set(undefined);
     this.contractsService.currentContract.set({} as Contract);

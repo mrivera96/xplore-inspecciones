@@ -25,8 +25,11 @@ export class AccessoriesComponent implements OnInit {
   //declaracion de propiedades
   protected accessories = this.accessoriesService.accessories;
   currentInspection = this.inspectionsService.currentInspection;
+  title: string;
 
-  constructor() {}
+  constructor() {
+    this.title = this.inspectionsService.currentInspection()?.stage == 'checkin' ? ' Checkin' : ' Checkout';
+  }
 
   ngOnInit() {}
 
@@ -36,7 +39,11 @@ export class AccessoriesComponent implements OnInit {
       this.inspectionsService.currentInspection.update((values) => {
         const current = { ...values };
         {
-          current.accesoriosSalida?.push(accessory);
+          if (current.stage == 'checkout') {
+            current.accesoriosSalida?.push(accessory);
+          } else {
+            current.accesoriosEntrega?.push(accessory);
+          }
         }
 
         return current as Inspection;
@@ -45,9 +52,15 @@ export class AccessoriesComponent implements OnInit {
       this.inspectionsService.currentInspection.update((values) => {
         const current = { ...values };
         {
-          current.accesoriosSalida = current.accesoriosSalida?.filter(
-            (x) => x.idAccesorio != accessory.idAccesorio
-          );
+          if (current.stage == 'checkout') {
+            current.accesoriosSalida = current.accesoriosSalida?.filter(
+              (x) => x.idAccesorio != accessory.idAccesorio
+            );
+          } else {
+            current.accesoriosEntrega = current.accesoriosEntrega?.filter(
+              (x) => x.idAccesorio != accessory.idAccesorio
+            );
+          }
         }
 
         return current as Inspection;
@@ -56,7 +69,11 @@ export class AccessoriesComponent implements OnInit {
   }
 
   goToNext() {
-    if (this.currentInspection()?.accesoriosSalida.length == 0) {
+    const validator =
+      this.currentInspection()?.stage == 'checkout'
+        ? this.currentInspection()?.accesoriosSalida.length
+        : this.currentInspection()?.accesoriosEntrega.length;
+    if (validator == 0) {
       this.alertsService.basicAlert(
         'Atención!',
         'No ha registrado ningún accesorio. ¿Desea continuar?',
