@@ -83,6 +83,14 @@ export class InspectionsService {
           this.inspections.update((values) => {
             return [...values, res.data as Inspection];
           });
+          this.contractsService.contracts.update((values) => {
+            const current = [...values];
+            const idx = current.findIndex(
+              (x) => x.idContrato == this.currentInspection()?.idContrato
+            );
+            current[idx].inspection = res.data as Inspection;
+            return current;
+          });
 
           this.clearState();
           this.alertsService.basicAlert(
@@ -127,6 +135,16 @@ export class InspectionsService {
             current[idx] = res.data as Inspection;
             return current;
           });
+
+          this.contractsService.contracts.update((values) => {
+            const current = [...values];
+            const idx = current.findIndex(
+              (x) => x.idContrato == this.currentInspection()?.idContrato
+            );
+            current[idx].inspection = res.data as Inspection;
+            return current;
+          });
+
 
           this.clearState();
           this.alertsService.basicAlert(

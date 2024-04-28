@@ -7,6 +7,7 @@ import { Inspection } from '../shared/interfaces/inspection';
 import { AlertService } from '../shared/services/alert.service';
 import { ContractsService } from '../shared/services/contracts.service';
 import { InspectionsService } from '../shared/services/inspections.service';
+import { PhotoService } from '../shared/services/photo.service';
 @Component({
   selector: 'app-inspection',
   templateUrl: 'inspection.page.html',
@@ -17,6 +18,7 @@ export class InspectionPage implements OnDestroy {
   private contractsService = inject(ContractsService);
   private inspectionsServices = inject(InspectionsService);
   private alertsService = inject(AlertService);
+  private photoService = inject(PhotoService);
 
   //inyeccion de dependencias
   navCtlr = inject(NavController);
@@ -37,14 +39,18 @@ export class InspectionPage implements OnDestroy {
       this.router.getCurrentNavigation()?.extras?.state?.['stage'];
     this.title = this.currentStage == 'checkin' ? ' Checkin' : ' Checkout';
 
-    this.carForm = new FormControl(this.currentContract.idVehiculo || null);
+    this.carForm = new FormControl(null);
     effect(() => {
+      console.log(this.currentInspection());
+      console.log(this.inspectionsServices.inspections());
       if (this.currentStage == 'checkin') {
         this.contracts = this.contractsService
           .contracts()
           .filter((x) => x.inspection?.idEstado == 48) as Contract[];
       } else {
-        this.contracts = this.contractsService.contracts();
+        this.contracts = this.contractsService
+          .contracts()
+          .filter((x) => x.inspection == undefined) as Contract[];
       }
 
       this.cars = this.contracts.map((a) => a.car) as [];
@@ -52,6 +58,9 @@ export class InspectionPage implements OnDestroy {
       this.currentContract = this.contractsService.currentContract();
     });
   }
+  // ngOnInit() {
+  //   this.carForm = new FormControl(null);
+  // }
 
   ngOnDestroy() {
     this._currentContract.set({} as Contract);
@@ -120,7 +129,6 @@ export class InspectionPage implements OnDestroy {
 
       return current as Inspection;
     });
-    console.log(this.inspectionsServices.currentInspection());
   }
 
   goToNext() {
@@ -179,6 +187,20 @@ export class InspectionPage implements OnDestroy {
       }
 
       return current as Inspection;
+    });
+  }
+
+  addDocument() {
+    this.photoService.addNewToGallery().then(() => {
+      this.inspectionsServices.currentInspection.update((values) => {
+        const current = { ...values };
+        {
+          current.fotoLicencia = this.photoService.photos[0];
+        }
+
+        return current as Inspection;
+      });
+      this.photoService.clearPhotos();
     });
   }
 }

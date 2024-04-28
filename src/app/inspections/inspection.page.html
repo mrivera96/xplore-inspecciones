@@ -183,9 +183,9 @@
     <app-signing></app-signing>
     }} -->
   </ion-grid>
-  @if(currentInspection()?.idVehiculo != undefined){
+  @if(currentInspection()?.idVehiculo != undefined && currentStage == 'checkout'){
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button>
+    <ion-fab-button (click)="addDocument()">
       <ion-icon name="document-attach"></ion-icon>
     </ion-fab-button>
   </ion-fab>

@@ -18,7 +18,7 @@
     <div class="content">
       <h2>
         <span style="color: var(--ion-color-secondary) !important">
-          {{title}}</span
+          {{ title }}</span
         ><span> Inspección</span>
       </h2>
     </div>
@@ -27,24 +27,34 @@
 <ion-content [fullscreen]="true">
   <ion-grid fixed>
     <h3>Seleccionar los accesorios</h3>
-<ion-list>
-  @defer (when accessories()) { @for (accessory of accessories(); track $index)
-  {
-  <ion-item>
-    <ion-checkbox
-      (ionChange)="onAccessoryAdd($event, accessory)"
-      [value]="accessory.idAccesorio"
-      >{{ accessory.nomAccesorio }}</ion-checkbox
-    >
-  </ion-item>
-  } }@placeholder(){
-  <ion-item>
-    <ion-label>Obteniendo datos..</ion-label>
-    <ion-spinner color="secondary" name="crescent"></ion-spinner>
-  </ion-item>
+    <ion-list>
+      @defer (when accessories()) { @for (accessory of accessories(); track
+      $index) {
+      <ion-item>
+        @if(currentInspection()?.stage=='checkin'){
 
-  }
-</ion-list>
+        <ion-checkbox
+          color="secondary"
+          disabled="true"
+          slot="end"
+          [checked]="accessory.isInCheckout"
+        >
+        </ion-checkbox>
+        }
+
+        <ion-checkbox
+          (ionChange)="onAccessoryAdd($event, accessory)"
+          [value]="accessory.idAccesorio"
+          >{{ accessory.nomAccesorio }}</ion-checkbox
+        >
+      </ion-item>
+      } }@placeholder(){
+      <ion-item>
+        <ion-label>Obteniendo datos..</ion-label>
+        <ion-spinner color="secondary" name="crescent"></ion-spinner>
+      </ion-item>
+
+      }
+    </ion-list>
   </ion-grid>
 </ion-content>
-

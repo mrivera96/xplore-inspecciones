@@ -1,5 +1,5 @@
 export interface Accessory {
-  nomAccesorio: string;
-
-  idAccesorio: number;
+  nomAccesorio?: string;
+  idAccesorio?: number;
+  isInCheckout?: boolean;
 }

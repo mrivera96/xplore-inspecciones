@@ -36,4 +36,5 @@ export interface Inspection {
   comentariosBateria?: string;
   stage?: string;
   idEstado?:number
+  checkout_accessories?:any[] 
 }

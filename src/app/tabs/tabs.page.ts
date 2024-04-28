@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['tabs.page.scss'],
 })
 export class TabsPage {
+  //inyeccion de servicios
+
+  //inyeccion de dependencias
   private router = inject(Router);
   constructor() {}
 

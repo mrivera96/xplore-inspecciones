@@ -28,7 +28,27 @@ export class AccessoriesComponent implements OnInit {
   title: string;
 
   constructor() {
-    this.title = this.inspectionsService.currentInspection()?.stage == 'checkin' ? ' Checkin' : ' Checkout';
+    this.title =
+      this.inspectionsService.currentInspection()?.stage == 'checkin'
+        ? ' Checkin'
+        : ' Checkout';
+
+    if (this.inspectionsService.currentInspection()?.stage == 'checkin') {
+      this.accessories.update((values) => {
+        const current = [...values];
+        current.forEach((accessory) => {
+          const accesories = this.currentInspection()?.checkout_accessories;
+          if (
+            accesories != undefined &&
+            accesories.some((x) => x.idAccesorio == accessory.idAccesorio)
+          ) {
+            accessory.isInCheckout = true;
+          }
+        });
+
+        return current;
+      });
+    }
   }
 
   ngOnInit() {}
