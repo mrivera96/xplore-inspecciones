@@ -42,7 +42,6 @@ export class InspectionPage implements OnDestroy {
     this.carForm = new FormControl(null);
     effect(() => {
       console.log(this.currentInspection());
-      console.log(this.inspectionsServices.inspections());
       if (this.currentStage == 'checkin') {
         this.contracts = this.contractsService
           .contracts()
@@ -146,7 +145,7 @@ export class InspectionPage implements OnDestroy {
     }
 
     if (carSet && fuelSet && odoSet) {
-      this.navCtlr.navigateForward(['tabs/inspection/damages']);
+      this.navCtlr.navigateForward(['/inspection/damages']);
     } else {
       const message = !carSet
         ? 'No ha seleccionado un vehículo'

@@ -5,7 +5,6 @@ import { DamagesComponent } from './components/damages/damages.component';
 import { UserGuard } from '../shared/guards/user.guard';
 import { AccessoriesComponent } from './components/accessories/accessories.component';
 import { SigningComponent } from './components/signing/signing.component';
-import { ReviewComponent } from './components/review/review.component';
 import { InspectionGuard } from '../shared/guards/inspection.guard';
 
 const routes: Routes = [
@@ -29,11 +28,7 @@ const routes: Routes = [
     component: SigningComponent,
     canActivate: [UserGuard, InspectionGuard],
   },
-  {
-    path: 'review',
-    component: ReviewComponent,
-    canActivate: [UserGuard, InspectionGuard],
-  },
+
 ];
 
 @NgModule({

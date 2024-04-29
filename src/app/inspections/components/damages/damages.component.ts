@@ -78,14 +78,14 @@ export class DamagesComponent implements OnInit, OnDestroy {
             text: 'Ok',
             role: 'ok',
             handler: () => {
-              this.navCtrl.navigateForward(['tabs/inspection/accessories']);
+              this.navCtrl.navigateForward(['/inspection/accessories']);
             },
           },
           'Cancel',
         ]
       );
     } else {
-      this.navCtrl.navigateForward(['tabs/inspection/accessories']);
+      this.navCtrl.navigateForward(['/inspection/accessories']);
     }
   }
 

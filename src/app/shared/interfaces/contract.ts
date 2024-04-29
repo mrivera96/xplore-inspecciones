@@ -15,4 +15,5 @@ export interface Contract {
   customer?: Customer;
   car?: Car;
   check_out_agency?: Agency
+  check_in_agency?: Agency
 }

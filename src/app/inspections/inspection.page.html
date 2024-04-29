@@ -1,5 +1,11 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button slot="start" routerLink="['/tabs/home']">
+        Atrás
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
     <ion-buttons slot="end">
       <ion-button slot="end" (click)="goToNext()">
         Siguiente

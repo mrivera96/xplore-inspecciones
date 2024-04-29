@@ -14,13 +14,6 @@ const routes: Routes = [
           import('../home/home.module').then((m) => m.HomePageModule),
       },
       {
-        path: 'inspection',
-        loadChildren: () =>
-          import('../inspections/inspection.module').then(
-            (m) => m.InspectionPageModule
-          ),
-      },
-      {
         path: 'tab3',
         loadChildren: () =>
           import('../settings/settings.module').then((m) => m.SettingsPageModule),

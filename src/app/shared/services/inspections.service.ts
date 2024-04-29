@@ -62,13 +62,6 @@ export class InspectionsService {
       });
   }
 
-  selectInspection(id: number) {
-    const selectedInspection = this.inspections()?.find(
-      (x) => x.idVehiculo == id
-    );
-    this.currentInspection.set(selectedInspection);
-  }
-
   updateCurrentInspection(inspect: Inspection) {
     this.currentInspection.update(() => inspect);
   }
@@ -144,7 +137,6 @@ export class InspectionsService {
             current[idx].inspection = res.data as Inspection;
             return current;
           });
-
 
           this.clearState();
           this.alertsService.basicAlert(

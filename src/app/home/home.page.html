@@ -36,7 +36,7 @@
     </ion-list-header>
 
     @for (openInspection of openInspections(); track $index) {
-    <ion-item detail="true">
+    <ion-item button (click)="gotToReview(openInspection)">
       <ion-icon color="primary" slot="start" name="checkmark-circle"></ion-icon>
       <ion-label color="secondary">
         <h2>Vehículo: {{openInspection.car?.nemVehiculo}}</h2>
@@ -74,7 +74,7 @@
     </ion-list-header>
 
     @for (closedInspection of closedInspections(); track $index) {
-    <ion-item detail="true">
+    <ion-item button (click)="gotToReview(closedInspection)">
       <ion-icon
         color="secondary"
         slot="start"

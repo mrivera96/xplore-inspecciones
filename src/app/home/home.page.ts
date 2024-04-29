@@ -3,6 +3,7 @@ import { InspectionsService } from '../shared/services/inspections.service';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../shared/services/auth.service';
 import { Inspection } from '../shared/interfaces/inspection';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -15,19 +16,19 @@ export class HomePage {
   private authService = inject(AuthService);
 
   //inyeccion de dependencias
-  private navCtr = inject(NavController);
+  private router = inject(Router);
 
   //declara la variable signal que filtra las inspecciones en estado abierto
   protected openInspections = computed(() => {
     return this.inspectionsServices
       .inspections()
-      ?.filter((x) => x.state.descEstado == 'Abierta');
+      ?.filter((x) => x.state?.descEstado == 'Abierta');
   });
 
   protected closedInspections = computed(() => {
     return this.inspectionsServices
       .inspections()
-      ?.filter((x) => x.state.descEstado == 'Cerrada');
+      ?.filter((x) => x.state?.descEstado == 'Cerrada');
   });
 
   //declaracion de propiedades
@@ -46,7 +47,7 @@ export class HomePage {
       }
       return current as Inspection;
     });
-    this.navCtr.navigateForward(['tabs/inspection'], {
+    this.router.navigate(['inspection'], {
       state: { stage: 'checkout' },
     });
   }
@@ -58,9 +59,14 @@ export class HomePage {
       }
       return current as Inspection;
     });
-    this.navCtr.navigateForward(['tabs/inspection'], {
+    this.router.navigate(['inspection'], {
       state: { stage: 'checkin' },
     });
+  }
+
+  gotToReview(inspection: Inspection) {
+    this.inspectionsServices.currentInspection.set(inspection);
+    this.router.navigate(['/inspection-review']);
   }
 
   onLogout() {

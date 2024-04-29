@@ -2,6 +2,7 @@ import { Accessory } from './accessory';
 import { Car } from './car';
 import { Contract } from './contract';
 import { Damage } from './damage';
+import { User } from './user';
 
 export interface Inspection {
   idInspeccion?: number;
@@ -24,7 +25,7 @@ export interface Inspection {
   daniosEntrega: Damage[];
   accesoriosSalida: Accessory[];
   accesoriosEntrega: Accessory[];
-  state?: any;
+  state?: { idEstado?: number; descEstado?: string };
   contract?: Contract;
   fechaSalida?: Date;
   idUsuarioSalida?: number;
@@ -35,6 +36,11 @@ export interface Inspection {
   comentariosLlantasTraseras?: string;
   comentariosBateria?: string;
   stage?: string;
-  idEstado?:number
-  checkout_accessories?:any[] 
+  idEstado?: number;
+  checkout_accessories?: any[];
+  checkin_accessories?: any[];
+  checkout_agent?: User;
+  checkin_agent?: User;
+  checkout_damages: Damage[];
+  checkin_damages: Damage[];
 }

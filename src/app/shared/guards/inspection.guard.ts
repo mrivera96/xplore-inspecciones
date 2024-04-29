@@ -14,7 +14,7 @@ export class InspectionGuard implements CanActivate {
     if (this.inspectionsService.currentInspection() != undefined) {
       return true;
     } else {
-      this.router.navigate(['/tabs/inspection']);
+      this.router.navigate(['/tabs/home']);
       return false;
     }
   }

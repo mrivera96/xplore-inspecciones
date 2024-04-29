@@ -9,4 +9,7 @@ export interface Damage {
   foto?: string | {};
   idTipoDanio: number;
   pieza: DamagePart;
+  damage_part?: DamagePart;
+  damage_type?: DamageType;
+  fotos?: string;
 }
