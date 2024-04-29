@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  //apiUrl:'http://localhost/inspApi/api',
-  apiUrl: 'http://inspecciones-api.test/api',
+  apiUrl:'http://localhost/inspApi/api',
+  //apiUrl: 'http://inspecciones-api.test/api',
   cryptKey: '0436b7ac-c152-4839-b054-f5852e06bc02',
   //CAPACITOR_ANDROID_STUDIO_PATH: '/snap/android-studio/current/bin/',
 };
