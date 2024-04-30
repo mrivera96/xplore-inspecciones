@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { InspectionPage } from './inspection.page';
+
+import { InspectionCreatePage } from './inspection-create.page';
 import { DamagesComponent } from './components/damages/damages.component';
-import { UserGuard } from '../shared/guards/user.guard';
 import { AccessoriesComponent } from './components/accessories/accessories.component';
 import { SigningComponent } from './components/signing/signing.component';
-import { InspectionGuard } from '../shared/guards/inspection.guard';
+import { UserGuard } from 'src/app/shared/guards/user.guard';
+import { InspectionGuard } from 'src/app/shared/guards/inspection.guard';
 
 const routes: Routes = [
   {
     path: '',
-    component: InspectionPage,
+    component: InspectionCreatePage,
     canActivate: [UserGuard],
   },
   {
@@ -28,11 +29,10 @@ const routes: Routes = [
     component: SigningComponent,
     canActivate: [UserGuard, InspectionGuard],
   },
-
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class InspectionPageRoutingModule {}
+export class InspectionCreatePageRoutingModule {}

@@ -2,18 +2,18 @@ import { Component, OnDestroy, effect, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NavController } from '@ionic/angular';
-import { Contract } from '../shared/interfaces/contract';
-import { Inspection } from '../shared/interfaces/inspection';
-import { AlertService } from '../shared/services/alert.service';
-import { ContractsService } from '../shared/services/contracts.service';
-import { InspectionsService } from '../shared/services/inspections.service';
-import { PhotoService } from '../shared/services/photo.service';
+import { Contract } from '../../shared/interfaces/contract';
+import { Inspection } from '../../shared/interfaces/inspection';
+import { AlertService } from '../../shared/services/alert.service';
+import { ContractsService } from '../../shared/services/contracts.service';
+import { InspectionsService } from '../../shared/services/inspections.service';
+import { PhotoService } from '../../shared/services/photo.service';
 @Component({
-  selector: 'app-inspection',
-  templateUrl: 'inspection.page.html',
-  styleUrls: ['inspection.page.scss'],
+  selector: 'app-inspection-create',
+  templateUrl: 'inspection-create.page.html',
+  styleUrls: ['inspection-create.page.scss'],
 })
-export class InspectionPage implements OnDestroy {
+export class InspectionCreatePage implements OnDestroy {
   //inyeccion de servicios
   private contractsService = inject(ContractsService);
   private inspectionsServices = inject(InspectionsService);

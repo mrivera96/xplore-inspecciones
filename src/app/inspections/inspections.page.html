@@ -29,14 +29,14 @@
 </ion-header>
 
 <ion-content>
-  @defer (when openInspections()) {
+  @if(currentStage == 'checkout'){ @defer (when openInspections()) {
   <ion-list lines="inset" inset="true">
     <ion-list-header>
-      <ion-label>Últimas inspecciones abiertas</ion-label>
+      <ion-label>Inspecciones abiertas</ion-label>
     </ion-list-header>
 
     @for (openInspection of openInspections(); track $index) {
-    <ion-item button (click)="gotToReview(openInspection)">
+    <ion-item button (click)="gotToDetail(openInspection)">
       <ion-icon color="primary" slot="start" name="checkmark-circle"></ion-icon>
       <ion-label color="secondary">
         <h2>Vehículo: {{openInspection.car?.nemVehiculo}}</h2>
@@ -67,14 +67,14 @@
     <ion-spinner color="secondary" name="crescent"></ion-spinner>
   </ion-item>
 
-  } @defer (when closedInspections()) {
+  } } @if(currentStage == 'checkin'){ @defer (when closedInspections()) {
   <ion-list lines="inset" inset="true">
     <ion-list-header>
-      <ion-label>Últimas inspecciones cerradas</ion-label>
+      <ion-label>Inspecciones cerradas</ion-label>
     </ion-list-header>
 
     @for (closedInspection of closedInspections(); track $index) {
-    <ion-item button (click)="gotToReview(closedInspection)">
+    <ion-item button (click)="gotToDetail(closedInspection)">
       <ion-icon
         color="secondary"
         slot="start"
@@ -109,7 +109,7 @@
     <ion-spinner color="secondary" name="crescent"></ion-spinner>
   </ion-item>
 
-  }
+  }}
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button

@@ -20,22 +20,6 @@ const routes: Routes = [
   },
 
   {
-    path: 'inspection-review',
-    loadChildren: () =>
-      import('./inspection-review/inspection-review.module').then(
-        (m) => m.InspectionReviewPageModule
-      ),
-    canActivate: [UserGuard, InspectionGuard],
-  },
-  {
-    path: 'inspection',
-    loadChildren: () =>
-      import('./inspections/inspection.module').then(
-        (m) => m.InspectionPageModule
-      ),
-    canActivate: [UserGuard],
-  },
-  {
     path: '**',
     redirectTo: 'tabs',
     pathMatch: 'full',

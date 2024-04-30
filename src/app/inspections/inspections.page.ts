@@ -6,11 +6,11 @@ import { Inspection } from '../shared/interfaces/inspection';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-inspections',
+  templateUrl: 'inspections.page.html',
+  styleUrls: ['inspections.page.scss'],
 })
-export class HomePage {
+export class InspectionsPage {
   //inyeccion de servicios
   private inspectionsServices = inject(InspectionsService);
   private authService = inject(AuthService);
@@ -22,22 +22,22 @@ export class HomePage {
   protected openInspections = computed(() => {
     return this.inspectionsServices
       .inspections()
-      ?.filter((x) => x.state?.descEstado == 'Abierta')
-      .sort((a, b) => b.idInspeccion! - a.idInspeccion!)
-      .slice(0, 3);
+      ?.filter((x) => x.state?.descEstado == 'Abierta');
   });
 
   protected closedInspections = computed(() => {
     return this.inspectionsServices
       .inspections()
-      ?.filter((x) => x.state?.descEstado == 'Cerrada')
-      .sort((a, b) => b.idInspeccion! - a.idInspeccion!)
-      .slice(0, 3);
+      ?.filter((x) => x.state?.descEstado == 'Cerrada');
   });
 
   //declaracion de propiedades
   currentUser = this.authService.getCurrentUser();
-  constructor() {}
+  currentStage = null;
+  constructor() {
+    this.currentStage =
+      this.router.getCurrentNavigation()?.extras?.state?.['stage'];
+  }
 
   ngOnInit() {
     this.inspectionsServices.clearState();
@@ -55,6 +55,7 @@ export class HomePage {
       state: { stage: 'checkout' },
     });
   }
+
   goToCheckIn() {
     this.inspectionsServices.currentInspection.update((value) => {
       const current = { ...value };
@@ -68,7 +69,7 @@ export class HomePage {
     });
   }
 
-  gotToReview(inspection: Inspection) {
+  gotToDetail(inspection: Inspection) {
     this.inspectionsServices.currentInspection.set(inspection);
     this.router.navigate(['/inspection-detail']);
   }

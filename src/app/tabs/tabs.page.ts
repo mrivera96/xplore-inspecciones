@@ -16,4 +16,15 @@ export class TabsPage {
   navigate(path: string) {
     this.router.navigate([path], { replaceUrl: true });
   }
+
+  goToCheckOut() {
+    this.router.navigate(['tabs/inspections/checkout'], {
+      state: { stage: 'checkout' },
+    });
+  }
+  goToCheckIn() {
+    this.router.navigate(['tabs/inspections/checkin'], {
+      state: { stage: 'checkin' },
+    });
+  }
 }

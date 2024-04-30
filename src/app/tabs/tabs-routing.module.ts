@@ -14,18 +14,21 @@ const routes: Routes = [
           import('../home/home.module').then((m) => m.HomePageModule),
       },
       {
-        path: 'tab3',
+        path: 'settings',
         loadChildren: () =>
-          import('../settings/settings.module').then((m) => m.SettingsPageModule),
+          import('../settings/settings.module').then(
+            (m) => m.SettingsPageModule
+          ),
       },
       {
-        path: '',
-        redirectTo: '/tabs/home',
-        pathMatch: 'full',
+        path: 'inspections',
+        loadChildren: () =>
+          import('../inspections/inspections.module').then(
+            (m) => m.InspectionsPageModule
+          ),
       },
     ],
   },
-
 ];
 
 @NgModule({

@@ -1,10 +1,11 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { InspectionsService } from '../shared/services/inspections.service';
+import { InspectionsService } from '../../shared/services/inspections.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-inspection-review',
-  templateUrl: './inspection-review.page.html',
-  styleUrls: ['./inspection-review.page.scss'],
+  selector: 'app-inspection-detail',
+  templateUrl: './inspection-detail.page.html',
+  styleUrls: ['./inspection-detail.page.scss'],
 })
 export class InspectionReviewPage implements OnInit {
   //inyeccion de servicios
@@ -12,7 +13,7 @@ export class InspectionReviewPage implements OnInit {
 
   //declaracion de propiedades
   protected currentInspection = this.inspectionService.currentInspection;
-  protected photosDirectory ='http://190.4.56.14/inspApiDesa';
+  protected photosDirectory = environment.imagesUrl;
 
   constructor() {}
 
