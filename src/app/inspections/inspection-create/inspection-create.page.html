@@ -1,37 +1,21 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-button slot="start" routerLink="['/tabs/home']">
-        Atrás
-        <ion-icon slot="start" name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-buttons slot="end">
-      <ion-button slot="end" (click)="goToNext()">
-        Siguiente
-        <ion-icon slot="end" name="arrow-forward"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-  <div class="bubble">
-    <div class="content">
-      <h2>
-        <span style="color: var(--ion-color-secondary) !important">
-          {{title}}</span
-        ><span> Inspección</span>
-      </h2>
-    </div>
-  </div>
-</ion-header>
+<app-toolbar></app-toolbar>
 
 <ion-content [fullscreen]="true">
   <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-title
+          >Nueva inspección de {{currentStage ==
+          'checkout'?'salida':'entrada'}}</ion-title
+        >
+      </ion-col>
+    </ion-row>
     <ion-row>
       <ion-col>
         <ion-card style="border-radius: 10px">
           <ion-item lines="none">
             <ion-label>Seleccione un Vehiculo</ion-label>
-            @defer (when contracts) {
+            @defer (when contracts.length >0) {
             <ion-icon color="secondary" slot="start" name="car"></ion-icon>
             <ionic-selectable
               [formControl]="carForm"
@@ -67,119 +51,145 @@
       </ion-col>
     </ion-row>
     }@else {
-    <ion-list>
-      <ion-row>
-        <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
-          <ion-item>
-            <ion-input
-              color="secondary"
-              [value]="currentContract.car?.model?.brand?.descMarca"
-              labelPlacement="stacked"
-              label="Marca de Vehículo"
-              type="text"
-              placeholder="Awesome Input"
-              readonly
-            ></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
-          <ion-item>
-            <ion-input
-              color="secondary"
-              [value]="currentContract.car?.modelo"
-              labelPlacement="stacked"
-              label="Modelo de Vehículo"
-              type="text"
-              readonly
-            ></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="12">
-          <ion-item>
-            <ion-input
-              color="secondary"
-              [value]="currentContract.customer?.nomCliente"
-              labelPlacement="stacked"
-              label="Nombre del cliente"
-              type="text"
-              readonly
-            ></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="12">
-          <ion-item>
-            <ion-input
-              color="secondary"
-              [value]="currentContract.customer?.correoI"
-              labelPlacement="stacked"
-              label="Correo electrónico del cliente"
-              type="text"
-              readonly
-            ></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="12">
-          <ion-item>
-            <ion-input
-              color="secondary"
-              [value]="currentContract.customer?.celularI"
-              labelPlacement="stacked"
-              label="Número celular del cliente"
-              type="text"
-              readonly
-            ></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="12">
-          <ion-item>
-            <ion-input
-              ngDefaultControl
-              color="secondary"
-              [value]="currentContract.numContrato"
-              labelPlacement="stacked"
-              label="Número de contrato"
-              type="text"
-              readonly
-            ></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="6">
-          <ion-item lines="none">
-            <ion-input
-              required
-              color="secondary"
-              [value]="currentContract.car?.odometro"
-              labelPlacement="stacked"
-              label="Kilometraje"
-              type="number"
-              [min]="currentContract.car?.odometro || 1"
-              errorText="Valor no válido"
-              (ionChange)="setOdometer($event)"
-            ></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size="6">
-          <ion-item lines="none">
-            <ion-input
-              required
-              color="secondary"
-              [value]="currentContract.car?.fuel"
-              labelPlacement="stacked"
-              label="Nivel de combustible"
-              type="text"
-              errorText="Este campo es obligatorio"
-              (ionChange)="setFuel($event)"
-            ></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-    </ion-list>
+    <ion-card style="border-radius: 10px">
+      <ion-list>
+        <ion-row>
+          <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
+            <ion-item>
+              <ion-input
+                color="secondary"
+                [value]="currentContract.car?.model?.brand?.descMarca"
+                labelPlacement="stacked"
+                label="Marca de Vehículo"
+                type="text"
+                placeholder="Awesome Input"
+                readonly
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
+            <ion-item>
+              <ion-input
+                color="secondary"
+                [value]="currentContract.car?.modelo"
+                labelPlacement="stacked"
+                label="Modelo de Vehículo"
+                type="text"
+                readonly
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="12">
+            <ion-item>
+              <ion-input
+                color="secondary"
+                [value]="currentContract.customer?.nomCliente"
+                labelPlacement="stacked"
+                label="Nombre del cliente"
+                type="text"
+                readonly
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12">
+            <ion-item>
+              <ion-input
+                color="secondary"
+                [value]="currentContract.customer?.correoI"
+                labelPlacement="stacked"
+                label="Correo electrónico del cliente"
+                type="text"
+                readonly
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12">
+            <ion-item>
+              <ion-input
+                color="secondary"
+                [value]="currentContract.customer?.celularI"
+                labelPlacement="stacked"
+                label="Número celular del cliente"
+                type="text"
+                readonly
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="12">
+            <ion-item>
+              <ion-input
+                ngDefaultControl
+                color="secondary"
+                [value]="currentContract.numContrato"
+                labelPlacement="stacked"
+                label="Número de contrato"
+                type="text"
+                readonly
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-input
+                required
+                color="secondary"
+                [value]="currentContract.car?.odometro"
+                labelPlacement="stacked"
+                label="Kilometraje"
+                type="number"
+                [min]="currentContract.car?.odometro || 1"
+                errorText="Valor no válido"
+                (ionChange)="setOdometer($event)"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col size="6">
+            <ion-item lines="none">
+              <ion-input
+                required
+                color="secondary"
+                [value]="currentContract.car?.fuel"
+                labelPlacement="stacked"
+                label="Nivel de combustible"
+                type="text"
+                errorText="Este campo es obligatorio"
+                (ionChange)="setFuel($event)"
+              ></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </ion-list>
+    </ion-card>
 
-    }
+    @if (currentInspection()?.fotoLicencia != undefined) {
+
+    <ion-card style="border-radius: 10px">
+      <ion-card-header>
+        <ion-list>
+          <ion-item lines="none">
+            <ion-card-title>Documento</ion-card-title>
+            <ion-icon
+              button
+              color="danger"
+              name="close-circle"
+              slot="end"
+              (click)="removeDocument()"
+            ></ion-icon>
+          </ion-item>
+        </ion-list>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-img
+          [src]="'data:image/png;base64,' + currentInspection()?.fotoLicencia"
+        ></ion-img>
+      </ion-card-content>
+    </ion-card>
+    } }
 
     <!-- } @case(2) {
     <app-damages></app-damages>
@@ -189,11 +199,23 @@
     <app-signing></app-signing>
     }} -->
   </ion-grid>
-  @if(currentInspection()?.idVehiculo != undefined && currentStage == 'checkout'){
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  @if(currentInspection()?.idVehiculo != undefined && currentStage ==
+  'checkout'){
+  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="addDocument()">
       <ion-icon name="document-attach"></ion-icon>
     </ion-fab-button>
   </ion-fab>
   }
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToNext()">
+        Siguiente
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -145,7 +145,7 @@ export class InspectionCreatePage implements OnDestroy {
     }
 
     if (carSet && fuelSet && odoSet) {
-      this.navCtlr.navigateForward(['/inspection/damages']);
+      this.navCtlr.navigateForward(['/inspections/create/damages']);
     } else {
       const message = !carSet
         ? 'No ha seleccionado un vehículo'
@@ -200,6 +200,17 @@ export class InspectionCreatePage implements OnDestroy {
         return current as Inspection;
       });
       this.photoService.clearPhotos();
+    });
+  }
+
+  removeDocument() {
+    this.inspectionsServices.currentInspection.update((values) => {
+      const current = { ...values };
+      {
+        current.fotoLicencia = undefined;
+      }
+
+      return current as Inspection;
     });
   }
 }

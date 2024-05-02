@@ -11,7 +11,7 @@ export class UserGuard implements CanActivate {
   constructor(private router: Router) {}
 
   canActivate(): boolean {
-    if (this.authService.currentUser != undefined) {
+    if (this.authService.currentUser() != undefined) {
       return true;
     } else {
       this.router.navigate(['/login']);

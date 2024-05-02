@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { UserGuard } from './shared/guards/user.guard';
-import { LoginGuard } from './shared/guards/login.guard';
-import { InspectionGuard } from './shared/guards/inspection.guard';
 import { HomePage } from './home/home.page';
+import { LoginGuard } from './shared/guards/login.guard';
+import { UserGuard } from './shared/guards/user.guard';
 
 const routes: Routes = [
   {
@@ -33,7 +32,7 @@ const routes: Routes = [
 
   {
     path: '**',
-    redirectTo: 'tabs',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
 ];

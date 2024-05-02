@@ -1,29 +1,29 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
-      <img src="assets/img/logo.png" width="30%" />
-      <ion-title slot="start">Inspecciones </ion-title>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<app-toolbar></app-toolbar>
 
 <ion-content>
   <ion-grid fixed>
     <ion-row>
       <ion-col>
-        <ion-card button style="text-align: center" (click)="goToCheckOut()">
+        <ion-card button style="text-align: center;border-radius: 10px" (click)="goToCheckOut()">
           <ion-card-header>
-            <fa-icon [icon]="circleArrowRigth" size="7x"></fa-icon>
+            <fa-icon
+              style="color: var(--ion-color-primary)"
+              [icon]="circleArrowRigth"
+              size="7x"
+            ></fa-icon>
           </ion-card-header>
 
           <ion-card-content> <h2>Inspección de salida</h2> </ion-card-content>
         </ion-card>
       </ion-col>
       <ion-col>
-        <ion-card (click)="goToCheckIn()" style="text-align: center" button>
+        <ion-card (click)="goToCheckIn()" style="text-align: center;border-radius: 10px" button>
           <ion-card-header>
-            <fa-icon [icon]="circleArrowLeft" size="7x"></fa-icon>
+            <fa-icon
+              style="color: var(--ion-color-primary)"
+              [icon]="circleArrowLeft"
+              size="7x"
+            ></fa-icon>
           </ion-card-header>
 
           <ion-card-content> <h2>Inspección de entrada</h2> </ion-card-content>
@@ -32,18 +32,26 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-card button style="text-align: center">
+        <ion-card button style="text-align: center;border-radius: 10px">
           <ion-card-header>
-            <fa-icon [icon]="folderOpen" size="7x"></fa-icon>
+            <fa-icon
+              style="color: var(--ion-color-primary)"
+              [icon]="folderOpen"
+              size="7x"
+            ></fa-icon>
           </ion-card-header>
 
           <ion-card-content> <h2>Inspecciones abiertas</h2> </ion-card-content>
         </ion-card>
       </ion-col>
       <ion-col>
-        <ion-card style="text-align: center" button>
+        <ion-card style="text-align: center;border-radius: 10px" button>
           <ion-card-header>
-            <fa-icon [icon]="folderClosed" size="7x"></fa-icon>
+            <fa-icon
+              style="color: var(--ion-color-primary)"
+              [icon]="folderClosed"
+              size="7x"
+            ></fa-icon>
           </ion-card-header>
 
           <ion-card-content> <h2>Inspecciones cerradas</h2> </ion-card-content>

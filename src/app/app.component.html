@@ -4,20 +4,10 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>
+          <ion-list-header style="margin-bottom: 20px">
             <ion-label>
               {{ currentUser()?.nomUsuario }}
             </ion-label>
-            <ion-buttons>
-              <ion-button color="dark" (click)="onLogout()">
-                <ion-icon
-                  aria-hidden="true"
-                  slot="start"
-                  ios="log-out-outline"
-                  md="log-out-sharp"
-                ></ion-icon>
-              </ion-button>
-            </ion-buttons>
           </ion-list-header>
           <ion-note>{{ currentUser()?.nickUsuario }}</ion-note>
 
@@ -64,6 +54,21 @@
                 [md]="p.icon + '-sharp'"
               ></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+        </ion-list>
+
+        <ion-list>
+          <ion-list-header>Opciones</ion-list-header>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item (click)="onLogout()" lines="none" detail="false">
+              <ion-icon
+                aria-hidden="true"
+                slot="start"
+                ios="log-out-outline"
+                md="log-out-sharp"
+              ></ion-icon>
+              <ion-label>Salir</ion-label>
             </ion-item>
           </ion-menu-toggle>
         </ion-list>

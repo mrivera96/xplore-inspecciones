@@ -5,17 +5,21 @@ import { AuthService } from '../shared/services/auth.service';
 import { Inspection } from '../shared/interfaces/inspection';
 import { Router } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCircleArrowRight, faCircleArrowLeft, faCarSide, faFolderOpen, faFolderClosed } from '@fortawesome/free-solid-svg-icons';
+import {
+  faCircleArrowRight,
+  faCircleArrowLeft,
+  faCarSide,
+  faFolderOpen,
+  faFolderClosed,
+} from '@fortawesome/free-solid-svg-icons';
+import { ToolbarComponent } from '../shared/components/toolbar/toolbar.component';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
   standalone: true,
-  imports:[
-    IonicModule,
-    FontAwesomeModule
-  ]
+  imports: [IonicModule, FontAwesomeModule, ToolbarComponent],
 })
 export class HomePage {
   //inyeccion de servicios
@@ -43,11 +47,11 @@ export class HomePage {
   });
 
   //declaracion de propiedades
-  circleArrowRigth = faCircleArrowRight
-  circleArrowLeft = faCircleArrowLeft
-  carSide = faCarSide
-  folderOpen = faFolderOpen
-  folderClosed = faFolderClosed
+  circleArrowRigth = faCircleArrowRight;
+  circleArrowLeft = faCircleArrowLeft;
+  carSide = faCarSide;
+  folderOpen = faFolderOpen;
+  folderClosed = faFolderClosed;
   currentUser = this.authService.currentUser;
   constructor() {}
 

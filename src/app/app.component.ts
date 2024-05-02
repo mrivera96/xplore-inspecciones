@@ -17,13 +17,14 @@ export class AppComponent {
   //declaracion de propiedades
   public appPages = [
     { title: 'Inicio', url: '/home', icon: 'home' },
-    { title: 'Registros', url: '/registros', icon: 'list' },
-    { title: 'Cuentas', url: '/cuentas', icon: 'wallet' },
-    { title: 'Préstamos', url: '/prestamos', icon: 'cash' },
+    { title: 'Inspecciones abiertas', url: '/registros', icon: 'folder-open' },
+    { title: 'Inspecciones cerradas', url: '/cuentas', icon: 'folder' },
   ];
 
   public labels = [
-    { title: 'Categorías', icon: 'list-circle', url: '/categorias' },
+    { title: 'Tipos de daños', icon: 'list-circle', url: '/categorias' },
+    { title: 'Piezas', icon: 'list-circle', url: '/categorias' },
+    { title: 'Accesorios', icon: 'list-circle', url: '/categorias' },
   ];
 
   protected currentUser = this.authService.currentUser;

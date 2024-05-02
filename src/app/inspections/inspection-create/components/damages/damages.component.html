@@ -18,7 +18,7 @@
     <div class="content">
       <h2>
         <span style="color: var(--ion-color-secondary) !important">
-          {{title}}</span
+          {{ title }}</span
         ><span> Inspección</span>
       </h2>
     </div>
@@ -58,3 +58,13 @@
     }
   </ion-grid>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToNext()">
+        Siguiente
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

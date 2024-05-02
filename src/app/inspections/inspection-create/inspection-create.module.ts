@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { InspectionCreatePageRoutingModule } from './inspection-create-routing.module';
 import { InspectionCreatePage } from './inspection-create.page';
 import { IonicSelectableComponent } from 'ionic-selectable';
+import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.component';
 @NgModule({
   imports: [
     IonicModule,
@@ -13,7 +14,8 @@ import { IonicSelectableComponent } from 'ionic-selectable';
     InspectionCreatePageRoutingModule,
     ReactiveFormsModule,
     FormsModule,
-    IonicSelectableComponent
+    IonicSelectableComponent,
+    ToolbarComponent,
   ],
   declarations: [InspectionCreatePage],
   providers: [],
