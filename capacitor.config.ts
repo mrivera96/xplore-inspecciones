@@ -4,7 +4,7 @@ import { CapacitorHttp } from '@capacitor/core';
 const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
   appName: 'Xplore Inspecciones',
-  webDir: 'www',
+  webDir: 'www/browser',
   android:{allowMixedContent:true},
   server:{androidScheme:'CAPACITOR_HTTP_SCHEME'}
   

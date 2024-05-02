@@ -1,35 +1,57 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="primary">
-    <ion-title slot="start"><p></p> </ion-title>
-    <ion-buttons slot="end">
-      <ion-button
-        (click)="onLogout()"
-        expand="block"
-        fill="clear"
-        shape="round"
-      >
-        {{currentUser?.nomUsuario}}
-        <ion-icon slot="end" name="log-out"></ion-icon>
-      </ion-button>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+      <img src="assets/img/logo.png" width="30%" />
+      <ion-title slot="start">Inspecciones </ion-title>
     </ion-buttons>
   </ion-toolbar>
-  <div class="bubble">
-    <div class="content">
-      <div>
-        <img src="assets/img/logo.png" width="40%" />
-        <h3 style="margin-top: 0">
-          <span>Xplore</span>
-          <span style="color: var(--ion-color-secondary) !important">
-            Inspecciones</span
-          >
-        </h3>
-      </div>
-    </div>
-  </div>
 </ion-header>
 
 <ion-content>
-  @defer (when openInspections()) {
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-card button style="text-align: center" (click)="goToCheckOut()">
+          <ion-card-header>
+            <fa-icon [icon]="circleArrowRigth" size="7x"></fa-icon>
+          </ion-card-header>
+
+          <ion-card-content> <h2>Inspección de salida</h2> </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card (click)="goToCheckIn()" style="text-align: center" button>
+          <ion-card-header>
+            <fa-icon [icon]="circleArrowLeft" size="7x"></fa-icon>
+          </ion-card-header>
+
+          <ion-card-content> <h2>Inspección de entrada</h2> </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card button style="text-align: center">
+          <ion-card-header>
+            <fa-icon [icon]="folderOpen" size="7x"></fa-icon>
+          </ion-card-header>
+
+          <ion-card-content> <h2>Inspecciones abiertas</h2> </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card style="text-align: center" button>
+          <ion-card-header>
+            <fa-icon [icon]="folderClosed" size="7x"></fa-icon>
+          </ion-card-header>
+
+          <ion-card-content> <h2>Inspecciones cerradas</h2> </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!--  @defer (when openInspections()) {
   <ion-list lines="inset" inset="true">
     <ion-list-header>
       <ion-label>Últimas inspecciones abiertas</ion-label>
@@ -130,5 +152,5 @@
         <ion-icon name="arrow-redo"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
-  </ion-fab>
+  </ion-fab> -->
 </ion-content>

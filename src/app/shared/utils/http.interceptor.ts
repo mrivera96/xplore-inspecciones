@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     // Get the auth token from the service.
-    const currentUser = this.authService.getCurrentUser();
+    const currentUser = this.authService.currentUser();
 
     // Clone the request and replace the original headers with
     // cloned headers, updated with the authorization.
@@ -29,10 +29,7 @@ export class AuthInterceptor implements HttpInterceptor {
         'Authorization',
         `Bearer ${currentUser.access_token}`
       );
-      headers = headers.set(
-        'Access-Control-Allow-Origin',
-        '*'
-      );
+      headers = headers.set('Access-Control-Allow-Origin', '*');
       headers = headers.set('Access-Control-Allow-Credentials', 'true');
 
       req = req.clone({
@@ -42,10 +39,7 @@ export class AuthInterceptor implements HttpInterceptor {
       let headers = new HttpHeaders();
       headers = headers.set('Content-Type', 'application/json');
 
-      headers = headers.set(
-        'Access-Control-Allow-Origin',
-        '*'
-      );
+      headers = headers.set('Access-Control-Allow-Origin', '*');
       headers = headers.set('Access-Control-Allow-Credentials', 'true');
 
       req = req.clone({

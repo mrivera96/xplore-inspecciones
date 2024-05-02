@@ -1,17 +1,12 @@
-<ion-header class="ion-no-border">
-  <div class="bubble">
-    <div class="content">
-      <div>
-        <img src="assets/img/logo.png" width="50%" />
-        <h2 style="margin-top: 0">
-          <span>Xplore</span>
-          <span style="color: var(--ion-color-secondary) !important">
-            Inspecciones</span
-          >
-        </h2>
-      </div>
-    </div>
-  </div>
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button >
+        <img src="assets/img/logo.png" width="40%" />
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Inspecciones</ion-title>
+  </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
@@ -53,6 +48,9 @@
                   placeholder="ingrese su contraseña"
                   errorText="Campo obligatorio"
                 ></ion-input>
+              </ion-item>
+              <ion-item lines="none">
+                <ion-checkbox [checked]="rememberedUser != null && rememberedUser != ''" (click)="rememberUser($event)">Recordar usuario</ion-checkbox>
               </ion-item>
               <ion-button
                 expand="block"

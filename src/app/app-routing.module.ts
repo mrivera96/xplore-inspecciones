@@ -3,15 +3,27 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { UserGuard } from './shared/guards/user.guard';
 import { LoginGuard } from './shared/guards/login.guard';
 import { InspectionGuard } from './shared/guards/inspection.guard';
+import { HomePage } from './home/home.page';
 
 const routes: Routes = [
   {
-    path: 'tabs',
-    loadChildren: () =>
-      import('./tabs/tabs.module').then((m) => m.TabsPageModule),
+    path: '',
+    redirectTo: 'home',
+    pathMatch: 'full',
+  },
+  {
+    path: 'home',
+    component: HomePage,
     canActivate: [UserGuard],
   },
-
+  {
+    path: 'inspections',
+    loadChildren: () =>
+      import('./inspections/inspections.module').then(
+        (m) => m.InspectionsPageModule
+      ),
+    canActivate: [UserGuard],
+  },
   {
     path: 'login',
     loadChildren: () =>

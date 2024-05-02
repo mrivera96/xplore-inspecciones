@@ -32,7 +32,7 @@ export class InspectionsPage {
   });
 
   //declaracion de propiedades
-  currentUser = this.authService.getCurrentUser();
+  currentUser = this.authService.currentUser;
   currentStage = null;
   constructor() {
     this.currentStage =

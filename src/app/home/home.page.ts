@@ -1,14 +1,21 @@
 import { Component, computed, effect, inject } from '@angular/core';
 import { InspectionsService } from '../shared/services/inspections.service';
-import { NavController } from '@ionic/angular';
+import { IonicModule, NavController } from '@ionic/angular';
 import { AuthService } from '../shared/services/auth.service';
 import { Inspection } from '../shared/interfaces/inspection';
 import { Router } from '@angular/router';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faCircleArrowRight, faCircleArrowLeft, faCarSide, faFolderOpen, faFolderClosed } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
+  standalone: true,
+  imports:[
+    IonicModule,
+    FontAwesomeModule
+  ]
 })
 export class HomePage {
   //inyeccion de servicios
@@ -36,7 +43,12 @@ export class HomePage {
   });
 
   //declaracion de propiedades
-  currentUser = this.authService.getCurrentUser();
+  circleArrowRigth = faCircleArrowRight
+  circleArrowLeft = faCircleArrowLeft
+  carSide = faCarSide
+  folderOpen = faFolderOpen
+  folderClosed = faFolderClosed
+  currentUser = this.authService.currentUser;
   constructor() {}
 
   ngOnInit() {
@@ -51,7 +63,7 @@ export class HomePage {
       }
       return current as Inspection;
     });
-    this.router.navigate(['inspection'], {
+    this.router.navigate(['inspections/create'], {
       state: { stage: 'checkout' },
     });
   }
@@ -63,7 +75,7 @@ export class HomePage {
       }
       return current as Inspection;
     });
-    this.router.navigate(['inspection'], {
+    this.router.navigate(['inspections/create'], {
       state: { stage: 'checkin' },
     });
   }
