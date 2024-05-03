@@ -89,6 +89,18 @@ export class HomePage {
     this.router.navigate(['/inspection-detail']);
   }
 
+  goToCheckouts(){
+    this.router.navigate(['inspections/checkout'], {
+      state: { stage: 'checkout' },
+    });
+  }
+
+  goToCheckins(){
+    this.router.navigate(['inspections/checkin'], {
+      state: { stage: 'checkin' },
+    });
+  }
+
   onLogout() {
     this.authService.logout();
   }

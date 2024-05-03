@@ -1,115 +1,99 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar color="primary">
-    <ion-title slot="start"><p></p> </ion-title>
-    <ion-buttons slot="end">
-      <ion-button
-        (click)="onLogout()"
-        expand="block"
-        fill="clear"
-        shape="round"
-      >
-        {{currentUser()?.nomUsuario}}
-        <ion-icon slot="end" name="log-out"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-  <div class="bubble">
-    <div class="content">
-      <div>
-        <img src="assets/img/logo.png" width="40%" />
-        <h3 style="margin-top: 0">
-          <span>Xplore</span>
-          <span style="color: var(--ion-color-secondary) !important">
-            Inspecciones</span
-          >
-        </h3>
-      </div>
-    </div>
-  </div>
-</ion-header>
+<app-toolbar></app-toolbar>
 
 <ion-content>
-  @if(currentStage == 'checkout'){ @defer (when openInspections()) {
-  <ion-list lines="inset" inset="true">
-    <ion-list-header>
-      <ion-label>Inspecciones abiertas</ion-label>
-    </ion-list-header>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-title
+          >Inspecciones {{currentStage ==
+          'checkout'?'abiertas':'cerradas'}}</ion-title
+        >
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-card style="border-radius: 10px">
+    <ion-card-content>
+      @if(currentStage == 'checkout'){ @defer (when openInspections().length >
+      0) {
+      <ion-list>
+        @for (openInspection of openInspections(); track $index) {
+        <ion-item detail="true" button (click)="gotToDetail(openInspection)">
+          <ion-icon
+            color="primary"
+            slot="start"
+            name="checkmark-circle"
+          ></ion-icon>
+          <ion-label color="secondary">
+            <h2>Inspección No.: {{openInspection.idInspeccion}}</h2>
+            <p>
+              Vehículo: {{openInspection.car?.nemVehiculo}} | No. Contrato:
+              {{openInspection.contract?.numContrato}}
+            </p>
+          </ion-label>
+        </ion-item>
+        } @empty() {
+        <ion-item lines="none">
+          <ion-icon slot="start" name="alert-circle"></ion-icon>
+          <ion-label>No se encontraron inspecciones abiertas</ion-label>
+        </ion-item>
+        }
+      </ion-list>
+      }@loading {
+      <ion-item>
+        <ion-icon slot="start" name="alert-circle"></ion-icon>
+        <ion-label>Obteniendo datos..</ion-label>
+        <ion-spinner color="secondary" name="crescent"></ion-spinner>
+      </ion-item>
 
-    @for (openInspection of openInspections(); track $index) {
-    <ion-item button (click)="gotToDetail(openInspection)">
-      <ion-icon color="primary" slot="start" name="checkmark-circle"></ion-icon>
-      <ion-label color="secondary">
-        <h2>Vehículo: {{openInspection.car?.nemVehiculo}}</h2>
-        <p>
-          No. Inspección: {{openInspection.idInspeccion}} | No. Contrato:
-          {{openInspection.contract?.numContrato}}
-        </p>
-      </ion-label>
-    </ion-item>
-    } @empty() {
-    <ion-item lines="none">
-      <ion-icon slot="start" name="alert-circle"></ion-icon>
-      <ion-label>No se encontraron inspecciones abiertas</ion-label>
-    </ion-item>
-    }
-  </ion-list>
-  }@loading {
-  <ion-item>
-    <ion-icon slot="start" name="alert-circle"></ion-icon>
-    <ion-label>Obteniendo datos..</ion-label>
-    <ion-spinner color="secondary" name="crescent"></ion-spinner>
-  </ion-item>
+      }@placeholder {
+      <ion-item>
+        <ion-icon slot="start" name="alert-circle"></ion-icon>
+        <ion-label>Obteniendo datos..</ion-label>
+        <ion-spinner color="secondary" name="crescent"></ion-spinner>
+      </ion-item>
 
-  }@placeholder {
-  <ion-item>
-    <ion-icon slot="start" name="alert-circle"></ion-icon>
-    <ion-label>Obteniendo datos..</ion-label>
-    <ion-spinner color="secondary" name="crescent"></ion-spinner>
-  </ion-item>
+      } } @if(currentStage == 'checkin'){ @defer (when
+      closedInspections().length>0) {
+      <ion-list>
+        @for (closedInspection of closedInspections(); track $index) {
+        <ion-item detail="true" button (click)="gotToDetail(closedInspection)">
+          <ion-icon
+            color="secondary"
+            slot="start"
+            name="checkmark-done-circle"
+          ></ion-icon>
+          <ion-label color="primary">
+            <h2>Inspección No.: {{closedInspection.idInspeccion}}</h2>
+            <p>
+              Vehículo: {{closedInspection.car?.nemVehiculo}} | No. Contrato:
+              {{closedInspection.contract?.numContrato}}
+            </p>
+          </ion-label>
+        </ion-item>
+        }@empty() {
+        <ion-item lines="none">
+          <ion-icon slot="start" name="alert-circle"></ion-icon>
+          <ion-label>No se encontraron inspecciones cerradas</ion-label>
+        </ion-item>
+        }
+      </ion-list>
+      }@placeholder {
+      <ion-item>
+        <ion-icon slot="start" name="alert-circle"></ion-icon>
+        <ion-label>Obteniendo datos..</ion-label>
+        <ion-spinner color="secondary" name="crescent"></ion-spinner>
+      </ion-item>
 
-  } } @if(currentStage == 'checkin'){ @defer (when closedInspections()) {
-  <ion-list lines="inset" inset="true">
-    <ion-list-header>
-      <ion-label>Inspecciones cerradas</ion-label>
-    </ion-list-header>
+      }@loading {
+      <ion-item>
+        <ion-icon slot="start" name="alert-circle"></ion-icon>
+        <ion-label>Obteniendo datos..</ion-label>
+        <ion-spinner color="secondary" name="crescent"></ion-spinner>
+      </ion-item>
 
-    @for (closedInspection of closedInspections(); track $index) {
-    <ion-item button (click)="gotToDetail(closedInspection)">
-      <ion-icon
-        color="secondary"
-        slot="start"
-        name="checkmark-done-circle"
-      ></ion-icon>
-      <ion-label color="primary">
-        <h2>Vehículo: {{closedInspection.car?.nemVehiculo}}</h2>
-        <p>
-          No. Inspección: {{closedInspection.idInspeccion}} | No. Contrato:
-          {{closedInspection.contract?.numContrato}}
-        </p>
-      </ion-label>
-    </ion-item>
-    }@empty() {
-    <ion-item lines="none">
-      <ion-icon slot="start" name="alert-circle"></ion-icon>
-      <ion-label>No se encontraron inspecciones cerradas</ion-label>
-    </ion-item>
-    }
-  </ion-list>
-  }@placeholder {
-  <ion-item>
-    <ion-icon slot="start" name="alert-circle"></ion-icon>
-    <ion-label>Obteniendo datos..</ion-label>
-    <ion-spinner color="secondary" name="crescent"></ion-spinner>
-  </ion-item>
-
-  }@loading {
-  <ion-item>
-    <ion-icon slot="start" name="alert-circle"></ion-icon>
-    <ion-label>Obteniendo datos..</ion-label>
-    <ion-spinner color="secondary" name="crescent"></ion-spinner>
-  </ion-item>
-
-  }}
+      }}
+    </ion-card-content>
+  </ion-card>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button

@@ -26,12 +26,14 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-body{
-    font-family: 'Montserrat', Helvetica, Arial, Lucida, sans-serif;
+body {
+  font-family: "Montserrat", Helvetica, Arial, Lucida, sans-serif;
 }
 
+fa-icon {
+  color: #757575;
+}
 
-
-  // ion-fab {
-  //   margin-bottom: var(--ion-safe-area-bottom, 0);
-  // }
+// ion-fab {
+//   margin-bottom: var(--ion-safe-area-bottom, 0);
+// }

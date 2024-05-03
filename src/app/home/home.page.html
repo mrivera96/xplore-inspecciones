@@ -4,7 +4,11 @@
   <ion-grid fixed>
     <ion-row>
       <ion-col>
-        <ion-card button style="text-align: center;border-radius: 10px" (click)="goToCheckOut()">
+        <ion-card
+          button
+          style="text-align: center; border-radius: 10px"
+          (click)="goToCheckOut()"
+        >
           <ion-card-header>
             <fa-icon
               style="color: var(--ion-color-primary)"
@@ -17,7 +21,11 @@
         </ion-card>
       </ion-col>
       <ion-col>
-        <ion-card (click)="goToCheckIn()" style="text-align: center;border-radius: 10px" button>
+        <ion-card
+          (click)="goToCheckIn()"
+          style="text-align: center; border-radius: 10px"
+          button
+        >
           <ion-card-header>
             <fa-icon
               style="color: var(--ion-color-primary)"
@@ -32,7 +40,11 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <ion-card button style="text-align: center;border-radius: 10px">
+        <ion-card
+          button
+          style="text-align: center; border-radius: 10px"
+          (click)="goToCheckouts()"
+        >
           <ion-card-header>
             <fa-icon
               style="color: var(--ion-color-primary)"
@@ -45,7 +57,11 @@
         </ion-card>
       </ion-col>
       <ion-col>
-        <ion-card style="text-align: center;border-radius: 10px" button>
+        <ion-card
+          style="text-align: center; border-radius: 10px"
+          button
+          (click)="goToCheckins()"
+        >
           <ion-card-header>
             <fa-icon
               style="color: var(--ion-color-primary)"

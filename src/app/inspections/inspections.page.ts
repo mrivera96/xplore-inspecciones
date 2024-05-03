@@ -71,7 +71,7 @@ export class InspectionsPage {
 
   gotToDetail(inspection: Inspection) {
     this.inspectionsServices.currentInspection.set(inspection);
-    this.router.navigate(['/inspection-detail']);
+    this.router.navigate(['/inspections/detail']);
   }
 
   onLogout() {
