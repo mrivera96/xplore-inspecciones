@@ -124,6 +124,7 @@ export class InspectionCreatePage implements OnDestroy {
           this.contractsService.currentContract().customer?.nomCliente;
         current.daniosSalida = [];
         current.accesoriosSalida = [];
+        current.photos = [];
       }
 
       return current as Inspection;
@@ -145,7 +146,7 @@ export class InspectionCreatePage implements OnDestroy {
     }
 
     if (carSet && fuelSet && odoSet) {
-      this.navCtlr.navigateForward(['/inspections/create/damages']);
+      this.navCtlr.navigateForward(['/inspections/create/photos']);
     } else {
       const message = !carSet
         ? 'No ha seleccionado un vehículo'
@@ -194,7 +195,7 @@ export class InspectionCreatePage implements OnDestroy {
       this.inspectionsServices.currentInspection.update((values) => {
         const current = { ...values };
         {
-          current.fotoLicencia = this.photoService.photos[0];
+          current.fotoLicencia = this.photoService.photos()[0];
         }
 
         return current as Inspection;

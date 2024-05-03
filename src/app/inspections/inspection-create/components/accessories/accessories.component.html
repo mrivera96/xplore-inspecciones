@@ -1,60 +1,59 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar color="primary">
+<app-toolbar></app-toolbar>
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-title>Accesorios</ion-title>
+      </ion-col>
+    </ion-row>
+    <ion-card>
+      <ion-card-content>
+        <ion-list>
+          @defer (when accessories()) { @for (accessory of accessories(); track
+          $index) {
+          <ion-item>
+            @if(currentInspection()?.stage=='checkin'){
+
+            <ion-checkbox
+              color="secondary"
+              disabled="true"
+              slot="end"
+              [checked]="accessory.isInCheckout"
+            >
+            </ion-checkbox>
+            }
+
+            <ion-checkbox
+              (ionChange)="onAccessoryAdd($event, accessory)"
+              [value]="accessory.idAccesorio"
+              >{{ accessory.nomAccesorio }}</ion-checkbox
+            >
+          </ion-item>
+          } }@placeholder(){
+          <ion-item>
+            <ion-label>Obteniendo datos..</ion-label>
+            <ion-spinner color="secondary" name="crescent"></ion-spinner>
+          </ion-item>
+
+          }
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button slot="start" (click)="goToPrev()">
-        Regresar
+      <ion-button (click)="goToPrev()">
+        Atrás
         <ion-icon slot="start" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-
     <ion-buttons slot="end">
-      <ion-button slot="end" (click)="goToNext()">
+      <ion-button (click)="goToNext()">
         Siguiente
         <ion-icon slot="end" name="arrow-forward"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-  <div class="bubble">
-    <div class="content">
-      <h2>
-        <span style="color: var(--ion-color-secondary) !important">
-          {{ title }}</span
-        ><span> Inspección</span>
-      </h2>
-    </div>
-  </div>
-</ion-header>
-<ion-content [fullscreen]="true">
-  <ion-grid fixed>
-    <h3>Seleccionar los accesorios</h3>
-    <ion-list>
-      @defer (when accessories()) { @for (accessory of accessories(); track
-      $index) {
-      <ion-item>
-        @if(currentInspection()?.stage=='checkin'){
-
-        <ion-checkbox
-          color="secondary"
-          disabled="true"
-          slot="end"
-          [checked]="accessory.isInCheckout"
-        >
-        </ion-checkbox>
-        }
-
-        <ion-checkbox
-          (ionChange)="onAccessoryAdd($event, accessory)"
-          [value]="accessory.idAccesorio"
-          >{{ accessory.nomAccesorio }}</ion-checkbox
-        >
-      </ion-item>
-      } }@placeholder(){
-      <ion-item>
-        <ion-label>Obteniendo datos..</ion-label>
-        <ion-spinner color="secondary" name="crescent"></ion-spinner>
-      </ion-item>
-
-      }
-    </ion-list>
-  </ion-grid>
-</ion-content>
+</ion-footer>

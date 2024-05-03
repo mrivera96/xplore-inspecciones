@@ -41,11 +41,7 @@ export class AccessoriesService {
       .subscribe((response) => {
         const accesories = response.data as Accessory[];
 
-        this.accessories.set(
-          accesories.sort((a, b) =>
-            a.nomAccesorio! > b.nomAccesorio! ? -1 : 1
-          )
-        );
+        this.accessories.set(accesories);
         subsc.unsubscribe();
       });
   }

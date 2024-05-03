@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { InspectionCreatePage } from './inspection-create.page';
-import { DamagesComponent } from './components/damages/damages.component';
+import { PhotosComponent } from './components/photos/photos.component';
 import { AccessoriesComponent } from './components/accessories/accessories.component';
 import { SigningComponent } from './components/signing/signing.component';
 import { UserGuard } from 'src/app/shared/guards/user.guard';
@@ -15,8 +15,8 @@ const routes: Routes = [
     canActivate: [UserGuard],
   },
   {
-    path: 'damages',
-    component: DamagesComponent,
+    path: 'photos',
+    component: PhotosComponent,
     canActivate: [UserGuard, InspectionGuard],
   },
   {

@@ -1,4 +1,4 @@
-import { DamagePart } from './damage-part';
+import { AutoPart } from './auto-part';
 import { DamageType } from './damage-type';
 
 export interface Damage {
@@ -8,8 +8,8 @@ export interface Damage {
   idPieza?: number;
   foto?: string | {};
   idTipoDanio: number;
-  pieza: DamagePart;
-  damage_part?: DamagePart;
+  pieza: AutoPart;
+  damage_part?: AutoPart;
   damage_type?: DamageType;
   fotos?: string;
 }

@@ -8,6 +8,7 @@ import {
 import { FormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
 import SignaturePad from 'signature_pad';
+import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.component';
 import { Inspection } from 'src/app/shared/interfaces/inspection';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { InspectionsService } from 'src/app/shared/services/inspections.service';
@@ -17,7 +18,7 @@ import { InspectionsService } from 'src/app/shared/services/inspections.service'
   templateUrl: './signing.component.html',
   styleUrls: ['./signing.component.scss'],
   standalone: true,
-  imports: [IonicModule, FormsModule],
+  imports: [IonicModule, FormsModule, ToolbarComponent],
 })
 export class SigningComponent implements OnInit {
   //inyeccion de servicios
@@ -41,7 +42,10 @@ export class SigningComponent implements OnInit {
   @ViewChild('signContainer') signContainer!: ElementRef<HTMLElement>;
   title: string;
   constructor() {
-    this.title = this.inspectionsService.currentInspection()?.stage == 'checkin' ? ' Checkin' : ' Checkout';
+    this.title =
+      this.inspectionsService.currentInspection()?.stage == 'checkin'
+        ? ' Checkin'
+        : ' Checkout';
   }
 
   ngOnInit() {}

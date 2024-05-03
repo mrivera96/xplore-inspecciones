@@ -1,65 +1,47 @@
-<ion-header class="ion-no-border">
-  <ion-toolbar color="primary">
-    <ion-buttons slot="start">
-      <ion-button slot="start" (click)="goToPrev()">
-        Regresar
-        <ion-icon slot="start" name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-
-    <ion-buttons slot="end">
-      <ion-button slot="end" (click)="goToNext()">
-        Finalizar
-        <ion-icon slot="end" name="arrow-forward"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-  <div class="bubble">
-    <div class="content">
-      <h2>
-        <span style="color: var(--ion-color-secondary) !important">
-          {{ title }}</span
-        ><span> Inspección</span>
-      </h2>
-    </div>
-  </div>
-</ion-header>
+<app-toolbar></app-toolbar>
 
 <ion-content [fullscreen]="true">
   <ion-grid fixed>
-    <ion-list>
-      <ion-list-header>
-        <h3>Notas</h3>
-      </ion-list-header>
-      <ion-item>
-        <ion-input
-          [(ngModel)]="notas.comentariosLlantasDelanteras"
-          labelPlacement="stacked"
-          type="text"
-          placeholder="Comentarios sobre llantas delanteras"
-          label="Notas sobre llantas delanteras"
-        ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input
-          [(ngModel)]="notas.comentariosLlantasTraseras"
-          labelPlacement="stacked"
-          type="text"
-          placeholder="Comentarios sobre llantas traseras"
-          label="Notas sobre llantas traseras"
-        ></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input
-          [(ngModel)]="notas.comentariosBateria"
-          labelPlacement="stacked"
-          type="text"
-          placeholder="Comentarios sobre batería"
-          label="Notas sobre batería"
-        ></ion-input>
-      </ion-item>
-    </ion-list>
-    <h3>Firma del cliente</h3>
+    <ion-card>
+      <ion-card-content>
+        <ion-list>
+          <ion-list-header>
+            <h3>Notas</h3>
+          </ion-list-header>
+          <ion-item>
+            <ion-input
+              [(ngModel)]="notas.comentariosLlantasDelanteras"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Comentarios sobre llantas delanteras"
+              label="Notas sobre llantas delanteras"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [(ngModel)]="notas.comentariosLlantasTraseras"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Comentarios sobre llantas traseras"
+              label="Notas sobre llantas traseras"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [(ngModel)]="notas.comentariosBateria"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Comentarios sobre batería"
+              label="Notas sobre batería"
+            ></ion-input>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-content>
+        <h3>Firma del cliente</h3>
     <ion-grid fixed>
       <ion-row style="justify-content: center" #signContainer>
         <canvas #canvas></canvas>
@@ -77,5 +59,24 @@
         </ion-col>
       </ion-row>
     </ion-grid>
+      </ion-card-content>
+    </ion-card>
+    
   </ion-grid>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goToPrev()">
+        Atrás
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToNext()">
+        Finalizar
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -1,5 +1,6 @@
 import { Component, OnInit, effect, inject } from '@angular/core';
 import { IonicModule, NavController } from '@ionic/angular';
+import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.component';
 import { Accessory } from 'src/app/shared/interfaces/accessory';
 import { Inspection } from 'src/app/shared/interfaces/inspection';
 import { AccessoriesService } from 'src/app/shared/services/accessories.service';
@@ -11,7 +12,7 @@ import { InspectionsService } from 'src/app/shared/services/inspections.service'
   templateUrl: './accessories.component.html',
   styleUrls: ['./accessories.component.scss'],
   standalone: true,
-  imports: [IonicModule],
+  imports: [IonicModule, ToolbarComponent],
 })
 export class AccessoriesComponent implements OnInit {
   //inyeccion de servicios
@@ -102,14 +103,14 @@ export class AccessoriesComponent implements OnInit {
             text: 'Ok',
             role: 'ok',
             handler: () => {
-              this.navCtrl.navigateForward(['/inspection/signing']);
+              this.navCtrl.navigateForward(['/inspections/create/signing']);
             },
           },
           'Cancel',
         ]
       );
     } else {
-      this.navCtrl.navigateForward(['/inspection/signing']);
+      this.navCtrl.navigateForward(['/inspections/create/signing']);
     }
   }
   goToPrev() {

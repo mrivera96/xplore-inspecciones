@@ -1,3 +1,4 @@
+import { Photo } from './photo'
 import { Accessory } from './accessory';
 import { Car } from './car';
 import { Contract } from './contract';
@@ -43,4 +44,5 @@ export interface Inspection {
   checkin_agent?: User;
   checkout_damages: Damage[];
   checkin_damages: Damage[];
+  photos?: Photo[];
 }
