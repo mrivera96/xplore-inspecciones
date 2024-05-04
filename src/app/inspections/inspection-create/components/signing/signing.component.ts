@@ -46,6 +46,16 @@ export class SigningComponent implements OnInit {
       this.inspectionsService.currentInspection()?.stage == 'checkin'
         ? ' Checkin'
         : ' Checkout';
+
+    if (this.currentInspection()?.stage == 'checkin') {
+      this.notas = {
+        comentariosBateria: this.currentInspection()?.comentariosBateria,
+        comentariosLlantasDelanteras:
+          this.currentInspection()?.comentariosLlantasDelanteras,
+        comentariosLlantasTraseras:
+          this.currentInspection()?.comentariosLlantasTraseras,
+      };
+    }
   }
 
   ngOnInit() {}

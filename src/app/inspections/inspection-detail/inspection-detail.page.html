@@ -91,34 +91,41 @@
           <fa-icon slot="start" [icon]="cam"></fa-icon>
           <ion-label>Fotografías:</ion-label>
         </ion-item>
-        <ion-item>
-          @if (currentInspection()?.photos != null) { @for (photo of
-          currentInspection()?.photos; track $index) {
+        @if (currentInspection()?.photos?.length! >0) {
+        <ion-grid>
+          @for (photo of currentInspection()?.photos; track $index) {
+          <ion-col>
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title>{{photo.auto_part?.descPieza}}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-img [src]="photosDirectory + photo.foto"></ion-img>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
 
-          <ion-img [src]="photosDirectory + photo"></ion-img>
-          } }@else {
+          }</ion-grid
+        >
+        }@else {
+        <ion-item>
           <ion-label>Sin registro</ion-label>
-          }
         </ion-item>
+        }
       </ion-list>
 
       <ion-list>
         <ion-list-header>
           <ion-label>Accesorios</ion-label>
         </ion-list-header>
-        @for (accessory of currentInspection()?.checkout_accessories; track
-        $index) {
-
+        @for (accessory of accessories(); track $index) {
         <ion-item>
-          <ion-checkbox color="secondary" disabled="true" checked="true"
-            >{{accessory.nomAccesorio}}
-          </ion-checkbox>
-        </ion-item>
-
-        }@empty {
-        <ion-item lines="none">
-          <ion-icon slot="start" name="alert-circle"></ion-icon>
-          <ion-label>Sin registro</ion-label>
+          <ion-checkbox
+            disabled
+            [checked]="accessory.isInCheckout"
+            [value]="accessory.idAccesorio"
+            >{{ accessory.nomAccesorio }}</ion-checkbox
+          >
         </ion-item>
         }
       </ion-list>
@@ -133,7 +140,8 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosLlantasDelanteras || 'Sin Registro'}}</ion-label
+            >{{currentInspection()?.comentariosLlantasDelanteras || 'Sin
+            Registro'}}</ion-label
           >
         </ion-item>
         <ion-item lines="none">
@@ -142,7 +150,8 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosLlantasTraseras || 'SinRegistro'}}</ion-label
+            >{{currentInspection()?.comentariosLlantasTraseras ||
+            'SinRegistro'}}</ion-label
           >
         </ion-item>
         <ion-item lines="none">
@@ -151,7 +160,8 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosBateria || 'SinRegistro'}}</ion-label
+            >{{currentInspection()?.comentariosBateria ||
+            'SinRegistro'}}</ion-label
           >
         </ion-item>
         <ion-item lines="none">
@@ -172,8 +182,8 @@
     <ion-card-header>
       <ion-card-title>Entrada</ion-card-title>
     </ion-card-header>
-    
-    <ion-card-content >
+
+    <ion-card-content>
       <ion-row>
         <ion-col size="12">
           <strong>Datos generales</strong>

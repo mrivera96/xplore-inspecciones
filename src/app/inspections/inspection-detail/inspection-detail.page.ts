@@ -19,6 +19,7 @@ import {
   faIdCard,
   faUserTie,
 } from '@fortawesome/free-solid-svg-icons';
+import { AccessoriesService } from 'src/app/shared/services/accessories.service';
 
 @Component({
   selector: 'app-inspection-detail',
@@ -30,6 +31,7 @@ import {
 export class InspectionDetailPage implements OnInit {
   //inyeccion de servicios
   private inspectionService = inject(InspectionsService);
+  private accessoriesService = inject(AccessoriesService);
 
   //declaracion de propiedades
   protected currentInspection = this.inspectionService.currentInspection;
@@ -45,8 +47,33 @@ export class InspectionDetailPage implements OnInit {
   licence = faIdCard;
   cam = faCamera;
   wheel = faCircleDot;
-  battery = faCarBattery
-  constructor() {}
+  battery = faCarBattery;
+  protected accessories = this.accessoriesService.accessories;
+
+  constructor() {
+    this.accessories.update((values) => {
+      const current = [...values];
+      current.forEach((accessory) => {
+        const accesories = this.currentInspection()?.checkout_accessories;
+        if (
+          accesories != undefined &&
+          accesories.some((x) => x.idAccesorio == accessory.idAccesorio)
+        ) {
+          accessory.isInCheckout = true;
+        }
+
+        const checkinAccessory = this.currentInspection()?.checkin_accessories;
+        if (
+          checkinAccessory != undefined &&
+          checkinAccessory.some((x) => x.idAccesorio == accessory.idAccesorio)
+        ) {
+          accessory.isInCheckin = true;
+        }
+      });
+
+      return current;
+    });
+  }
 
   ngOnInit() {}
 }
