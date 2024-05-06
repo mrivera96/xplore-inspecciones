@@ -7,6 +7,7 @@ import { InspectionCreatePageRoutingModule } from './inspection-create-routing.m
 import { InspectionCreatePage } from './inspection-create.page';
 import { IonicSelectableComponent } from 'ionic-selectable';
 import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   imports: [
     IonicModule,
@@ -16,6 +17,7 @@ import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.comp
     FormsModule,
     IonicSelectableComponent,
     ToolbarComponent,
+    FontAwesomeModule,
   ],
   declarations: [InspectionCreatePage],
   providers: [],

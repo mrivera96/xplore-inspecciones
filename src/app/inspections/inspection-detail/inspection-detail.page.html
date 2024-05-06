@@ -64,7 +64,7 @@
           <fa-icon slot="start" [icon]="gas"></fa-icon>
           <ion-label
             >Nivel de combustible:
-            {{currentInspection()?.combSalida}}</ion-label
+            {{currentInspection()?.check_out_fuel?.descTanqueComb}}</ion-label
           >
         </ion-item>
         <ion-item>
@@ -93,7 +93,8 @@
         </ion-item>
         @if (currentInspection()?.photos?.length! >0) {
         <ion-grid>
-          @for (photo of currentInspection()?.photos; track $index) {
+          @for (photo of currentInspection()?.photos; track $index) { @if
+          (photo.etapa == 'checkout') {
           <ion-col>
             <ion-card>
               <ion-card-header>
@@ -104,8 +105,7 @@
               </ion-card-content>
             </ion-card>
           </ion-col>
-
-          }</ion-grid
+          } }</ion-grid
         >
         }@else {
         <ion-item>
@@ -184,89 +184,116 @@
     </ion-card-header>
 
     <ion-card-content>
-      <ion-row>
-        <ion-col size="12">
-          <strong>Datos generales</strong>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="6"
-          >Agencia:
-          {{currentInspection()?.contract?.check_in_agency?.descAgencia}}
-        </ion-col>
-        <ion-col size="6">
-          Kilometraje: {{currentInspection()?.odoEntrega | number:'0.0'}}
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="6">
-          Nivel de combustible: {{currentInspection()?.combEntrega}}
-        </ion-col>
-        <ion-col size="6">
-          Agente: {{currentInspection()?.checkin_agent?.nomUsuario}}
-        </ion-col>
-      </ion-row>
-
-      <ion-row>
-        <ion-col size="12">
-          <strong>Daños</strong>
-        </ion-col>
-      </ion-row>
-      @for (damage of currentInspection()?.checkin_damages; track $index) {
-      <ion-card>
-        <img [src]="photosDirectory + damage.fotos" alt="foto de daño" />
-        <ion-card-header>
-          <ion-card-title
-            >Tipo de daño: {{damage.damage_type?.descTipoDanio}}</ion-card-title
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Datos generales</ion-label>
+        </ion-list-header>
+        <ion-item>
+          <fa-icon slot="start" [icon]="agency"></fa-icon>
+          <ion-label
+            >Agencia:
+            {{currentInspection()?.contract?.check_in_agency?.descAgencia}}</ion-label
           >
-          <ion-card-subtitle
-            >Pieza: {{damage.damage_part?.descPieza}}</ion-card-subtitle
+        </ion-item>
+        <ion-item>
+          <fa-icon slot="start" [icon]="gauge"></fa-icon>
+          <ion-label
+            >Kilometraje: {{currentInspection()?.odoEntrega |
+            number:'0.0'}}</ion-label
           >
-        </ion-card-header>
-      </ion-card>
+        </ion-item>
+        <ion-item>
+          <fa-icon slot="start" [icon]="gas"></fa-icon>
+          <ion-label
+            >Nivel de combustible:
+            {{currentInspection()?.check_in_fuel?.descTanqueComb}}</ion-label
+          >
+        </ion-item>
+        <ion-item>
+          <fa-icon slot="start" [icon]="agent"></fa-icon>
+          <ion-label
+            >Agente:
+            {{currentInspection()?.checkin_agent?.nomUsuario}}</ion-label
+          >
+        </ion-item>
+        <ion-item lines="none">
+          <fa-icon slot="start" [icon]="cam"></fa-icon>
+          <ion-label>Fotografías:</ion-label>
+        </ion-item>
+        @if (currentInspection()?.photos?.length! >0) {
+        <ion-grid>
+          @for (photo of currentInspection()?.photos; track $index) { @if
+          (photo.etapa == 'checkin') {
+          <ion-col>
+            <ion-card>
+              <ion-card-header>
+                <ion-card-title>{{photo.auto_part?.descPieza}}</ion-card-title>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-img [src]="photosDirectory + photo.foto"></ion-img>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+          } }</ion-grid
+        >
+        }@else {
+        <ion-item>
+          <ion-label>Sin registro</ion-label>
+        </ion-item>
+        }
+      </ion-list>
 
-      }@empty {
-      <ion-row>
-        <ion-col size="12">Sin registro</ion-col>
-      </ion-row>
-      }
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Accesorios</ion-label>
+        </ion-list-header>
+        @for (accessory of accessories(); track $index) {
+        <ion-item>
+          <ion-checkbox
+            disabled
+            [checked]="accessory.isInCheckin"
+            [value]="accessory.idAccesorio"
+            >{{ accessory.nomAccesorio }}</ion-checkbox
+          >
+        </ion-item>
+        }
+      </ion-list>
 
-      <ion-row>
-        <ion-col size="12">
-          <strong>Accesorios</strong>
-        </ion-col>
-      </ion-row>
-      <ion-grid fixed>
-        <ion-list class="ion-justify-content-start">
-          @for (accessory of currentInspection()?.checkin_accessories; track
-          $index) {
+      <ion-list>
+        <ion-list-header>
+          <ion-label>Adicional</ion-label>
+        </ion-list-header>
+        <ion-item lines="none">
+          <fa-icon slot="start" [icon]="wheel"></fa-icon>
+          <ion-label>Notas Llantas delanteras: </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label
+            >{{currentInspection()?.comentariosLlantasDelanteras || 'Sin
+            Registro'}}</ion-label
+          >
+        </ion-item>
+        <ion-item lines="none">
+          <fa-icon slot="start" [icon]="wheel"></fa-icon>
+          <ion-label>Notas Llantas traseras: </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label
+            >{{currentInspection()?.comentariosLlantasTraseras ||
+            'SinRegistro'}}</ion-label
+          >
+        </ion-item>
 
-          <ion-item>
-            <ion-checkbox color="secondary" disabled="true" checked="true"
-              >{{accessory.nomAccesorio}}
-            </ion-checkbox>
-          </ion-item>
-
-          }@empty {
-          <ion-item lines="none">
-            <ion-icon slot="start" name="alert-circle"></ion-icon>
-            <ion-label>Sin registro</ion-label>
-          </ion-item>
-          }
-        </ion-list>
-      </ion-grid>
-
-      <ion-row>
-        <ion-col size="12">
-          <strong>Firma del cliente</strong>
-        </ion-col>
-        <ion-col size="12">
+        <ion-item lines="none">
+          <ion-label>Firma del cliente</ion-label>
+        </ion-item>
+        <ion-item>
           <img
-            [src]="photosDirectory + currentInspection()?.firmaClienteEntrega"
+            [src]="photosDirectory + currentInspection()?.firmaClienteSalida"
             alt="firma del cliente"
           />
-        </ion-col>
-      </ion-row>
+        </ion-item>
+      </ion-list>
     </ion-card-content>
   </ion-card>
   }

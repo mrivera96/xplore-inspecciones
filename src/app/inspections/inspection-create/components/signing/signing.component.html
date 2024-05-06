@@ -10,6 +10,7 @@
           </ion-list-header>
           <ion-item>
             <ion-input
+              [readonly]="currentInspection()?.stage == 'checkin'"
               [(ngModel)]="notas.comentariosLlantasDelanteras"
               labelPlacement="stacked"
               type="text"
@@ -19,6 +20,7 @@
           </ion-item>
           <ion-item>
             <ion-input
+              [readonly]="currentInspection()?.stage == 'checkin'"
               [(ngModel)]="notas.comentariosLlantasTraseras"
               labelPlacement="stacked"
               type="text"
@@ -38,6 +40,24 @@
             ></ion-input>
           </ion-item>
           }
+          <ion-item>
+            <ion-input
+              [(ngModel)]="notas.emailCliente"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Email donde recibe copia el cliente"
+              label="Email del cliente"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [(ngModel)]="notas.emailCC"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Email donde recibe copia el conductor"
+              label="Email copia"
+            ></ion-input>
+          </ion-item>
         </ion-list>
       </ion-card-content>
     </ion-card>

@@ -8,8 +8,7 @@
       </ion-col>
     </ion-row>
 
-    @defer (when autoParts() != undefined) { @for (part of autoParts(); track
-    $index) {
+    @defer (when autoParts()) { @for (part of autoParts(); track $index) {
     <ion-card style="border-radius: 10px">
       <ion-card-header>
         <ion-list>
@@ -51,7 +50,13 @@
             </ion-list>
           </ion-card-header>
           <ion-card-content>
-            <ion-img [src]="'data:image/png;base64,' + photo.foto"></ion-img>
+            <ion-img
+              [src]="
+                photo.foto!.length > 100
+                  ? 'data:image/png;base64,' + photo.foto
+                  : photosDirectory + photo.foto
+              "
+            ></ion-img>
           </ion-card-content>
         </ion-card>
         } }

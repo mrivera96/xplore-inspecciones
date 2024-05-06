@@ -31,6 +31,40 @@
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item
+              routerDirection="root"
+              (click)="goToCheckouts()"
+              lines="none"
+              detail="false"
+              routerLinkActive="selected"
+            >
+              <ion-icon
+                aria-hidden="true"
+                slot="start"
+                [ios]="'folder-open-outline'"
+                [md]="'folder-open-sharp'"
+              ></ion-icon>
+              <ion-label>Inspecciones abiertas</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+          <ion-menu-toggle auto-hide="false">
+            <ion-item
+              routerDirection="root"
+              (click)="goToCheckins()"
+              lines="none"
+              detail="false"
+              routerLinkActive="selected"
+            >
+              <ion-icon
+                aria-hidden="true"
+                slot="start"
+                [ios]="'folder-outline'"
+                [md]="'folder-sharp'"
+              ></ion-icon>
+              <ion-label>Inspecciones cerradas</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
         </ion-list>
 
         <ion-list id="labels-list">

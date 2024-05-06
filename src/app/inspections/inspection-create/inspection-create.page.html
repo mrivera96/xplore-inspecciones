@@ -14,16 +14,21 @@
       <ion-col>
         <ion-card style="border-radius: 10px">
           <ion-item lines="none">
-            <ion-label>Seleccione un Vehiculo</ion-label>
+            <ion-label>Seleccione un contrato</ion-label>
             @defer (when contracts.length >0) {
-            <ion-icon color="secondary" slot="start" name="car"></ion-icon>
+            <fa-icon
+              style="color: var(--ion-color-secondary)"
+              color="secondary"
+              slot="start"
+              [icon]="contract"
+            ></fa-icon>
             <ionic-selectable
-              [formControl]="carForm"
+              [ngModel]="currentContract()"
               class="ion-margin-start"
               color="secondary"
-              [items]="cars"
-              itemValueField="idVehiculo"
-              itemTextField="nemVehiculo"
+              [items]="contracts"
+              itemValueField="idContrato"
+              itemTextField="numContrato"
               [canSearch]="true"
               (onChange)="selectContract($event)"
             >
@@ -44,10 +49,46 @@
         </ion-card>
       </ion-col>
     </ion-row>
-    @if(currentInspection()?.idVehiculo == undefined){
+    @if(currentInspection()?.stage == 'checkout'){
+
+    <ion-row>
+      <ion-col>
+        <ion-card style="border-radius: 10px">
+          <ion-item lines="none">
+            <ion-label>Seleccione un Vehiculo</ion-label>
+            @defer (when contracts.length >0) {
+            <ion-icon color="secondary" slot="start" name="car"></ion-icon>
+            <ionic-selectable
+              [ngModel]="currentCar()"
+              class="ion-margin-start"
+              color="secondary"
+              [items]="cars()"
+              itemValueField="idVehiculo"
+              itemTextField="nemVehiculo"
+              [canSearch]="true"
+              (onChange)="selectCar($event)"
+            >
+            </ionic-selectable>
+
+            } @placeholder {
+
+            <ion-label>Obteniendo datos..</ion-label>
+            <ion-spinner color="secondary" name="crescent"></ion-spinner>
+
+            } @error {
+            <span>Error</span>
+            } @loading() {
+            <span>Loading...</span>
+
+            }
+          </ion-item>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    } @if(currentInspection()?.idVehiculo == undefined){
     <ion-row class="ion-align-items-center">
       <ion-col size="12">
-        <span>Aún no ha seleccionado un vehículo...</span>
+        <span>Aún no ha seleccionado un contrato...</span>
       </ion-col>
     </ion-row>
     }@else {
@@ -58,7 +99,7 @@
             <ion-item>
               <ion-input
                 color="secondary"
-                [value]="currentContract.car?.model?.brand?.descMarca"
+                [value]="currentCar().model?.brand?.descMarca"
                 labelPlacement="stacked"
                 label="Marca de Vehículo"
                 type="text"
@@ -71,7 +112,7 @@
             <ion-item>
               <ion-input
                 color="secondary"
-                [value]="currentContract.car?.modelo"
+                [value]="currentCar().modelo"
                 labelPlacement="stacked"
                 label="Modelo de Vehículo"
                 type="text"
@@ -85,7 +126,7 @@
             <ion-item>
               <ion-input
                 color="secondary"
-                [value]="currentContract.customer?.nomCliente"
+                [value]="currentContract().customer?.nomCliente"
                 labelPlacement="stacked"
                 label="Nombre del cliente"
                 type="text"
@@ -97,7 +138,7 @@
             <ion-item>
               <ion-input
                 color="secondary"
-                [value]="currentContract.customer?.correoI"
+                [value]="currentContract().customer?.correoI"
                 labelPlacement="stacked"
                 label="Correo electrónico del cliente"
                 type="text"
@@ -109,7 +150,7 @@
             <ion-item>
               <ion-input
                 color="secondary"
-                [value]="currentContract.customer?.celularI"
+                [value]="currentContract().customer?.celularI"
                 labelPlacement="stacked"
                 label="Número celular del cliente"
                 type="text"
@@ -122,7 +163,7 @@
               <ion-input
                 ngDefaultControl
                 color="secondary"
-                [value]="currentContract.check_out_agency?.descAgencia"
+                [value]="currentContract().check_out_agency?.descAgencia"
                 labelPlacement="stacked"
                 label="Agencia"
                 type="text"
@@ -135,7 +176,7 @@
               <ion-input
                 ngDefaultControl
                 color="secondary"
-                [value]="currentContract.numContrato"
+                [value]="currentContract().numContrato"
                 labelPlacement="stacked"
                 label="Número de contrato"
                 type="text"
@@ -150,11 +191,11 @@
               <ion-input
                 required
                 color="secondary"
-                [value]="currentContract.car?.odometro"
+                [value]="currentInspection()?.stage=='checkout'? currentCar().odometro : currentInspection()?.odoSalida"
                 labelPlacement="stacked"
                 label="Kilometraje"
                 type="number"
-                [min]="currentContract.car?.odometro || 1"
+                [min]="currentInspection()?.stage=='checkout'? currentCar().odometro : currentInspection()?.odoSalida! + 1"
                 errorText="Valor no válido"
                 (ionChange)="setOdometer($event)"
               ></ion-input>
@@ -162,30 +203,26 @@
           </ion-col>
           <ion-col size="6">
             <ion-item lines="none">
-              <ion-item>
-                <ion-label>Pizza</ion-label>
-                <ion-select
-                  required
-                  [value]="currentContract.car?.fuel"
-                  labelPlacement="stacked"
-                  label="Nivel de combustible"
-                  type="text"
-                  color="secondary"
-                  errorText="Este campo es obligatorio"
-                  (ionChange)="setFuel($event)"
+              <ion-select
+                [(ngModel)]="currentFuel"
+                required
+                labelPlacement="stacked"
+                label="Nivel de combustible"
+                type="text"
+                color="secondary"
+                errorText="Este campo es obligatorio"
+                (ionChange)="setFuel($event)"
+              >
+                <ion-select-option [value]="null"
+                  >Seleccione una opción
+                </ion-select-option>
+                @for (fuelTank of fuelTanks(); track $index) {
+
+                <ion-select-option [value]="fuelTank.idTanqueComb"
+                  >{{fuelTank.descTanqueComb}}</ion-select-option
                 >
-                  <ion-select-option value="E">E </ion-select-option>
-                  <ion-select-option value="1/8">1/8</ion-select-option>
-                  <ion-select-option value="2/8">2/8</ion-select-option>
-                  <ion-select-option value="3/8">3/8</ion-select-option>
-                  <ion-select-option value="4/8">4/8</ion-select-option>
-                  <ion-select-option value="5/8">5/8</ion-select-option>
-                  <ion-select-option value="6/8">6/8</ion-select-option>
-                  <ion-select-option value="7/8">7/8</ion-select-option>
-                  <ion-select-option value="8/8">8/8</ion-select-option>
-                  <ion-select-option value="F+">F+ </ion-select-option>
-                </ion-select>
-              </ion-item>
+                }
+              </ion-select>
             </ion-item>
           </ion-col>
         </ion-row>

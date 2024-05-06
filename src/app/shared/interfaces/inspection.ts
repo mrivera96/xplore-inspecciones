@@ -1,9 +1,10 @@
-import { Photo } from './photo'
+import { Photo } from './photo';
 import { Accessory } from './accessory';
 import { Car } from './car';
 import { Contract } from './contract';
 import { Damage } from './damage';
 import { User } from './user';
+import { FuelTank } from './fuel-tank';
 
 export interface Inspection {
   idInspeccion?: number;
@@ -45,4 +46,8 @@ export interface Inspection {
   checkout_damages: Damage[];
   checkin_damages: Damage[];
   photos?: Photo[];
+  check_out_fuel?: FuelTank;
+  check_in_fuel?: FuelTank;
+  email?: string;
+  emailCC?: string;
 }

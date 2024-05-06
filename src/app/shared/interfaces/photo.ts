@@ -1,10 +1,9 @@
-import { AutoPart } from "./auto-part";
+import { AutoPart } from './auto-part';
 
 export interface Photo {
-    idInspeccion?: number;
-    idPieza?: number;
-    foto?: string | {};
-    auto_part?: AutoPart;
-    etapa?: string
-  }
-  
+  idInspeccion?: number;
+  idPieza?: number;
+  foto?: string;
+  auto_part?: AutoPart;
+  etapa?: string;
+}

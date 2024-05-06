@@ -13,8 +13,7 @@
   </ion-grid>
   <ion-card style="border-radius: 10px">
     <ion-card-content>
-      @if(currentStage == 'checkout'){ @defer (when openInspections().length >
-      0) {
+      @if(currentStage == 'checkout'){ @defer (when openInspections()) {
       <ion-list>
         @for (openInspection of openInspections(); track $index) {
         <ion-item detail="true" button (click)="gotToDetail(openInspection)">
@@ -52,8 +51,7 @@
         <ion-spinner color="secondary" name="crescent"></ion-spinner>
       </ion-item>
 
-      } } @if(currentStage == 'checkin'){ @defer (when
-      closedInspections().length>0) {
+      } } @if(currentStage == 'checkin'){ @defer (when closedInspections()) {
       <ion-list>
         @for (closedInspection of closedInspections(); track $index) {
         <ion-item detail="true" button (click)="gotToDetail(closedInspection)">

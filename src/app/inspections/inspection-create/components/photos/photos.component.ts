@@ -17,6 +17,7 @@ import { AutoPartsService } from 'src/app/shared/services/auto-parts.service';
 import { DamagesService } from 'src/app/shared/services/damages.service';
 import { InspectionsService } from 'src/app/shared/services/inspections.service';
 import { PhotoService } from 'src/app/shared/services/photo.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-photos',
@@ -40,6 +41,7 @@ export class PhotosComponent implements OnInit, OnDestroy {
   title = '';
   protected autoParts = this.autoPartsService.autoParts;
   photo = {} as Photo;
+  protected photosDirectory = environment.imagesUrl;
 
   constructor() {
     this.title =
@@ -49,15 +51,9 @@ export class PhotosComponent implements OnInit, OnDestroy {
     effect(() => {
       console.log(this.currentInspection());
       this.autoParts()?.forEach((x) => {
-        if (this.currentInspection()?.stage == 'checkin') {
-          x.count = this.currentInspection()?.photos?.filter(
-            (y) => x.idPieza == y.idPieza && y.etapa == 'checkin'
-          ).length;
-        } else {
-          x.count = this.currentInspection()?.photos?.filter(
-            (y) => x.idPieza == y.idPieza && y.etapa == 'checkout'
-          ).length;
-        }
+        x.count = this.currentInspection()?.photos?.filter(
+          (y) => x.idPieza == y.idPieza
+        ).length;
       });
       this.photo = {} as Photo;
     });

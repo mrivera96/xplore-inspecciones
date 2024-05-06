@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { register } from 'swiper/element/bundle';
 import { AuthService } from './shared/services/auth.service';
 import { NavController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 register();
 @Component({
@@ -14,11 +15,10 @@ export class AppComponent {
   private authService = inject(AuthService);
   //inyección de dependencias
   private navController = inject(NavController);
+  private router = inject(Router);
   //declaracion de propiedades
   public appPages = [
     { title: 'Inicio', url: '/home', icon: 'home' },
-    { title: 'Inspecciones abiertas', url: '/registros', icon: 'folder-open' },
-    { title: 'Inspecciones cerradas', url: '/cuentas', icon: 'folder' },
   ];
 
   public labels = [
@@ -34,5 +34,17 @@ export class AppComponent {
   onLogout() {
     this.authService.logout();
     this.navController.navigateRoot('/login');
+  }
+
+  goToCheckouts() {
+    this.router.navigate(['inspections/checkout'], {
+      state: { stage: 'checkout' },
+    });
+  }
+
+  goToCheckins() {
+    this.router.navigate(['inspections/checkin'], {
+      state: { stage: 'checkin' },
+    });
   }
 }

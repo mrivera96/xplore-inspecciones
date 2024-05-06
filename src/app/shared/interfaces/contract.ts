@@ -1,6 +1,7 @@
 import { Agency } from './agency';
 import { Car } from './car';
 import { Customer } from './customer';
+import { FuelTank } from './fuel-tank';
 import { Inspection } from './inspection';
 
 export interface Contract {
@@ -16,4 +17,6 @@ export interface Contract {
   car?: Car;
   check_out_agency?: Agency
   check_in_agency?: Agency
+  check_in_fuel?: FuelTank;
+  check_out_fuel?: FuelTank;
 }

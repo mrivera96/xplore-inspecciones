@@ -11,6 +11,7 @@ import { ContractsService } from './contracts.service';
 import { DamagesService } from './damages.service';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { CarsService } from './cars.service';
 
 @Injectable({
   providedIn: 'root',
@@ -32,13 +33,14 @@ export class InspectionsService {
   private contractsService = inject(ContractsService);
   private damagesService = inject(DamagesService);
   private accessoriesService = inject(AccessoriesService);
+  private carsService = inject(CarsService);
 
   //inyeccion de dependencias
   private navCtrl = inject(NavController);
   private router = inject(Router);
 
   //declaracion de propiedades
-  inspections = signal<Inspection[]>([]);
+  inspections = signal<Inspection[] | undefined>(undefined);
   currentInspection = signal<Inspection | undefined>(undefined);
 
   constructor() {
@@ -74,7 +76,7 @@ export class InspectionsService {
         (res) => {
           this.alertsService.dismissDefaultLoading();
           this.inspections.update((values) => {
-            return [...values, res.data as Inspection];
+            return [...(values as Inspection[]), res.data as Inspection];
           });
           this.contractsService.contracts.update((values) => {
             const current = [...values];
@@ -86,20 +88,11 @@ export class InspectionsService {
           });
 
           this.clearState();
+          this.navCtrl.navigateRoot('home');
           this.alertsService.basicAlert(
             'Éxito!',
             `Se creó exitosamente la inspección No. : ${res.data.idInspeccion}`,
-            [
-              {
-                text: 'Ok',
-                role: 'ok',
-                handler: () => {
-                  this.router.navigate(['tabs/home'], {
-                    replaceUrl: true,
-                  });
-                },
-              },
-            ]
+            ['Ok']
           );
         },
         (error: any) => {
@@ -121,7 +114,7 @@ export class InspectionsService {
         (res) => {
           this.alertsService.dismissDefaultLoading();
           this.inspections.update((values) => {
-            const current = [...values];
+            const current = [...(values as Inspection[])];
             const idx = current.findIndex(
               (x) => x.idInspeccion == this.currentInspection()?.idInspeccion
             );
@@ -139,20 +132,11 @@ export class InspectionsService {
           });
 
           this.clearState();
+          this.navCtrl.navigateRoot('home');
           this.alertsService.basicAlert(
             'Éxito!',
             `Se cerró exitosamente la inspección No. : ${res.data.idInspeccion}`,
-            [
-              {
-                text: 'Ok',
-                role: 'ok',
-                handler: () => {
-                  this.router.navigate(['tabs/home'], {
-                    replaceUrl: true,
-                  });
-                },
-              },
-            ]
+            ['Ok']
           );
         },
         (error: any) => {
@@ -171,5 +155,6 @@ export class InspectionsService {
     this.contractsService.currentContract.set({} as Contract);
     this.damagesService.damages.set([]);
     this.accessoriesService.currentAccessories.set([]);
+    this.carsService.cars.set([]);
   }
 }

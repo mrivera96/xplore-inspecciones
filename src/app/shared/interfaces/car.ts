@@ -1,4 +1,5 @@
 import { Contract } from './contract';
+import { FuelTank } from './fuel-tank';
 import { Model } from './model';
 
 export interface Car {
@@ -10,4 +11,5 @@ export interface Car {
   contract?: Contract;
   odometro?: number;
   fuel: string;
+
 }

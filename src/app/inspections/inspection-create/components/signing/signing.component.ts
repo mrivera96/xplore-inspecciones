@@ -33,6 +33,8 @@ export class SigningComponent implements OnInit {
     comentariosLlantasDelanteras?: string;
     comentariosLlantasTraseras?: string;
     comentariosBateria?: string;
+    emailCliente?: string;
+    emailCC?: string;
   } = {};
   @ViewChild('canvas') canvasref!: ElementRef<HTMLCanvasElement>;
   canvas: HTMLCanvasElement | undefined = undefined;
@@ -106,6 +108,8 @@ export class SigningComponent implements OnInit {
         current.comentariosLlantasTraseras =
           this.notas.comentariosLlantasTraseras;
         current.comentariosBateria = this.notas.comentariosBateria;
+        current.email = this.notas.emailCliente;
+        current.emailCC = this.notas.emailCC;
       }
 
       return current as Inspection;
