@@ -5,9 +5,8 @@ const config: CapacitorConfig = {
   appId: 'io.ionic.starter',
   appName: 'Xplore Inspecciones',
   webDir: 'www/browser',
-  android:{allowMixedContent:true},
-  server:{androidScheme:'CAPACITOR_HTTP_SCHEME'}
-  
+ server:{hostname:'localhost',androidScheme:'http',iosScheme:'http',cleartext:true, },
+ android:{allowMixedContent:true,},
 };
 
 export default config;

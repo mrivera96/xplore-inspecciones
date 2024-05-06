@@ -76,4 +76,8 @@ export class InspectionDetailPage implements OnInit {
   }
 
   ngOnInit() {}
+
+  ngOnDestroy(): void {
+    this.inspectionService.currentInspection.set(undefined);
+  }
 }
