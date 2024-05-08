@@ -5,8 +5,11 @@
     <ion-row>
       <ion-col size="12">
         <ion-title
-          >Nueva inspección de {{currentStage ==
-          'checkout'?'salida':'entrada'}}</ion-title
+        >Nueva inspección de {{
+            currentStage ===
+            'checkout' ? 'salida' : 'entrada'
+          }}
+        </ion-title
         >
       </ion-col>
     </ion-row>
@@ -15,245 +18,263 @@
         <ion-card style="border-radius: 10px">
           <ion-item lines="none">
             <ion-label>Seleccione un contrato</ion-label>
-            @defer (when contracts.length >0) {
-            <fa-icon
-              style="color: var(--ion-color-secondary)"
-              color="secondary"
-              slot="start"
-              [icon]="contract"
-            ></fa-icon>
-            <ionic-selectable
-              [ngModel]="currentContract()"
-              class="ion-margin-start"
-              color="secondary"
-              [items]="contracts"
-              itemValueField="idContrato"
-              itemTextField="numContrato"
-              [canSearch]="true"
-              (onChange)="selectContract($event)"
-            >
-            </ionic-selectable>
-
-            } @placeholder {
-
-            <ion-label>Obteniendo datos..</ion-label>
-            <ion-spinner color="secondary" name="crescent"></ion-spinner>
-
-            } @error {
-            <span>Error</span>
-            } @loading() {
-            <span>Loading...</span>
-
-            }
-          </ion-item>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-    @if(currentInspection()?.stage == 'checkout'){
-
-    <ion-row>
-      <ion-col>
-        <ion-card style="border-radius: 10px">
-          <ion-item lines="none">
-            <ion-label>Seleccione un Vehiculo</ion-label>
-            @defer (when contracts.length >0) {
-            <ion-icon color="secondary" slot="start" name="car"></ion-icon>
-            <ionic-selectable
-              [ngModel]="currentCar()"
-              class="ion-margin-start"
-              color="secondary"
-              [items]="cars()"
-              itemValueField="idVehiculo"
-              itemTextField="nemVehiculo"
-              [canSearch]="true"
-              (onChange)="selectCar($event)"
-            >
-            </ionic-selectable>
-
-            } @placeholder {
-
-            <ion-label>Obteniendo datos..</ion-label>
-            <ion-spinner color="secondary" name="crescent"></ion-spinner>
-
-            } @error {
-            <span>Error</span>
-            } @loading() {
-            <span>Loading...</span>
-
-            }
-          </ion-item>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-    } @if(currentInspection()?.idVehiculo == undefined){
-    <ion-row class="ion-align-items-center">
-      <ion-col size="12">
-        <span>Aún no ha seleccionado un contrato...</span>
-      </ion-col>
-    </ion-row>
-    }@else {
-    <ion-card style="border-radius: 10px">
-      <ion-list>
-        <ion-row>
-          <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
-            <ion-item>
-              <ion-input
+            @defer (when contracts.length > 0) {
+              <fa-icon
+                style="color: var(--ion-color-secondary)"
                 color="secondary"
-                [value]="currentCar().model?.brand?.descMarca"
-                labelPlacement="stacked"
-                label="Marca de Vehículo"
-                type="text"
-                placeholder="Awesome Input"
-                readonly
-              ></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
-            <ion-item>
-              <ion-input
+                slot="start"
+                [icon]="contract"
+              ></fa-icon>
+              <ionic-selectable
+                [ngModel]="currentContract()"
+                class="ion-margin-start"
                 color="secondary"
-                [value]="currentCar().modelo"
-                labelPlacement="stacked"
-                label="Modelo de Vehículo"
-                type="text"
-                readonly
-              ></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="12">
-            <ion-item>
-              <ion-input
-                color="secondary"
-                [value]="currentContract().customer?.nomCliente"
-                labelPlacement="stacked"
-                label="Nombre del cliente"
-                type="text"
-                readonly
-              ></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size="12">
-            <ion-item>
-              <ion-input
-                color="secondary"
-                [value]="currentContract().customer?.correoI"
-                labelPlacement="stacked"
-                label="Correo electrónico del cliente"
-                type="text"
-                readonly
-              ></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size="12">
-            <ion-item>
-              <ion-input
-                color="secondary"
-                [value]="currentContract().customer?.celularI"
-                labelPlacement="stacked"
-                label="Número celular del cliente"
-                type="text"
-                readonly
-              ></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col>
-            <ion-item>
-              <ion-input
-                ngDefaultControl
-                color="secondary"
-                [value]="currentContract().check_out_agency?.descAgencia"
-                labelPlacement="stacked"
-                label="Agencia"
-                type="text"
-                readonly
-              ></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col>
-            <ion-item>
-              <ion-input
-                ngDefaultControl
-                color="secondary"
-                [value]="currentContract().numContrato"
-                labelPlacement="stacked"
-                label="Número de contrato"
-                type="text"
-                readonly
-              ></ion-input>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col size="6">
-            <ion-item lines="none">
-              <ion-input
-                required
-                color="secondary"
-                [value]="currentInspection()?.stage=='checkout'? currentCar().odometro : currentInspection()?.odoSalida"
-                labelPlacement="stacked"
-                label="Kilometraje"
-                type="number"
-                [min]="currentInspection()?.stage=='checkout'? currentCar().odometro : currentInspection()?.odoSalida! + 1"
-                errorText="Valor no válido"
-                (ionChange)="setOdometer($event)"
-              ></ion-input>
-            </ion-item>
-          </ion-col>
-          <ion-col size="6">
-            <ion-item lines="none">
-              <ion-select
-                [(ngModel)]="currentFuel"
-                required
-                labelPlacement="stacked"
-                label="Nivel de combustible"
-                type="text"
-                color="secondary"
-                errorText="Este campo es obligatorio"
-                (ionChange)="setFuel($event)"
+                [items]="contracts"
+                itemValueField="idContrato"
+                itemTextField="numContrato"
+                [canSearch]="true"
+                (onChange)="selectContract($event)"
               >
-                <ion-select-option [value]="null"
-                  >Seleccione una opción
-                </ion-select-option>
-                @for (fuelTank of fuelTanks(); track $index) {
+              </ionic-selectable>
 
-                <ion-select-option [value]="fuelTank.idTanqueComb"
-                  >{{fuelTank.descTanqueComb}}</ion-select-option
-                >
-                }
-              </ion-select>
-            </ion-item>
-          </ion-col>
-        </ion-row>
-      </ion-list>
-    </ion-card>
+            } @placeholder {
 
-    @if (currentInspection()?.fotoLicencia != undefined) {
+              <ion-label>Obteniendo datos..</ion-label>
+              <ion-spinner color="secondary" name="crescent"></ion-spinner>
 
-    <ion-card style="border-radius: 10px">
-      <ion-card-header>
-        <ion-list>
-          <ion-item lines="none">
-            <ion-card-title>Documento</ion-card-title>
-            <ion-icon
-              button
-              color="danger"
-              name="close-circle"
-              slot="end"
-              (click)="removeDocument()"
-            ></ion-icon>
+            } @error {
+              <span>Error</span>
+            } @loading () {
+              <span>Loading...</span>
+
+            }
           </ion-item>
-        </ion-list>
-      </ion-card-header>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    @if (currentInspection()?.stage === 'checkout') {
 
-      <ion-card-content>
-        <ion-img
-          [src]="'data:image/png;base64,' + currentInspection()?.fotoLicencia"
-        ></ion-img>
-      </ion-card-content>
-    </ion-card>
-    } }
+      <ion-row>
+        <ion-col>
+          <ion-card style="border-radius: 10px">
+            <ion-item lines="none">
+              <ion-label>Seleccione un Vehiculo</ion-label>
+              @defer (when contracts.length > 0) {
+                <ion-icon color="secondary" slot="start" name="car"></ion-icon>
+                <ionic-selectable
+                  [ngModel]="currentCar()"
+                  class="ion-margin-start"
+                  color="secondary"
+                  [items]="cars()"
+                  itemValueField="idVehiculo"
+                  itemTextField="nemVehiculo"
+                  [canSearch]="true"
+                  (onChange)="selectCar($event)"
+                >
+                </ionic-selectable>
+
+              } @placeholder {
+
+                <ion-label>Obteniendo datos..</ion-label>
+                <ion-spinner color="secondary" name="crescent"></ion-spinner>
+
+              } @error {
+                <span>Error</span>
+              } @loading () {
+                <span>Loading...</span>
+
+              }
+            </ion-item>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    }
+    @if (currentInspection()?.idVehiculo === undefined) {
+      <ion-row class="ion-align-items-center">
+        <ion-col size="12">
+          <span>Aún no ha seleccionado un contrato...</span>
+        </ion-col>
+      </ion-row>
+    } @else {
+      <ion-card style="border-radius: 10px">
+        <ion-list>
+          <ion-row>
+            <ion-col size="12">
+              <ion-item>
+                <ion-input
+                  color="secondary"
+                  [value]="currentContract().customer?.nomCliente"
+                  labelPlacement="stacked"
+                  label="Nombre del cliente"
+                  type="text"
+                  readonly
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+              <ion-item>
+                <ion-input
+                  color="secondary"
+                  [value]="currentContract().additional_driver.nomUsuario"
+                  labelPlacement="stacked"
+                  label="Conductor Adicional"
+                  type="text"
+                  readonly
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
+              <ion-item>
+                <ion-input
+                  color="secondary"
+                  [value]="currentCar().model?.brand?.descMarca"
+                  labelPlacement="stacked"
+                  label="Marca de Vehículo"
+                  type="text"
+                  placeholder="Awesome Input"
+                  readonly
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
+              <ion-item>
+                <ion-input
+                  color="secondary"
+                  [value]="currentCar().modelo"
+                  labelPlacement="stacked"
+                  label="Modelo de Vehículo"
+                  type="text"
+                  readonly
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+
+            <ion-col size="12">
+              <ion-item>
+                <ion-input
+                  color="secondary"
+                  [value]="currentContract().customer?.correoI"
+                  labelPlacement="stacked"
+                  label="Correo electrónico del cliente"
+                  type="email"
+                  readonly
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="12">
+              <ion-item>
+                <ion-input
+                  color="secondary"
+                  [value]="currentContract().customer?.celularI"
+                  labelPlacement="stacked"
+                  label="Número celular del cliente"
+                  type="text"
+                  readonly
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-input
+                  ngDefaultControl
+                  color="secondary"
+                  [value]="currentContract().check_out_agency?.descAgencia"
+                  labelPlacement="stacked"
+                  label="Agencia"
+                  type="text"
+                  readonly
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col>
+              <ion-item>
+                <ion-input
+                  ngDefaultControl
+                  color="secondary"
+                  [value]="currentContract().numContrato"
+                  labelPlacement="stacked"
+                  label="Número de contrato"
+                  type="text"
+                  readonly
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-input
+                  required
+                  color="secondary"
+                  [value]="currentInspection()?.stage==='checkout'? currentCar().odometro : currentInspection()?.odoSalida"
+                  labelPlacement="stacked"
+                  label="Kilometraje"
+                  type="number"
+                  [min]="currentInspection()?.stage==='checkout'? currentCar().odometro : currentInspection()?.odoSalida! + 1"
+                  errorText="Valor no válido"
+                  (ionChange)="setOdometer($event)"
+                ></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col size="6">
+              <ion-item lines="none">
+                <ion-select
+                  [(ngModel)]="currentFuel"
+                  required
+                  labelPlacement="stacked"
+                  label="Nivel de combustible"
+                  type="text"
+                  color="secondary"
+                  errorText="Este campo es obligatorio"
+                  (ionChange)="setFuel($event)"
+                >
+                  <ion-select-option [value]="null"
+                  >Seleccione una opción
+                  </ion-select-option>
+                  @for (fuelTank of fuelTanks(); track $index) {
+
+                    <ion-select-option [value]="fuelTank.idTanqueComb"
+                    >{{ fuelTank.descTanqueComb }}
+                    </ion-select-option
+                    >
+                  }
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </ion-list>
+      </ion-card>
+
+      @if (currentInspection()?.fotoLicencia !== undefined) {
+
+        <ion-card style="border-radius: 10px">
+          <ion-card-header>
+            <ion-list>
+              <ion-item lines="none">
+                <ion-card-title>Documento</ion-card-title>
+                <ion-icon
+                  button
+                  color="danger"
+                  name="close-circle"
+                  slot="end"
+                  (click)="removeDocument()"
+                ></ion-icon>
+              </ion-item>
+            </ion-list>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-img
+              [src]="'data:image/png;base64,' + currentInspection()?.fotoLicencia"
+            ></ion-img>
+          </ion-card-content>
+        </ion-card>
+      }
+    }
 
     <!-- } @case(2) {
     <app-damages></app-damages>
@@ -263,13 +284,13 @@
     <app-signing></app-signing>
     }} -->
   </ion-grid>
-  @if(currentInspection()?.idVehiculo != undefined && currentStage ==
-  'checkout'){
-  <ion-fab vertical="bottom" horizontal="start" slot="fixed">
-    <ion-fab-button (click)="addDocument()">
-      <ion-icon name="document-attach"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+  @if (currentInspection()?.idVehiculo !== undefined && currentStage ===
+  'checkout') {
+    <ion-fab vertical="bottom" horizontal="start" slot="fixed">
+      <ion-fab-button (click)="addDocument()">
+        <ion-icon name="document-attach"></ion-icon>
+      </ion-fab-button>
+    </ion-fab>
   }
 </ion-content>
 

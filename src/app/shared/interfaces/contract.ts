@@ -1,8 +1,9 @@
-import { Agency } from './agency';
-import { Car } from './car';
-import { Customer } from './customer';
-import { FuelTank } from './fuel-tank';
-import { Inspection } from './inspection';
+import {Agency} from './agency';
+import {Car} from './car';
+import {Customer} from './customer';
+import {FuelTank} from './fuel-tank';
+import {Inspection} from './inspection';
+import {User} from "./user";
 
 export interface Contract {
   inspection?: Inspection;
@@ -19,4 +20,7 @@ export interface Contract {
   check_in_agency?: Agency
   check_in_fuel?: FuelTank;
   check_out_fuel?: FuelTank;
+  driver?: User;
+  additional_driver?: User
+
 }
