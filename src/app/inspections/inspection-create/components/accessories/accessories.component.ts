@@ -1,7 +1,9 @@
-import { Component, OnInit, effect, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.component';
 import { Accessory } from 'src/app/shared/interfaces/accessory';
+import { Customer } from 'src/app/shared/interfaces/customer';
 import { Inspection } from 'src/app/shared/interfaces/inspection';
 import { AccessoriesService } from 'src/app/shared/services/accessories.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
@@ -22,13 +24,17 @@ export class AccessoriesComponent implements OnInit {
 
   //inyeccion de dependencias
   private navCtrl = inject(NavController);
+  private router = inject(Router);
 
   //declaracion de propiedades
   protected accessories = this.accessoriesService.accessories;
   currentInspection = this.inspectionsService.currentInspection;
   title: string;
+  customer: Customer;
+  driver: Customer;
 
   constructor() {
+    console.log({customer:this.router.getCurrentNavigation()?.extras?.state?.['customer'], driver:this.router.getCurrentNavigation()?.extras?.state?.['driver']})
     this.title =
       this.inspectionsService.currentInspection()?.stage == 'checkin'
         ? ' Checkin'
@@ -50,6 +56,9 @@ export class AccessoriesComponent implements OnInit {
         return current;
       });
     }
+    this.customer =
+      this.router.getCurrentNavigation()?.extras?.state?.['customer'];
+    this.driver = this.router.getCurrentNavigation()?.extras?.state?.['driver'];
   }
 
   ngOnInit() {}
@@ -103,14 +112,24 @@ export class AccessoriesComponent implements OnInit {
             text: 'Ok',
             role: 'ok',
             handler: () => {
-              this.navCtrl.navigateForward(['/inspections/create/signing']);
+              this.navCtrl.navigateForward(['/inspections/create/signing'], {
+                state: {
+                  customer: this.customer,
+                  driver: this.driver,
+                },
+              });
             },
           },
           'Cancel',
         ]
       );
     } else {
-      this.navCtrl.navigateForward(['/inspections/create/signing']);
+      this.navCtrl.navigateForward(['/inspections/create/signing'], {
+        state: {
+          customer: this.customer,
+          driver: this.driver,
+        },
+      });
     }
   }
   goToPrev() {

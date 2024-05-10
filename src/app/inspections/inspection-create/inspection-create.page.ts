@@ -1,17 +1,16 @@
 import { Component, OnDestroy, effect, inject } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import { faFileInvoice } from '@fortawesome/free-solid-svg-icons';
 import { NavController } from '@ionic/angular';
+import { Car } from 'src/app/shared/interfaces/car';
+import { CarsService } from 'src/app/shared/services/cars.service';
+import { FuelTanksService } from 'src/app/shared/services/fuel-tanks.service';
 import { Contract } from '../../shared/interfaces/contract';
 import { Inspection } from '../../shared/interfaces/inspection';
 import { AlertService } from '../../shared/services/alert.service';
 import { ContractsService } from '../../shared/services/contracts.service';
 import { InspectionsService } from '../../shared/services/inspections.service';
 import { PhotoService } from '../../shared/services/photo.service';
-import { FuelTanksService } from 'src/app/shared/services/fuel-tanks.service';
-import { faFileInvoice } from '@fortawesome/free-solid-svg-icons';
-import { CarsService } from 'src/app/shared/services/cars.service';
-import { Car } from 'src/app/shared/interfaces/car';
 @Component({
   selector: 'app-inspection-create',
   templateUrl: 'inspection-create.page.html',
@@ -131,6 +130,7 @@ export class InspectionCreatePage implements OnDestroy {
     this.carsService.currentCar.set(this.currentInspection()?.car as Car);
   }
   private initializeCheckout() {
+    this.currentFuel = this.currentContract().check_out_fuel?.idTanqueComb;
     this.inspectionsServices.currentInspection.update((values) => {
       const current = { ...values };
       {
@@ -149,13 +149,12 @@ export class InspectionCreatePage implements OnDestroy {
         current.daniosSalida = [];
         current.accesoriosSalida = [];
         current.photos = [];
+        current.combSalida = this.currentFuel;
       }
 
       return current as Inspection;
     });
     this.carsService.currentCar.set(this.currentContract().car as Car);
-
-    this.currentFuel = this.currentContract().check_out_fuel?.idTanqueComb;
   }
 
   goToNext() {
@@ -173,7 +172,12 @@ export class InspectionCreatePage implements OnDestroy {
     }
 
     if (carSet && fuelSet && odoSet) {
-      this.navCtlr.navigateForward(['/inspections/create/photos']);
+      this.navCtlr.navigateForward(['/inspections/create/photos'], {
+        state: {
+          customer: this.currentContract().customer,
+          driver: this.currentContract().driver,
+        },
+      });
     } else {
       const message = !carSet
         ? 'No ha seleccionado un vehículo'

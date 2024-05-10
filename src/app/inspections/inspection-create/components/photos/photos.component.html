@@ -8,7 +8,8 @@
       </ion-col>
     </ion-row>
 
-    @defer (when autoParts()) { @for (part of autoParts(); track $index) {
+    @defer (when autoParts().length > 0) { @for (part of autoParts(); track
+    $index) {
     <ion-card style="border-radius: 10px">
       <ion-card-header>
         <ion-list>
@@ -36,6 +37,7 @@
         @if(photo.idPieza == part.idPieza){
 
         <ion-card>
+          @if(photo.foto!.length > 100){
           <ion-card-header>
             <ion-list>
               <ion-item lines="none">
@@ -49,6 +51,7 @@
               </ion-item>
             </ion-list>
           </ion-card-header>
+          }
           <ion-card-content>
             <ion-img-viewer
               [title]="photo.auto_part?.descPieza"

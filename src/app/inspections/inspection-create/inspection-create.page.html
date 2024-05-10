@@ -111,7 +111,7 @@
             <ion-item>
               <ion-input
                 color="secondary"
-                [value]="currentContract().driver?.nomUsuario || 'Sin Registro'"
+                [value]="currentContract().driver?.nomCliente || 'Sin Registro'"
                 labelPlacement="stacked"
                 label="Conductor Adicional"
                 type="text"
@@ -121,7 +121,7 @@
           </ion-col>
         </ion-row>
         <ion-row>
-          <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
+          <ion-col size="12">
             <ion-item>
               <ion-input
                 color="secondary"
@@ -134,7 +134,7 @@
               ></ion-input>
             </ion-item>
           </ion-col>
-          <ion-col sizeLg="6" sizeMd="6" sizeSm="12">
+          <ion-col size="12">
             <ion-item>
               <ion-input
                 color="secondary"
@@ -151,32 +151,40 @@
         <ion-row>
           <ion-col size="6">
             <ion-item lines="none">
+              <ion-label
+              
+                style="--color: var(--ion-color-secondary)"
+                position="stacked"
+                >{{'*'+'Kilometraje' +' '+
+                (currentInspection()?.stage==='checkout'?'OUT':'IN')}}</ion-label
+              >
               <ion-input
                 required
-                color="secondary"
                 [value]="currentInspection()?.stage==='checkout'? currentCar().odometro : currentInspection()?.odoSalida"
-                labelPlacement="stacked"
-                [label]="'*'+'Kilometraje' +' '+ (currentInspection()?.stage==='checkout'?'OUT':'IN')"
                 type="number"
                 [min]="currentInspection()?.stage==='checkout'? currentCar().odometro : currentInspection()?.odoSalida! + 1"
                 errorText="Valor no válido"
-                style="--label-color: var(--ion-color-secondary)"
                 (ionChange)="setOdometer($event)"
+                aria-label="Kilometraje"
               ></ion-input>
             </ion-item>
           </ion-col>
           <ion-col size="6">
             <ion-item>
+              <ion-label
+                style="--color: var(--ion-color-secondary)"
+                position="stacked"
+                >{{'*'+'Nivel de Combustible' +' '+
+                (currentInspection()?.stage==='checkout'?'OUT':'IN')}}</ion-label
+              >
               <ion-select
                 [(ngModel)]="currentFuel"
                 required
-                labelPlacement="stacked"
-                [label]="'*'+'Nivel de Combustible' +' '+ (currentInspection()?.stage==='checkout'?'OUT':'IN')"
+                [label]=""
                 type="text"
-                color="secondary"
-                style="--placeholder-color: var(--ion-color-secondary)"
                 errorText="Este campo es obligatorio"
                 (ionChange)="setFuel($event)"
+                aria-label="Nivel de Combustible"
               >
                 <ion-select-option [value]="null"
                   >Seleccione una opción

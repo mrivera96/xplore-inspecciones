@@ -6,9 +6,11 @@ import {
   inject,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import SignaturePad from 'signature_pad';
 import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.component';
+import { Customer } from 'src/app/shared/interfaces/customer';
 import { Inspection } from 'src/app/shared/interfaces/inspection';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { InspectionsService } from 'src/app/shared/services/inspections.service';
@@ -27,6 +29,7 @@ export class SigningComponent implements OnInit {
 
   //inyeccion de dependencias
   private navCtrl = inject(NavController);
+  router = inject(Router);
 
   //declaracion de propiedades
   notas: {
@@ -58,6 +61,16 @@ export class SigningComponent implements OnInit {
           this.currentInspection()?.comentariosLlantasTraseras,
       };
     }
+    this.notas.emailCliente =
+      this.currentInspection()?.stage === 'checkout'
+        ? this.router.getCurrentNavigation()?.extras?.state?.['customer']
+            ?.correoI || ''
+        : this.currentInspection()?.correoCliente;
+    this.notas.emailCC =
+      this.currentInspection()?.stage === 'checkout'
+        ? this.router.getCurrentNavigation()?.extras?.state?.['driver']
+            ?.correoI || ''
+        : this.currentInspection()?.correoCliente;
   }
 
   ngOnInit() {}
@@ -86,8 +99,21 @@ export class SigningComponent implements OnInit {
     if (this.signaturePad?.isEmpty()) {
       this.alertsService.basicAlert(
         'Atención!',
-        'No ha registrado ninguna firma.',
-        ['Ok']
+        '¿Desea finalizar inspección sin firma del cliente?',
+        [
+          {
+            text: 'Ok',
+            role: 'ok',
+            handler: () => {
+              if (this.currentInspection()?.stage == 'checkout') {
+                this.saveCheckout();
+              } else {
+                this.saveCheckin();
+              }
+            },
+          },
+          'Cancel',
+        ]
       );
     } else {
       if (this.currentInspection()?.stage == 'checkout') {
@@ -102,14 +128,17 @@ export class SigningComponent implements OnInit {
     this.currentInspection.update((values) => {
       const current = { ...values };
       {
-        current.firmaClienteSalida = this.signaturePad?.toDataURL('image/png');
+        if(!this.signaturePad?.isEmpty()){
+
+          current.firmaClienteSalida = this.signaturePad?.toDataURL('image/png');
+        }
         current.comentariosLlantasDelanteras =
           this.notas.comentariosLlantasDelanteras;
         current.comentariosLlantasTraseras =
           this.notas.comentariosLlantasTraseras;
         current.comentariosBateria = this.notas.comentariosBateria;
-        current.email = this.notas.emailCliente;
-        current.emailCC = this.notas.emailCC;
+        current.correoCliente = this.notas.emailCliente;
+        current.correoConductor = this.notas.emailCC;
       }
 
       return current as Inspection;
@@ -128,6 +157,8 @@ export class SigningComponent implements OnInit {
         current.comentariosLlantasTraseras =
           this.notas.comentariosLlantasTraseras;
         current.comentariosBateria = this.notas.comentariosBateria;
+        current.correoCliente = this.notas.emailCliente;
+        current.correoConductor = this.notas.emailCC;
       }
 
       return current as Inspection;

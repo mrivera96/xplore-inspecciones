@@ -20,7 +20,7 @@ export interface Contract {
   check_in_agency?: Agency
   check_in_fuel?: FuelTank;
   check_out_fuel?: FuelTank;
-  driver?: User;
-  additional_driver?: User
+  driver?: Customer;
+  additional_driver?: Customer
 
 }

@@ -1,18 +1,13 @@
-import {
-  Component,
-  OnDestroy,
-  OnInit,
-  computed,
-  effect,
-  inject,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit, effect, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { NgxIonicImageViewerModule } from '@herdwatch-apps/ngx-ionic-image-viewer';
 import { IonicModule, NavController } from '@ionic/angular';
 import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.component';
 import { AutoPart } from 'src/app/shared/interfaces/auto-part';
-import { Damage } from 'src/app/shared/interfaces/damage';
+import { Customer } from 'src/app/shared/interfaces/customer';
 import { Inspection } from 'src/app/shared/interfaces/inspection';
 import { Photo } from 'src/app/shared/interfaces/photo';
+import { User } from 'src/app/shared/interfaces/user';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { AutoPartsService } from 'src/app/shared/services/auto-parts.service';
 import { DamagesService } from 'src/app/shared/services/damages.service';
@@ -37,12 +32,15 @@ export class PhotosComponent implements OnInit, OnDestroy {
 
   //inyeccion de dependencias
   navCtrl = inject(NavController);
+  router = inject(Router);
 
   //declaracion de propiedades
   title = '';
   protected autoParts = this.autoPartsService.autoParts;
   photo = {} as Photo;
   protected photosDirectory = environment.imagesUrl;
+  customer: Customer;
+  driver: Customer;
 
   constructor() {
     this.title =
@@ -58,6 +56,9 @@ export class PhotosComponent implements OnInit, OnDestroy {
       });
       this.photo = {} as Photo;
     });
+    this.customer =
+      this.router.getCurrentNavigation()?.extras?.state?.['customer'];
+    this.driver = this.router.getCurrentNavigation()?.extras?.state?.['driver'];
   }
 
   currentInspection = this.inspectionsService.currentInspection;
@@ -67,7 +68,12 @@ export class PhotosComponent implements OnInit, OnDestroy {
   ngOnDestroy() {}
 
   goToNext() {
-    this.navCtrl.navigateForward(['/inspections/create/accessories']);
+    this.navCtrl.navigateForward(['/inspections/create/accessories'], {
+      state: {
+        customer: this.customer,
+        driver: this.driver,
+      },
+    });
   }
 
   goToPrev() {

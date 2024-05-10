@@ -12,6 +12,7 @@ import { DamagesService } from './damages.service';
 import { NavController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { CarsService } from './cars.service';
+import { Car } from '../interfaces/car';
 
 @Injectable({
   providedIn: 'root',
@@ -91,7 +92,7 @@ export class InspectionsService {
           this.navCtrl.navigateRoot('home');
           this.alertsService.basicAlert(
             'Éxito!',
-            `Se creó exitosamente la inspección No. : ${res.data.idInspeccion}`,
+            `Inspección ${res.data.idInspeccion} - guardada exitosamente. Vehículo: ${res.data.car.nemVehiculo} | Contrato No.: ${res.data.contract.numContrato}.`,
             ['Ok']
           );
         },
@@ -155,6 +156,6 @@ export class InspectionsService {
     this.contractsService.currentContract.set({} as Contract);
     this.damagesService.damages.set([]);
     this.accessoriesService.currentAccessories.set([]);
-    this.carsService.cars.set([]);
+    this.carsService.currentCar.set({} as Car);
   }
 }

@@ -12,11 +12,11 @@ export interface Inspection {
   idContrato?: number;
   idCliente?: number;
   idAgenciaSalida?: number;
-  combSalida?: string;
+  combSalida?: number;
   odoSalida?: number;
   firmaClienteSalida?: string | {};
   idAgenciaEntrega?: number;
-  combEntrega?: string;
+  combEntrega?: number;
   rendCombEntrega?: string;
   odoEntrega?: number;
   firmaClienteEntrega?: string;
@@ -48,6 +48,6 @@ export interface Inspection {
   photos?: Photo[];
   check_out_fuel?: FuelTank;
   check_in_fuel?: FuelTank;
-  email?: string;
-  emailCC?: string;
+  correoCliente?: string;
+  correoConductor?: string;
 }
