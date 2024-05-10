@@ -50,13 +50,17 @@
             </ion-list>
           </ion-card-header>
           <ion-card-content>
-            <ion-img
+            <ion-img-viewer
+              [title]="photo.auto_part?.descPieza"
+              text="Preview"
+              scheme="light"
               [src]="
                 photo.foto!.length > 100
                   ? 'data:image/png;base64,' + photo.foto
                   : photosDirectory + photo.foto
               "
-            ></ion-img>
+            >
+            </ion-img-viewer>
           </ion-card-content>
         </ion-card>
         } }

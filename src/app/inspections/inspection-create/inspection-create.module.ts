@@ -8,6 +8,8 @@ import { InspectionCreatePage } from './inspection-create.page';
 import { IonicSelectableComponent } from 'ionic-selectable';
 import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { NgxIonicImageViewerModule } from '@herdwatch-apps/ngx-ionic-image-viewer';
+
 @NgModule({
   imports: [
     IonicModule,
@@ -18,6 +20,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     IonicSelectableComponent,
     ToolbarComponent,
     FontAwesomeModule,
+    NgxIonicImageViewerModule
   ],
   declarations: [InspectionCreatePage],
   providers: [],

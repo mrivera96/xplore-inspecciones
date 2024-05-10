@@ -75,11 +75,13 @@ export class InspectionCreatePage implements OnDestroy {
       ?.find((x) => x.idVehiculo == e.value.idVehiculo) as Contract;
 
     this.contractsService.setCurrentContract(currentContract);
-    const current = this.inspectionsServices
-      .inspections()!
-      .find((x) => x.idContrato == currentContract.idContrato);
+    const current = this.inspectionsServices.inspections()!;
+
     if (this.currentStage == 'checkin' && current != undefined) {
-      this.initializeCheckin(current);
+      const currInspection = current.find(
+        (x) => x.idContrato == currentContract.idContrato
+      );
+      this.initializeCheckin(currInspection as Inspection);
     } else {
       this.initializeCheckout();
     }

@@ -7,6 +7,11 @@ import { InspectionGuard } from '../shared/guards/inspection.guard';
 
 const routes: Routes = [
   {
+    path:'',
+    redirectTo:'/home',
+    pathMatch:'full'
+  },
+  {
     path: 'checkout',
     component: InspectionsPage,
     canActivate: [UserGuard],
@@ -27,6 +32,7 @@ const routes: Routes = [
       import('./inspection-create/inspection-create.module').then(
         (m) => m.InspectionCreatePageModule
       ),
+    canActivate: [InspectionGuard],
   },
 ];
 

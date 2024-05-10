@@ -6,6 +6,7 @@ import {
   effect,
   inject,
 } from '@angular/core';
+import { NgxIonicImageViewerModule } from '@herdwatch-apps/ngx-ionic-image-viewer';
 import { IonicModule, NavController } from '@ionic/angular';
 import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.component';
 import { AutoPart } from 'src/app/shared/interfaces/auto-part';
@@ -24,7 +25,7 @@ import { environment } from 'src/environments/environment';
   templateUrl: './photos.component.html',
   styleUrls: ['./photos.component.scss'],
   standalone: true,
-  imports: [IonicModule, ToolbarComponent],
+  imports: [IonicModule, ToolbarComponent, NgxIonicImageViewerModule],
 })
 export class PhotosComponent implements OnInit, OnDestroy {
   //inyeccion de servicios

@@ -80,9 +80,15 @@
         </ion-item>
         <ion-item>
           @if (currentInspection()?.fotoLicencia != null) {
-          <ion-img
+
+          <ion-img-viewer
+            title="Licencia"
+            text="Preview"
+            scheme="light"
             [src]="photosDirectory + currentInspection()?.fotoLicencia"
-          ></ion-img>
+          >
+          </ion-img-viewer>
+
           }@else {
           <ion-label>Sin registro</ion-label>
           }
@@ -101,7 +107,13 @@
                 <ion-card-title>{{photo.auto_part?.descPieza}}</ion-card-title>
               </ion-card-header>
               <ion-card-content>
-                <ion-img [src]="photosDirectory + photo.foto"></ion-img>
+                <ion-img-viewer
+                  [title]="photo.auto_part?.descPieza +' ' + 'OUT'"
+                  text="Preview"
+                  scheme="light"
+                  [src]="photosDirectory + photo.foto"
+                >
+                </ion-img-viewer>
               </ion-card-content>
             </ion-card>
           </ion-col>
@@ -168,10 +180,13 @@
           <ion-label>Firma del cliente</ion-label>
         </ion-item>
         <ion-item>
-          <img
+          <ion-img-viewer
+            title="Firma del Cliente OUT"
+            text="Preview"
+            scheme="light"
             [src]="photosDirectory + currentInspection()?.firmaClienteSalida"
-            alt="firma del cliente"
-          />
+          >
+          </ion-img-viewer>
         </ion-item>
       </ion-list>
     </ion-card-content>
@@ -230,7 +245,13 @@
                 <ion-card-title>{{photo.auto_part?.descPieza}}</ion-card-title>
               </ion-card-header>
               <ion-card-content>
-                <ion-img [src]="photosDirectory + photo.foto"></ion-img>
+                <ion-img-viewer
+                  [title]="photo.auto_part?.descPieza +' ' + 'IN'"
+                  text="Preview"
+                  scheme="light"
+                  [src]="photosDirectory + photo.foto"
+                >
+                </ion-img-viewer>
               </ion-card-content>
             </ion-card>
           </ion-col>
@@ -288,10 +309,13 @@
           <ion-label>Firma del cliente</ion-label>
         </ion-item>
         <ion-item>
-          <img
+          <ion-img-viewer
+            title="Firma del Cliente IN"
+            text="Preview"
+            scheme="light"
             [src]="photosDirectory + currentInspection()?.firmaClienteSalida"
-            alt="firma del cliente"
-          />
+          >
+          </ion-img-viewer>
         </ion-item>
       </ion-list>
     </ion-card-content>

@@ -20,13 +20,20 @@ import {
   faUserTie,
 } from '@fortawesome/free-solid-svg-icons';
 import { AccessoriesService } from 'src/app/shared/services/accessories.service';
+import { NgxIonicImageViewerModule } from '@herdwatch-apps/ngx-ionic-image-viewer';
 
 @Component({
   selector: 'app-inspection-detail',
   templateUrl: './inspection-detail.page.html',
   styleUrls: ['./inspection-detail.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, ToolbarComponent, FontAwesomeModule],
+  imports: [
+    IonicModule,
+    CommonModule,
+    ToolbarComponent,
+    FontAwesomeModule,
+    NgxIonicImageViewerModule,
+  ],
 })
 export class InspectionDetailPage implements OnInit {
   //inyeccion de servicios

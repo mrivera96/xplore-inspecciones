@@ -11,5 +11,5 @@ export interface Car {
   contract?: Contract;
   odometro?: number;
   fuel: string;
-
+  color?: string;
 }
