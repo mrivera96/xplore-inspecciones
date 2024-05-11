@@ -23,8 +23,7 @@ export interface Inspection {
   nomRecibeVehiculo?: string;
   nomEntregaVehiculo?: string;
   fotoLicencia?: string;
-  daniosSalida: Damage[];
-  daniosEntrega: Damage[];
+  damages: Damage[];
   accesoriosSalida: Accessory[];
   accesoriosEntrega: Accessory[];
   state?: { idEstado?: number; descEstado?: string };
@@ -43,8 +42,6 @@ export interface Inspection {
   checkin_accessories?: any[];
   checkout_agent?: User;
   checkin_agent?: User;
-  checkout_damages: Damage[];
-  checkin_damages: Damage[];
   photos?: Photo[];
   check_out_fuel?: FuelTank;
   check_in_fuel?: FuelTank;

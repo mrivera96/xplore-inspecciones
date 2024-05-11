@@ -7,20 +7,26 @@ import { AutoPart } from 'src/app/shared/interfaces/auto-part';
 import { Customer } from 'src/app/shared/interfaces/customer';
 import { Inspection } from 'src/app/shared/interfaces/inspection';
 import { Photo } from 'src/app/shared/interfaces/photo';
-import { User } from 'src/app/shared/interfaces/user';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { AutoPartsService } from 'src/app/shared/services/auto-parts.service';
 import { DamagesService } from 'src/app/shared/services/damages.service';
 import { InspectionsService } from 'src/app/shared/services/inspections.service';
 import { PhotoService } from 'src/app/shared/services/photo.service';
 import { environment } from 'src/environments/environment';
+import { PhotoDamageComponent } from '../photo-damage/photo-damage.component';
+import { Damage } from 'src/app/shared/interfaces/damage';
 
 @Component({
   selector: 'app-photos',
   templateUrl: './photos.component.html',
   styleUrls: ['./photos.component.scss'],
   standalone: true,
-  imports: [IonicModule, ToolbarComponent, NgxIonicImageViewerModule],
+  imports: [
+    IonicModule,
+    ToolbarComponent,
+    NgxIonicImageViewerModule,
+    PhotoDamageComponent,
+  ],
 })
 export class PhotosComponent implements OnInit, OnDestroy {
   //inyeccion de servicios
@@ -98,15 +104,21 @@ export class PhotosComponent implements OnInit, OnDestroy {
     this.photo.auto_part = part;
     this.photo.idPieza = part.idPieza;
     this.photo.etapa = this.currentInspection()?.stage;
-    this.photoService.clearPhotos();
-    this.inspectionsService.currentInspection.update((values) => {
-      const current = { ...values };
-      {
-        current.photos?.push(this.photo);
-      }
+    if (this.currentInspection()?.stage === 'checkout') {
+      this.photoService.clearPhotos();
+      this.inspectionsService.currentInspection.update((values) => {
+        const current = { ...values };
+        {
+          current.photos?.push(this.photo);
+        }
 
-      return current as Inspection;
-    });
-    this.photo = {} as Photo;
+        return current as Inspection;
+      });
+      this.photo = {} as Photo;
+    }
+  }
+
+  onDamageAdd(photo: Photo) {
+    this.photo = photo;
   }
 }

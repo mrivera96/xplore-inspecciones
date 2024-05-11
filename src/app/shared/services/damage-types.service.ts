@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, signal } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AlertService } from './alert.service';
 import { ApiResponse } from '../interfaces/api-response';
-import { map, shareReplay } from 'rxjs';
+import { catchError, map, retry, shareReplay } from 'rxjs';
 import { DamageType } from '../interfaces/damage-type';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -20,15 +20,28 @@ export class DamageTypesService {
   //inyeccion de servicios
   private alertService = inject(AlertService);
 
-  //se obtienen las partes de vehiculo de la API y se almacena en la variable _damageParts para su posterior uso
-  private _damageTypes = this.httpClient
-    .get<ApiResponse>(`${this.apiEndPoint}/list`)
-    .pipe(
-      map((res) => res.data as DamageType[]),
-      shareReplay(1)
-    );
-
   //declaracion de signal a partir de los datos obtenidos
-  damageTypes = toSignal(this._damageTypes);
-  constructor() {}
+  damageTypes = signal<DamageType[]>([]);
+  constructor() {
+    const subsc = this.httpClient
+      .get<ApiResponse>(`${this.apiEndPoint}/list`)
+      .pipe(
+        retry(3),
+        catchError((error) => {
+          this.alertService.basicAlert(
+            'Error',
+            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
+            ['Ok']
+          );
+          return [];
+        }),
+        shareReplay(1)
+      )
+      .subscribe((response) => {
+        const damageTypes = response.data as DamageType[];
+
+        this.damageTypes.set(damageTypes);
+        subsc.unsubscribe();
+      });
+  }
 }

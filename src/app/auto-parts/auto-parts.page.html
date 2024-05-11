@@ -1,0 +1,44 @@
+<app-toolbar></app-toolbar>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-title>Piezas</ion-title>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-card style="border-radius: 10px">
+    <ion-card-content>
+      @if (autoParts().length >0) {
+      <ion-list>
+        @for (autoPart of autoParts(); track $index) {
+        <ion-item detail="true" button (click)="goToDetail(autoPart)">
+          <ion-icon
+            color="primary"
+            slot="start"
+            name="ellipse"
+          ></ion-icon>
+          <ion-label color="secondary">
+            <h2>{{autoPart.descPieza}}</h2>
+            <p>Pieza No.: {{autoPart.idPieza}}</p>
+          </ion-label>
+        </ion-item>
+        } @empty() {
+        <ion-item lines="none">
+          <ion-icon slot="start" name="alert-circle"></ion-icon>
+          <ion-label>No se encontraron piezas</ion-label>
+        </ion-item>
+        }
+      </ion-list>
+      }@else {
+      <ion-item>
+        <ion-icon slot="start" name="alert-circle"></ion-icon>
+        <ion-label>Obteniendo datos..</ion-label>
+        <ion-spinner color="secondary" name="crescent"></ion-spinner>
+      </ion-item>
+
+      }
+    </ion-card-content>
+  </ion-card>
+</ion-content>

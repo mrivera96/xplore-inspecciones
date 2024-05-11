@@ -24,11 +24,15 @@
     </ion-col>
   </ion-row>
   <ion-row>
-    @for (photo of photoService.photos; track $index) {
     <ion-col>
-      <ion-img [src]="'data:image/png;base64,' + photo"></ion-img>
+      <ion-img-viewer
+        [title]="photo.auto_part?.descPieza"
+        text="Preview"
+        scheme="light"
+        [src]="'data:image/png;base64,' + photo.foto"
+      >
+      </ion-img-viewer>
     </ion-col>
-    }
   </ion-row>
 </ion-grid>
 <ion-fab

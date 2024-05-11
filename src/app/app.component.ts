@@ -22,9 +22,9 @@ export class AppComponent {
   ];
 
   public labels = [
-    { title: 'Tipos de daños', icon: 'list-circle', url: '/categorias' },
-    { title: 'Piezas', icon: 'list-circle', url: '/categorias' },
-    { title: 'Accesorios', icon: 'list-circle', url: '/categorias' },
+    { title: 'Tipos de Daños', icon: 'list-circle', url: '/damage-types' },
+    { title: 'Piezas', icon: 'list-circle', url: '/auto-parts' },
+    { title: 'Accesorios', icon: 'list-circle', url: '/accessories' },
   ];
 
   protected currentUser = this.authService.currentUser;

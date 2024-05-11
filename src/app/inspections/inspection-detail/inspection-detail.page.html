@@ -152,8 +152,7 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosLlantasDelanteras || 'Sin
-            Registro'}}</ion-label
+            >{{currentInspection()?.comentariosLlantasDelanteras || 'Sin Registro'}}</ion-label
           >
         </ion-item>
         <ion-item lines="none">
@@ -180,6 +179,7 @@
           <ion-label>Firma del cliente</ion-label>
         </ion-item>
         <ion-item>
+          @if(currentInspection()?.firmaClienteSalida != undefined){
           <ion-img-viewer
             title="Firma del Cliente OUT"
             text="Preview"
@@ -187,6 +187,10 @@
             [src]="photosDirectory + currentInspection()?.firmaClienteSalida"
           >
           </ion-img-viewer>
+
+          }@else {
+          <ion-label>Sin Registro</ion-label>
+          }
         </ion-item>
       </ion-list>
     </ion-card-content>
@@ -233,29 +237,33 @@
         </ion-item>
         <ion-item lines="none">
           <fa-icon slot="start" [icon]="cam"></fa-icon>
-          <ion-label>Fotografías:</ion-label>
+          <ion-label>Daños:</ion-label>
         </ion-item>
-        @if (currentInspection()?.photos?.length! >0) {
+        @if (currentInspection()?.damages?.length! >0) {
         <ion-grid>
-          @for (photo of currentInspection()?.photos; track $index) { @if
-          (photo.etapa == 'checkin') {
+          @for (damage of currentInspection()?.damages; track $index) {
           <ion-col>
             <ion-card>
               <ion-card-header>
-                <ion-card-title>{{photo.auto_part?.descPieza}}</ion-card-title>
+                <ion-card-subtitle
+                  >{{damage.damage_type?.descTipoDanio}}</ion-card-subtitle
+                >
+                <ion-card-title
+                  >{{damage.damage_part?.descPieza}}</ion-card-title
+                >
               </ion-card-header>
               <ion-card-content>
                 <ion-img-viewer
-                  [title]="photo.auto_part?.descPieza +' ' + 'IN'"
+                  [title]="damage.damage_part?.descPieza +' ' + 'IN'"
                   text="Preview"
                   scheme="light"
-                  [src]="photosDirectory + photo.foto"
+                  [src]="photosDirectory + damage.photo?.foto"
                 >
                 </ion-img-viewer>
               </ion-card-content>
             </ion-card>
           </ion-col>
-          } }</ion-grid
+          }</ion-grid
         >
         }@else {
         <ion-item>
@@ -290,8 +298,7 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosLlantasDelanteras || 'Sin
-            Registro'}}</ion-label
+            >{{currentInspection()?.comentariosLlantasDelanteras || 'Sin Registro'}}</ion-label
           >
         </ion-item>
         <ion-item lines="none">
@@ -300,8 +307,7 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosLlantasTraseras ||
-            'SinRegistro'}}</ion-label
+            >{{currentInspection()?.comentariosLlantasTraseras || 'SinRegistro'}}</ion-label
           >
         </ion-item>
 
@@ -309,13 +315,18 @@
           <ion-label>Firma del cliente</ion-label>
         </ion-item>
         <ion-item>
+          @if(currentInspection()?.firmaClienteEntrega != undefined){
+
           <ion-img-viewer
             title="Firma del Cliente IN"
             text="Preview"
             scheme="light"
-            [src]="photosDirectory + currentInspection()?.firmaClienteSalida"
+            [src]="photosDirectory + currentInspection()?.firmaClienteEntrega"
           >
           </ion-img-viewer>
+          }@else {
+          <ion-label>Sin Registro</ion-label>
+          }
         </ion-item>
       </ion-list>
     </ion-card-content>

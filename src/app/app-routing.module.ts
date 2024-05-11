@@ -29,12 +29,25 @@ const routes: Routes = [
       import('./login/login.module').then((m) => m.LoginPageModule),
     canActivate: [LoginGuard],
   },
-
+  {
+    path: 'damage-types',
+    loadChildren: () => import('./damage-types/damage-types.module').then( m => m.DamageTypesPageModule)
+  },
+  {
+    path: 'auto-parts',
+    loadChildren: () => import('./auto-parts/auto-parts.module').then( m => m.AutoPartsPageModule)
+  },
+  {
+    path: 'accessories',
+    loadChildren: () => import('./accessories/accessories.module').then( m => m.AccessoriesPageModule)
+  },
   {
     path: '**',
     redirectTo: 'home',
     pathMatch: 'full',
   },
+
+
 ];
 @NgModule({
   imports: [

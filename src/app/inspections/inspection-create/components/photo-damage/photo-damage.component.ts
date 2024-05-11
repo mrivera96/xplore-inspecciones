@@ -1,7 +1,18 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  inject,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { NgxIonicImageViewerModule } from '@herdwatch-apps/ngx-ionic-image-viewer';
 import { IonicModule } from '@ionic/angular';
 import { Damage } from 'src/app/shared/interfaces/damage';
+import { DamageType } from 'src/app/shared/interfaces/damage-type';
+import { Inspection } from 'src/app/shared/interfaces/inspection';
+import { Photo } from 'src/app/shared/interfaces/photo';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { DamageTypesService } from 'src/app/shared/services/damage-types.service';
 import { InspectionsService } from 'src/app/shared/services/inspections.service';
@@ -12,46 +23,43 @@ import { PhotoService } from 'src/app/shared/services/photo.service';
   templateUrl: './photo-damage.component.html',
   styleUrls: ['./photo-damage.component.scss'],
   standalone: true,
-  imports: [IonicModule, FormsModule],
+  imports: [IonicModule, FormsModule, NgxIonicImageViewerModule],
 })
 export class PhotoDamageComponent implements OnInit {
   //inyeccion de servicios
   protected photoService = inject(PhotoService);
   private damageTypesService = inject(DamageTypesService);
-  private damagepartsService = inject(DamageTypesService);
   private alertService = inject(AlertService);
   private inspectionsService = inject(InspectionsService);
 
   //declaracion de propiedades
   damageTypes = this.damageTypesService.damageTypes;
-  damageParts = this.damagepartsService.damageParts;
-  @Input() damage = {} as Damage;
+  protected damage = {} as Damage;
+  @Input('photo') photo = {} as Photo;
+  @Output('photoEvent') photoEvent = new EventEmitter<Photo>();
+
   constructor() {}
 
   ngOnInit() {}
 
   addDamage() {
     if (this.damage.idTipoDanio != null) {
-      this.damage.foto = this.photoService.photos[0];
-      this.damage.tipoDanio = this.damageTypes()?.find(
+      this.damage.damage_type = this.damageTypes()?.find(
         (x) => x.idTipoDanio == this.damage.idDanio
       ) as DamageType;
-      this.damage.pieza = this.damageParts()?.find(
-        (x) => x.idPieza == this.damage.idPieza
-      ) as DamagePart;
+      this.damage.damage_part = this.photo.auto_part;
       this.photoService.clearPhotos();
+      this.photo.damage = this.damage;
       this.inspectionsService.currentInspection.update((values) => {
         const current = { ...values };
         {
-          if (current.stage == 'checkout') {
-            current.daniosSalida?.push(this.damage);
-          } else {
-            current.daniosEntrega?.push(this.damage);
-          }
+          current.photos?.push(this.photo);
         }
 
         return current as Inspection;
       });
+
+      this.photoEvent.emit({} as Photo);
     } else {
       this.alertService.basicAlert(
         'Atención!',

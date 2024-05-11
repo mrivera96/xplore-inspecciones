@@ -106,12 +106,14 @@ export class InspectionCreatePage implements OnDestroy {
 
   private initializeCheckin(current: Inspection) {
     this.inspectionsServices.currentInspection.set(current);
+    this.currentFuel = +this.currentInspection()?.combSalida!;
     this.inspectionsServices.currentInspection.update((values) => {
       const current = { ...values };
       {
         current.stage = this.currentStage;
         current.odoEntrega = current.odoSalida;
-        current.daniosEntrega = [];
+        current.combEntrega = this.currentFuel;
+
         current.accesoriosEntrega = [];
       }
       return current as Inspection;
@@ -146,7 +148,6 @@ export class InspectionCreatePage implements OnDestroy {
           this.contractsService.currentContract().car?.odometro;
         current.nomRecibeVehiculo =
           this.contractsService.currentContract().customer?.nomCliente;
-        current.daniosSalida = [];
         current.accesoriosSalida = [];
         current.photos = [];
         current.combSalida = this.currentFuel;

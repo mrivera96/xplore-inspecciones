@@ -1,4 +1,13 @@
 <app-toolbar></app-toolbar>
+@if (photoService.photos().length > 0 && currentInspection()?.stage ===
+'checkin') {
+<ion-content [fullscreen]="true">
+  <app-photo-damage
+    [photo]="photo"
+    (photoEvent)="onDamageAdd($event)"
+  ></app-photo-damage>
+</ion-content>
+}@else {
 
 <ion-content [fullscreen]="true">
   <ion-grid fixed>
@@ -78,6 +87,7 @@
     }
   </ion-grid>
 </ion-content>
+
 <ion-footer>
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -94,3 +104,4 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>
+}
