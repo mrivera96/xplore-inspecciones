@@ -92,7 +92,7 @@ export class InspectionsService {
           this.navCtrl.navigateRoot('home');
           this.alertsService.basicAlert(
             'Éxito!',
-            `Inspección ${res.data.idInspeccion} - guardada exitosamente. Vehículo: ${res.data.car.nemVehiculo} | Contrato No.: ${res.data.contract.numContrato}.`,
+            `Inspección ${res.data.numInspeccion} - guardada exitosamente. Vehículo: ${res.data.car.nemVehiculo} | Contrato No.: ${res.data.contract.numContrato}.`,
             ['Ok']
           );
         },
@@ -136,7 +136,7 @@ export class InspectionsService {
           this.navCtrl.navigateRoot('home');
           this.alertsService.basicAlert(
             'Éxito!',
-            `Inspección ${res.data.idInspeccion} - cerrada exitosamente. Vehículo: ${res.data.car.nemVehiculo} | Contrato No.: ${res.data.contract.numContrato}.`,
+            `Inspección ${res.data.numInspeccion} - cerrada exitosamente. Vehículo: ${res.data.car.nemVehiculo} | Contrato No.: ${res.data.contract.numContrato}.`,
             ['Ok']
           );
         },

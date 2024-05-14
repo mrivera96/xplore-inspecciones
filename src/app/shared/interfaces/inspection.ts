@@ -47,4 +47,5 @@ export interface Inspection {
   check_in_fuel?: FuelTank;
   correoCliente?: string;
   correoConductor?: string;
+  numInspeccion?: string
 }

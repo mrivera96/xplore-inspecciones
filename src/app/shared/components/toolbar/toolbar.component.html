@@ -2,7 +2,9 @@
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
-      <img src="assets/img/logo.png" width="30%" />
+
+      <img [routerLink]="['/home']" routerDirection="root" src="assets/img/logo.png" width="30%" />
+
       <ion-title style="margin-left: 10px">Inspecciones</ion-title>
     </ion-buttons>
   </ion-toolbar>
