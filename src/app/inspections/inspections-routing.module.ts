@@ -7,9 +7,9 @@ import { InspectionGuard } from '../shared/guards/inspection.guard';
 
 const routes: Routes = [
   {
-    path:'',
-    redirectTo:'/home',
-    pathMatch:'full'
+    path: '',
+    redirectTo: '/home',
+    pathMatch: 'full',
   },
   {
     path: 'checkout',
@@ -23,7 +23,10 @@ const routes: Routes = [
   },
   {
     path: 'detail',
-    component: InspectionDetailPage,
+    loadComponent: () =>
+      import('./inspection-detail/inspection-detail.page').then(
+        (m) => m.InspectionDetailPage
+      ),
     canActivate: [UserGuard, InspectionGuard],
   },
   {

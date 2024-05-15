@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { InspectionCreatePage } from './inspection-create.page';
-import { PhotosComponent } from './components/photos/photos.component';
-import { AccessoriesComponent } from './components/accessories/accessories.component';
-import { SigningComponent } from './components/signing/signing.component';
-import { UserGuard } from 'src/app/shared/guards/user.guard';
 import { InspectionGuard } from 'src/app/shared/guards/inspection.guard';
+import { UserGuard } from 'src/app/shared/guards/user.guard';
+import { InspectionCreatePage } from './inspection-create.page';
 
 const routes: Routes = [
   {
@@ -16,17 +13,26 @@ const routes: Routes = [
   },
   {
     path: 'photos',
-    component: PhotosComponent,
+    loadComponent: () =>
+      import('./components/photos/photos.component').then(
+        (m) => m.PhotosComponent
+      ),
     canActivate: [UserGuard, InspectionGuard],
   },
   {
     path: 'accessories',
-    component: AccessoriesComponent,
+    loadComponent: () =>
+      import('./components/accessories/accessories.component').then(
+        (m) => m.AccessoriesComponent
+      ),
     canActivate: [UserGuard, InspectionGuard],
   },
   {
     path: 'signing',
-    component: SigningComponent,
+    loadComponent: () =>
+      import('./components/signing/signing.component').then(
+        (m) => m.SigningComponent
+      ),
     canActivate: [UserGuard, InspectionGuard],
   },
 ];

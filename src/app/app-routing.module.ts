@@ -31,23 +31,33 @@ const routes: Routes = [
   },
   {
     path: 'damage-types',
-    loadChildren: () => import('./damage-types/damage-types.module').then( m => m.DamageTypesPageModule)
+    loadChildren: () =>
+      import('./damage-types/damage-types.module').then(
+        (m) => m.DamageTypesPageModule
+      ),
+    canActivate: [UserGuard],
   },
   {
     path: 'auto-parts',
-    loadChildren: () => import('./auto-parts/auto-parts.module').then( m => m.AutoPartsPageModule)
+    loadChildren: () =>
+      import('./auto-parts/auto-parts.module').then(
+        (m) => m.AutoPartsPageModule
+      ),
+    canActivate: [UserGuard],
   },
   {
     path: 'accessories',
-    loadChildren: () => import('./accessories/accessories.module').then( m => m.AccessoriesPageModule)
+    loadChildren: () =>
+      import('./accessories/accessories.module').then(
+        (m) => m.AccessoriesPageModule
+      ),
+    canActivate: [UserGuard],
   },
   {
     path: '**',
     redirectTo: 'home',
     pathMatch: 'full',
   },
-
-
 ];
 @NgModule({
   imports: [

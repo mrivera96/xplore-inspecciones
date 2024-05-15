@@ -14,11 +14,7 @@
       <ion-list>
         @for (damageType of damageTypes(); track $index) {
         <ion-item detail="true" button (click)="goToDetail(damageType)">
-          <ion-icon
-            color="primary"
-            slot="start"
-            name="ellipse"
-          ></ion-icon>
+          <ion-icon color="primary" slot="start" name="ellipse"></ion-icon>
           <ion-label color="secondary">
             <h2>{{damageType.descTipoDanio}}</h2>
             <p>Tipo de Daño No.: {{damageType.idTipoDanio}}</p>
@@ -41,4 +37,12 @@
       }
     </ion-card-content>
   </ion-card>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button
+      aria-labelledby="Agregar tipo de daño"
+      aria-label="Agregar tipo de daño"
+    >
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
