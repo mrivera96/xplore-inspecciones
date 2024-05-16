@@ -1,6 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { AccessoriesService } from '../shared/services/accessories.service';
 import { Accessory } from '../shared/interfaces/accessory';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-accessories',
@@ -12,6 +13,8 @@ export class AccessoriesPage implements OnInit {
   private accessoriesService = inject(AccessoriesService);
 
   //inyeccion de dependencias
+  private navCtrl = inject(NavController);
+
   //declaracion de propiedades
   protected accessories = this.accessoriesService.accessories;
 
@@ -19,7 +22,13 @@ export class AccessoriesPage implements OnInit {
 
   ngOnInit() {}
 
-  goToDetail(accessory: Accessory){
+  goToDetail(accessory: Accessory) {
+    this.navCtrl.navigateForward([
+      `accessories/detail/${accessory.idAccesorio}`,
+    ]);
+  }
 
+  goToCreate() {
+    this.navCtrl.navigateForward([`accessories/create`]);
   }
 }

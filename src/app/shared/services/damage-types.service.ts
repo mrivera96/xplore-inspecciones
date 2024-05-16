@@ -1,24 +1,25 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
+import { catchError, retry, shareReplay } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { AlertService } from './alert.service';
 import { ApiResponse } from '../interfaces/api-response';
-import { catchError, map, retry, shareReplay } from 'rxjs';
 import { DamageType } from '../interfaces/damage-type';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { AlertService } from './alert.service';
+import { NavController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DamageTypesService {
-  //inyecta el cliente para hacer peticiones HTTP
+  //inyeccion de dependencias
   private httpClient = inject(HttpClient);
+  private navCtrl = inject(NavController);
 
   //declara el endpoint de la API para el recurso
   private apiEndPoint = `${environment.apiUrl}/damage-types`;
 
   //inyeccion de servicios
-  private alertService = inject(AlertService);
+  private alertsService = inject(AlertService);
 
   //declaracion de signal a partir de los datos obtenidos
   damageTypes = signal<DamageType[]>([]);
@@ -28,7 +29,7 @@ export class DamageTypesService {
       .pipe(
         retry(3),
         catchError((error) => {
-          this.alertService.basicAlert(
+          this.alertsService.basicAlert(
             'Error',
             `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
             ['Ok']
@@ -42,6 +43,64 @@ export class DamageTypesService {
 
         this.damageTypes.set(damageTypes);
         subsc.unsubscribe();
+      });
+  }
+
+  async create(damageType: DamageType) {
+    await this.alertsService.presentLoading();
+    this.httpClient
+      .post<ApiResponse>(`${this.apiEndPoint}/add`, damageType)
+      .subscribe({
+        next: (res) => {
+          this.alertsService.dismissDefaultLoading();
+          this.damageTypes.update((values) => {
+            return [...(values as DamageType[]), res.data as DamageType];
+          });
+
+          this.navCtrl.navigateRoot('damage-types');
+          this.alertsService.basicAlert(
+            'Éxito!',
+            `Se guardado exitosamente el tipo de daño: ${res.data.descTipoDaño}.`,
+            ['Ok']
+          );
+        },
+        error: (error: any) => {
+          this.alertsService.dismissDefaultLoading();
+          this.alertsService.basicAlert(
+            'Error',
+            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
+            ['Ok']
+          );
+        },
+      });
+  }
+
+  async update(damageType: DamageType) {
+    await this.alertsService.presentLoading();
+    this.httpClient
+      .put<ApiResponse>(`${this.apiEndPoint}/update`, damageType)
+      .subscribe({
+        next: (res) => {
+          this.alertsService.dismissDefaultLoading();
+          this.damageTypes.update((values) => {
+            return [...(values as DamageType[]), res.data as DamageType];
+          });
+
+          this.navCtrl.navigateRoot('damage-types');
+          this.alertsService.basicAlert(
+            'Éxito!',
+            `Se guardado exitosamente el tipo de daño: ${res.data.descTipoDaño}.`,
+            ['Ok']
+          );
+        },
+        error: (error: any) => {
+          this.alertsService.dismissDefaultLoading();
+          this.alertsService.basicAlert(
+            'Error',
+            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
+            ['Ok']
+          );
+        },
       });
   }
 }

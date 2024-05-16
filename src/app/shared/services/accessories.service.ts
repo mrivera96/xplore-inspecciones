@@ -6,19 +6,21 @@ import { ApiResponse } from '../interfaces/api-response';
 import { catchError, map, retry, shareReplay } from 'rxjs';
 import { Accessory } from '../interfaces/accessory';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { NavController } from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AccessoriesService {
-  //inyecta el cliente para hacer peticiones HTTP
+  //inyeccion de dependencias
   private httpClient = inject(HttpClient);
+  private navCtrl = inject(NavController);
 
   //declara el endpoint de la API para el recurso
   private apiEndPoint = `${environment.apiUrl}/accessories`;
 
   //inyeccion de servicios
-  private alertService = inject(AlertService);
+  private alertsService = inject(AlertService);
 
   //declaracion de signal a partir de los vehiculos
   accessories = signal<Accessory[]>([]);
@@ -29,7 +31,7 @@ export class AccessoriesService {
       .pipe(
         retry(3),
         catchError((error) => {
-          this.alertService.basicAlert(
+          this.alertsService.basicAlert(
             'Error',
             `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
             ['Ok']
@@ -56,5 +58,63 @@ export class AccessoriesService {
     this.currentAccessories.update((values) => {
       return values.filter((x) => x.idAccesorio != accessory.idAccesorio);
     });
+  }
+
+  async create(accessory: Accessory) {
+    await this.alertsService.presentLoading();
+    this.httpClient
+      .post<ApiResponse>(`${this.apiEndPoint}/add`, accessory)
+      .subscribe({
+        next: (res) => {
+          this.alertsService.dismissDefaultLoading();
+          this.accessories.update((values) => {
+            return [...(values as Accessory[]), res.data as Accessory];
+          });
+
+          this.navCtrl.navigateRoot('accessories');
+          this.alertsService.basicAlert(
+            'Éxito!',
+            `Se guardado exitosamente el accesorio: ${res.data.nomAccesorio}.`,
+            ['Ok']
+          );
+        },
+        error: (error: any) => {
+          this.alertsService.dismissDefaultLoading();
+          this.alertsService.basicAlert(
+            'Error',
+            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
+            ['Ok']
+          );
+        },
+      });
+  }
+
+  async update(accessory: Accessory) {
+    await this.alertsService.presentLoading();
+    this.httpClient
+      .put<ApiResponse>(`${this.apiEndPoint}/update`, accessory)
+      .subscribe({
+        next: (res) => {
+          this.alertsService.dismissDefaultLoading();
+          this.accessories.update((values) => {
+            return [...(values as Accessory[]), res.data as Accessory];
+          });
+
+          this.navCtrl.navigateRoot('accessories');
+          this.alertsService.basicAlert(
+            'Éxito!',
+            `Se guardado exitosamente el accesorio: ${res.data.nomAccesorio}.`,
+            ['Ok']
+          );
+        },
+        error: (error: any) => {
+          this.alertsService.dismissDefaultLoading();
+          this.alertsService.basicAlert(
+            'Error',
+            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
+            ['Ok']
+          );
+        },
+      });
   }
 }

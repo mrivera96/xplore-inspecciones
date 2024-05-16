@@ -14,11 +14,7 @@
       <ion-list>
         @for (autoPart of autoParts(); track $index) {
         <ion-item detail="true" button (click)="goToDetail(autoPart)">
-          <ion-icon
-            color="primary"
-            slot="start"
-            name="ellipse"
-          ></ion-icon>
+          <ion-icon color="primary" slot="start" name="ellipse"></ion-icon>
           <ion-label color="secondary">
             <h2>{{autoPart.descPieza}}</h2>
             <p>Pieza No.: {{autoPart.idPieza}}</p>
@@ -43,6 +39,7 @@
   </ion-card>
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button
+      (click)="goToCreate()"
       aria-labelledby="Agregar pieza"
       aria-label="Agregar una pieza"
     >

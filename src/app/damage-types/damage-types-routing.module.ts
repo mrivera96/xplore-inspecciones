@@ -6,8 +6,22 @@ import { DamageTypesPage } from './damage-types.page';
 const routes: Routes = [
   {
     path: '',
-    component: DamageTypesPage
-  }
+    component: DamageTypesPage,
+  },
+  {
+    path: 'detail/:id',
+    loadComponent: () =>
+      import('./damage-type-detail/damage-type-detail.component').then(
+        (m) => m.DamageTypeDetailComponent
+      ),
+  },
+  {
+    path: 'create',
+    loadComponent: () =>
+      import('./damage-type-detail/damage-type-detail.component').then(
+        (m) => m.DamageTypeDetailComponent
+      ),
+  },
 ];
 
 @NgModule({

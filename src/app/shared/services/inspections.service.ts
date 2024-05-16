@@ -73,8 +73,8 @@ export class InspectionsService {
     await this.alertsService.presentLoading();
     this.httpClient
       .post<ApiResponse>(`${this.apiEndPoint}/add`, this.currentInspection())
-      .subscribe(
-        (res) => {
+      .subscribe({
+        next: (res) => {
           this.alertsService.dismissDefaultLoading();
           this.inspections.update((values) => {
             return [...(values as Inspection[]), res.data as Inspection];
@@ -96,15 +96,15 @@ export class InspectionsService {
             ['Ok']
           );
         },
-        (error: any) => {
+        error: (error: any) => {
           this.alertsService.dismissDefaultLoading();
           this.alertsService.basicAlert(
             'Error',
             `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
             ['Ok']
           );
-        }
-      );
+        },
+      });
   }
 
   async closeInspection() {
