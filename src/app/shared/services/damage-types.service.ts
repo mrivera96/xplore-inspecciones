@@ -60,7 +60,7 @@ export class DamageTypesService {
           this.navCtrl.navigateRoot('damage-types');
           this.alertsService.basicAlert(
             'Éxito!',
-            `Se guardado exitosamente el tipo de daño: ${res.data.descTipoDaño}.`,
+            `Se guardado exitosamente el tipo de daño: ${res.data.descTipoDanio}.`,
             ['Ok']
           );
         },
@@ -89,7 +89,7 @@ export class DamageTypesService {
           this.navCtrl.navigateRoot('damage-types');
           this.alertsService.basicAlert(
             'Éxito!',
-            `Se guardado exitosamente el tipo de daño: ${res.data.descTipoDaño}.`,
+            `Se guardado exitosamente el tipo de daño: ${res.data.descTipoDanio}.`,
             ['Ok']
           );
         },

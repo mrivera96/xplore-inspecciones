@@ -100,7 +100,7 @@ export class AccessoriesService {
             return [...(values as Accessory[]), res.data as Accessory];
           });
 
-          this.navCtrl.navigateRoot('accessories');
+          this.navCtrl.navigateRoot(['/accessories']);
           this.alertsService.basicAlert(
             'Éxito!',
             `Se guardado exitosamente el accesorio: ${res.data.nomAccesorio}.`,

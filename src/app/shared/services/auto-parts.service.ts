@@ -73,7 +73,7 @@ export class AutoPartsService {
             return [...(values as AutoPart[]), res.data as AutoPart];
           });
 
-          this.navCtrl.navigateRoot('autoParts');
+          this.navCtrl.navigateRoot('auto-parts');
           this.alertsService.basicAlert(
             'Éxito!',
             `Se guardado exitosamente la pieza: ${res.data.descPieza}.`,

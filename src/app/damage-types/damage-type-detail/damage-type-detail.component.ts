@@ -51,12 +51,14 @@ export class DamageTypeDetailComponent implements OnInit {
   }
 
   save() {
-    this.id.subscribe((next) => {
-      if (next != undefined && next != null) {
-        this.damageTypesService.create(this.currentDamageType);
-      } else {
-        this.damageTypesService.update(this.currentDamageType);
-      }
-    });
+    console.log(this.currentDamageType.idTipoDanio)
+    if (
+      this.currentDamageType.idTipoDanio != undefined &&
+      this.currentDamageType.idTipoDanio != null
+    ) {
+      this.damageTypesService.update(this.currentDamageType);
+    } else {
+      this.damageTypesService.create(this.currentDamageType);
+    }
   }
 }

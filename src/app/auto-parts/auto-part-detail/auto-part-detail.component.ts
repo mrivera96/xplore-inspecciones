@@ -48,12 +48,13 @@ export class AutoPartDetailComponent implements OnInit {
   }
 
   save() {
-    this.id.subscribe((next) => {
-      if (next != undefined && next != null) {
-        this.autoPartsService.create(this.currentAutoPart);
-      } else {
-        this.autoPartsService.update(this.currentAutoPart);
-      }
-    });
+    if (
+      this.currentAutoPart.idPieza != undefined &&
+      this.currentAutoPart.idPieza != null
+    ) {
+      this.autoPartsService.update(this.currentAutoPart);
+    } else {
+      this.autoPartsService.create(this.currentAutoPart);
+    }
   }
 }

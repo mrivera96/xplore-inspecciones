@@ -51,12 +51,13 @@ export class AccessoryDetailComponent implements OnInit {
   }
 
   save() {
-    this.id.subscribe((next) => {
-      if (next != undefined && next != null) {
-        this.accessoriesService.create(this.currentAccessory);
-      } else {
-        this.accessoriesService.update(this.currentAccessory);
-      }
-    });
+    if (
+      this.currentAccessory.idAccesorio != undefined &&
+      this.currentAccessory.idAccesorio != null
+    ) {
+      this.accessoriesService.update(this.currentAccessory);
+    } else {
+      this.accessoriesService.create(this.currentAccessory);
+    }
   }
 }
