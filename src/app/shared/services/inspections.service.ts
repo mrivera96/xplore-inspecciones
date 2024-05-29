@@ -151,6 +151,14 @@ export class InspectionsService {
       );
   }
 
+  async printInspection(inspectionId: number) {
+    return this.httpClient
+      .get<ApiResponse>(
+        `${this.apiEndPoint}/print?idInspeccion=${inspectionId}`
+      )
+      
+  }
+
   clearState() {
     this.currentInspection.set(undefined);
     this.contractsService.currentContract.set({} as Contract);

@@ -1,4 +1,21 @@
-<app-toolbar></app-toolbar>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+
+      <img [routerLink]="['/home']" routerDirection="root" src="assets/img/logo.png" width="30%" />
+
+      <ion-title style="margin-left: 10px">Inspecciones</ion-title>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="setOpen(true)" expand="block" fill="clear" shape="round">
+        <fa-icon slot="start" [icon]="options"></fa-icon>
+      </ion-button>
+      
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 
 <ion-content>
   <ion-card style="border-radius: 10px">
@@ -332,4 +349,11 @@
     </ion-card-content>
   </ion-card>
   }
+
+  <ion-action-sheet
+  [isOpen]="isActionSheetOpen"
+  header="Actions"
+  [buttons]="actionSheetButtons"
+  (didDismiss)="setOpen(false)"
+></ion-action-sheet>
 </ion-content>
