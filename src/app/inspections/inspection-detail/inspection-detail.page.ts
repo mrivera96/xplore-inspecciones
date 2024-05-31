@@ -8,6 +8,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {
   faBars,
   faBuildingCircleArrowRight,
+  faCalendar,
   faCamera,
   faCar,
   faCarBattery,
@@ -62,6 +63,7 @@ export class InspectionDetailPage implements OnInit {
   wheel = faCircleDot;
   battery = faCarBattery;
   options = faEllipsisVertical;
+  calendar =  faCalendar;
   protected accessories = this.accessoriesService.accessories;
 
   public actionSheetButtons = [

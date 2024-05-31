@@ -48,4 +48,5 @@ export interface Inspection {
   correoCliente?: string;
   correoConductor?: string;
   numInspeccion?: string
+  created_at?:string
 }

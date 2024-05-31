@@ -9,7 +9,7 @@
     </ion-buttons>
     <ion-buttons slot="end">
       <ion-button (click)="setOpen(true)" expand="block" fill="clear" shape="round">
-        <fa-icon slot="start" [icon]="options"></fa-icon>
+        <fa-icon style="color: white;" slot="start" [icon]="options"></fa-icon>
       </ion-button>
       
     </ion-buttons>
@@ -89,6 +89,13 @@
           <ion-label
             >Agente:
             {{currentInspection()?.checkout_agent?.nomUsuario}}</ion-label
+          >
+        </ion-item>
+        <ion-item>
+          <fa-icon slot="start" [icon]="calendar"></fa-icon>
+          <ion-label
+            >Fecha y hora:
+            {{currentInspection()?.fechaSalida | date:'dd/MM/yyyy HH:mm'}}</ion-label
           >
         </ion-item>
         <ion-item lines="none">
@@ -250,6 +257,13 @@
           <ion-label
             >Agente:
             {{currentInspection()?.checkin_agent?.nomUsuario}}</ion-label
+          >
+        </ion-item>
+        <ion-item>
+          <fa-icon slot="start" [icon]="calendar"></fa-icon>
+          <ion-label
+            >Fecha y hora:
+            {{currentInspection()?.fechaEntrega | date:'dd/MM/yyyy HH:mm'}}</ion-label
           >
         </ion-item>
         <ion-item lines="none">
