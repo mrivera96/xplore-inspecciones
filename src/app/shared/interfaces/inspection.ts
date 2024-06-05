@@ -36,6 +36,8 @@ export interface Inspection {
   comentariosLlantasDelanteras?: string;
   comentariosLlantasTraseras?: string;
   comentariosBateria?: string;
+  otrasObservacionesSalida?: string;
+  otrasObservacionesEntrega?: string;
   stage?: string;
   idEstado?: number;
   checkout_accessories?: any[];
@@ -47,6 +49,6 @@ export interface Inspection {
   check_in_fuel?: FuelTank;
   correoCliente?: string;
   correoConductor?: string;
-  numInspeccion?: string
-  created_at?:string
+  numInspeccion?: string;
+  created_at?: string;
 }

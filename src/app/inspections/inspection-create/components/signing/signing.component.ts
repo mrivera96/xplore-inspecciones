@@ -38,6 +38,8 @@ export class SigningComponent implements OnInit {
     comentariosBateria?: string;
     emailCliente?: string;
     emailCC?: string;
+    otrasObservacionesSalida?: string;
+    otrasObservacionesEntrega?: string;
   } = {};
   @ViewChild('canvas') canvasref!: ElementRef<HTMLCanvasElement>;
   canvas: HTMLCanvasElement | undefined = undefined;
@@ -59,6 +61,10 @@ export class SigningComponent implements OnInit {
           this.currentInspection()?.comentariosLlantasDelanteras,
         comentariosLlantasTraseras:
           this.currentInspection()?.comentariosLlantasTraseras,
+        otrasObservacionesSalida:
+          this.currentInspection()?.otrasObservacionesSalida,
+        otrasObservacionesEntrega:
+          this.currentInspection()?.otrasObservacionesEntrega,
       };
     }
     this.notas.emailCliente =
@@ -128,9 +134,9 @@ export class SigningComponent implements OnInit {
     this.currentInspection.update((values) => {
       const current = { ...values };
       {
-        if(!this.signaturePad?.isEmpty()){
-
-          current.firmaClienteSalida = this.signaturePad?.toDataURL('image/png');
+        if (!this.signaturePad?.isEmpty()) {
+          current.firmaClienteSalida =
+            this.signaturePad?.toDataURL('image/png');
         }
         current.comentariosLlantasDelanteras =
           this.notas.comentariosLlantasDelanteras;
@@ -139,6 +145,8 @@ export class SigningComponent implements OnInit {
         current.comentariosBateria = this.notas.comentariosBateria;
         current.correoCliente = this.notas.emailCliente;
         current.correoConductor = this.notas.emailCC;
+        current.otrasObservacionesSalida = this.notas.otrasObservacionesSalida;
+        current.otrasObservacionesEntrega = this.notas.otrasObservacionesEntrega;
       }
 
       return current as Inspection;
@@ -157,6 +165,8 @@ export class SigningComponent implements OnInit {
         current.comentariosLlantasTraseras =
           this.notas.comentariosLlantasTraseras;
         current.comentariosBateria = this.notas.comentariosBateria;
+        current.otrasObservacionesSalida = this.notas.otrasObservacionesSalida;
+        current.otrasObservacionesEntrega = this.notas.otrasObservacionesEntrega;
         current.correoCliente = this.notas.emailCliente;
         current.correoConductor = this.notas.emailCC;
       }

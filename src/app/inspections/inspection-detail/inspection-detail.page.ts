@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, Platform } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { InspectionsService } from '../../shared/services/inspections.service';
 import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.component';
@@ -26,6 +26,13 @@ import { NgxIonicImageViewerModule } from '@herdwatch-apps/ngx-ionic-image-viewe
 import { catchError, retry, shareReplay } from 'rxjs';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { RouterModule } from '@angular/router';
+import {
+  FileOpener,
+  FileOpenerOptions,
+} from '@capacitor-community/file-opener';
+import { Directory, Filesystem } from '@capacitor/filesystem';
+import write_blob from 'capacitor-blob-writer';
+
 
 @Component({
   selector: 'app-inspection-detail',
@@ -46,6 +53,10 @@ export class InspectionDetailPage implements OnInit {
   private inspectionService = inject(InspectionsService);
   private accessoriesService = inject(AccessoriesService);
   private alertsService = inject(AlertService);
+
+   //inyeccion de dependencias
+   private platform = inject(Platform);
+
 
   //declaracion de propiedades
   protected currentInspection = this.inspectionService.currentInspection;
@@ -130,18 +141,7 @@ export class InspectionDetailPage implements OnInit {
       )
       .subscribe((response) => {
         this.alertsService.dismissDefaultLoading();
-        const byteArray = new Uint8Array(
-          atob(response.data)
-            .split('')
-            .map((char) => char.charCodeAt(0))
-        );
-        const file = new Blob([byteArray], { type: 'application/pdf' });
-        const blobUrl = URL.createObjectURL(file);
-        const iframe = document.createElement('iframe');
-        iframe.style.display = 'none';
-        iframe.src = blobUrl;
-        document.body.appendChild(iframe);
-        iframe.contentWindow!.print();
+        this._print(response.data);
       });
   }
 
@@ -149,7 +149,69 @@ export class InspectionDetailPage implements OnInit {
     this.isActionSheetOpen = isOpen;
   }
 
-  logResult(ev: any) {
-    console.log(JSON.stringify(ev.detail, null, 2));
+  async _print(data: any) {
+    const byteArray = new Uint8Array(
+      atob(data)
+        .split('')
+        .map((char) => char.charCodeAt(0))
+    );
+    const file = new Blob([byteArray], { type: 'application/pdf' });
+    const blobUrl = URL.createObjectURL(file);
+
+    if (this.platform.is('mobile')) {
+      const fileOpenerOptions: FileOpenerOptions = {
+        filePath: (await this._getFilePath(
+          `${this.currentInspection()!.numInspeccion}.pdf`,
+          file
+        )) as string,
+        contentType: 'application/pdf',
+      };
+
+      await FileOpener.open(fileOpenerOptions)
+        .then(() => {
+          // 'File is opened'
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else if (this.platform.is('desktop')) {
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = blobUrl;
+      document.body.appendChild(iframe);
+      iframe.contentWindow!.print();
+    }
   }
+
+  private async _getFilePath(fileName: string, blob: Blob) {
+    const name = fileName;
+
+    try {
+      // 5. Save the file locally
+      return await this._saveBlobFile(blob, name);
+    } catch {
+      // 6. In case the file did already exists -> we retrieve it
+      await Filesystem.getUri({
+        path: name,
+        directory: Directory.Cache,
+      })
+        .then((savedFile) => {
+          return savedFile.uri;
+        })
+        .catch((error) => {
+          console.error(error);
+          throw new Error('Cannot save/open the file');
+        });
+    }
+    return;
+  }
+
+  private _saveBlobFile(blob: Blob, fileName: string) {
+    return write_blob({
+      path: fileName,
+      directory: Directory.Cache,
+      blob: blob,
+    });
+  }
+
 }

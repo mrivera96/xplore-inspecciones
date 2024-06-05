@@ -28,7 +28,27 @@
               label="Notas sobre llantas traseras"
             ></ion-input>
           </ion-item>
-          @if (currentInspection()?.stage=='checkout') {
+
+          @if (currentInspection()?.stage=='checkin') {
+          <ion-item>
+            <ion-input
+              [(ngModel)]="notas.otrasObservacionesEntrega"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Otras Observacioens"
+              label="Otras Observaciones"
+            ></ion-input>
+          </ion-item>
+          } @if (currentInspection()?.stage=='checkout') {
+          <ion-item>
+            <ion-input
+              [(ngModel)]="notas.otrasObservacionesSalida"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Otras Observacioens"
+              label="Otras Observaciones"
+            ></ion-input>
+          </ion-item>
 
           <ion-item>
             <ion-input
