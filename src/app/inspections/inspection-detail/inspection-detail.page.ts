@@ -174,7 +174,7 @@ export class InspectionDetailPage implements OnInit {
         .catch((error) => {
           console.error(error);
         });
-    } else if (this.platform.is('desktop')) {
+    } else if (this.platform.is('desktop') || this.platform.is('mobileweb')) {
       const iframe = document.createElement('iframe');
       iframe.style.display = 'none';
       iframe.src = blobUrl;
