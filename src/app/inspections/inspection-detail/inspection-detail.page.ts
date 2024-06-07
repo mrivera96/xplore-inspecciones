@@ -19,6 +19,7 @@ import {
   faGasPump,
   faGauge,
   faIdCard,
+  faMessage,
   faUserTie,
 } from '@fortawesome/free-solid-svg-icons';
 import { AccessoriesService } from 'src/app/shared/services/accessories.service';
@@ -33,7 +34,6 @@ import {
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import write_blob from 'capacitor-blob-writer';
 
-
 @Component({
   selector: 'app-inspection-detail',
   templateUrl: './inspection-detail.page.html',
@@ -45,7 +45,7 @@ import write_blob from 'capacitor-blob-writer';
     ToolbarComponent,
     FontAwesomeModule,
     NgxIonicImageViewerModule,
-    RouterModule
+    RouterModule,
   ],
 })
 export class InspectionDetailPage implements OnInit {
@@ -54,9 +54,8 @@ export class InspectionDetailPage implements OnInit {
   private accessoriesService = inject(AccessoriesService);
   private alertsService = inject(AlertService);
 
-   //inyeccion de dependencias
-   private platform = inject(Platform);
-
+  //inyeccion de dependencias
+  private platform = inject(Platform);
 
   //declaracion de propiedades
   protected currentInspection = this.inspectionService.currentInspection;
@@ -74,7 +73,8 @@ export class InspectionDetailPage implements OnInit {
   wheel = faCircleDot;
   battery = faCarBattery;
   options = faEllipsisVertical;
-  calendar =  faCalendar;
+  calendar = faCalendar;
+  message = faMessage;
   protected accessories = this.accessoriesService.accessories;
 
   public actionSheetButtons = [
@@ -213,5 +213,4 @@ export class InspectionDetailPage implements OnInit {
       blob: blob,
     });
   }
-
 }

@@ -96,6 +96,8 @@ export class InspectionCreatePage implements OnDestroy {
       const current = { ...values };
       {
         current.idVehiculo = this.carsService.currentCar().idVehiculo;
+        current.odoSalida = this.carsService.currentCar().odometro;
+        current.combSalida = undefined;
       }
 
       return current as Inspection;
@@ -106,13 +108,13 @@ export class InspectionCreatePage implements OnDestroy {
 
   private initializeCheckin(current: Inspection) {
     this.inspectionsServices.currentInspection.set(current);
-    this.currentFuel = +this.currentInspection()?.combSalida!;
+    this.currentFuel = undefined;
     this.inspectionsServices.currentInspection.update((values) => {
       const current = { ...values };
       {
         current.stage = this.currentStage;
-        current.odoEntrega = current.odoSalida;
-        current.combEntrega = this.currentFuel;
+        current.odoEntrega = undefined;
+        current.combEntrega = undefined;
 
         current.accesoriosEntrega = [];
       }
@@ -162,17 +164,28 @@ export class InspectionCreatePage implements OnDestroy {
     let carSet = undefined;
     let fuelSet = undefined;
     let odoSet = undefined;
+    let odoValidation = undefined;
     if (this.currentInspection()?.stage == 'checkin') {
       carSet = this.currentInspection()?.idVehiculo != undefined;
       fuelSet = this.currentInspection()?.combEntrega != null;
       odoSet = this.currentInspection()?.odoEntrega != null;
+      odoValidation =
+        this.currentInspection()?.odoEntrega! >
+        this.currentInspection()?.odoSalida!;
     } else {
       carSet = this.currentInspection()?.idVehiculo != undefined;
-      fuelSet = this.currentInspection()?.combSalida != null;
-      odoSet = this.currentInspection()?.odoSalida != null;
+      fuelSet =
+        this.currentInspection()?.combSalida != null &&
+        this.currentInspection()?.combSalida != undefined;
+      odoSet =
+        this.currentInspection()?.odoSalida != null &&
+        this.currentInspection()?.odoSalida != undefined;
+      odoValidation =
+        this.currentInspection()?.odoSalida! <=
+        this.carsService.currentCar().odometro! + 1000;
     }
 
-    if (carSet && fuelSet && odoSet) {
+    if (carSet && fuelSet && odoSet && odoValidation) {
       this.navCtlr.navigateForward(['/inspections/create/photos'], {
         state: {
           customer: this.currentContract().customer,
@@ -182,6 +195,8 @@ export class InspectionCreatePage implements OnDestroy {
     } else {
       const message = !carSet
         ? 'No ha seleccionado un vehículo'
+        : !odoValidation
+        ? 'El Kilometraje ingresado no es válido.'
         : 'No ha completado la información';
 
       this.alertsService.basicAlert('Atención!', message, ['Ok']);

@@ -70,7 +70,10 @@ export class AutoPartsService {
         next: (res) => {
           this.alertsService.dismissDefaultLoading();
           this.autoParts.update((values) => {
-            return [...(values as AutoPart[]), res.data as AutoPart];
+            const current = [...values];
+            const toUpdate = current.indexOf(autoPart);
+            current[toUpdate] = res.data as AutoPart;
+            return current;
           });
 
           this.navCtrl.navigateRoot('auto-parts');

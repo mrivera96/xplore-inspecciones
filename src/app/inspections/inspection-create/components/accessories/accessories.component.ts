@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { IonicModule, NavController } from '@ionic/angular';
 import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.component';
@@ -27,35 +27,46 @@ export class AccessoriesComponent implements OnInit {
   private router = inject(Router);
 
   //declaracion de propiedades
-  protected accessories = this.accessoriesService.accessories;
+  protected accessories = this.accessoriesService.accessories();
   currentInspection = this.inspectionsService.currentInspection;
   title: string;
   customer: Customer;
   driver: Customer;
 
   constructor() {
-    console.log({customer:this.router.getCurrentNavigation()?.extras?.state?.['customer'], driver:this.router.getCurrentNavigation()?.extras?.state?.['driver']})
     this.title =
       this.inspectionsService.currentInspection()?.stage == 'checkin'
         ? ' Checkin'
         : ' Checkout';
 
-    if (this.inspectionsService.currentInspection()?.stage == 'checkin') {
-      this.accessories.update((values) => {
-        const current = [...values];
-        current.forEach((accessory) => {
-          const accesories = this.currentInspection()?.checkout_accessories;
-          if (
-            accesories != undefined &&
-            accesories.some((x) => x.idAccesorio == accessory.idAccesorio)
-          ) {
-            accessory.isInCheckout = true;
-          }
-        });
+    effect(() => {
+      this.accessories.map((accessory) => {
+        const current = { ...accessory };
+
+        const checkoutAccesories =
+          this.currentInspection()?.stage == 'checkin'
+            ? this.currentInspection()?.checkout_accessories
+            : this.currentInspection()?.accesoriosSalida;
+
+        const checkinAccesories = this.currentInspection()?.accesoriosEntrega;
+        if (
+          checkoutAccesories != undefined &&
+          checkoutAccesories.some((x) => x.idAccesorio == accessory.idAccesorio)
+        ) {
+          accessory.isInCheckout = true;
+        }
+
+        if (
+          checkinAccesories != undefined &&
+          checkinAccesories.some((x) => x.idAccesorio == accessory.idAccesorio)
+        ) {
+          accessory.isInCheckin = true;
+        }
 
         return current;
       });
-    }
+    });
+
     this.customer =
       this.router.getCurrentNavigation()?.extras?.state?.['customer'];
     this.driver = this.router.getCurrentNavigation()?.extras?.state?.['driver'];

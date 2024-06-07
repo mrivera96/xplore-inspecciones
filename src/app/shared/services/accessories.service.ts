@@ -97,7 +97,10 @@ export class AccessoriesService {
         next: (res) => {
           this.alertsService.dismissDefaultLoading();
           this.accessories.update((values) => {
-            return [...(values as Accessory[]), res.data as Accessory];
+            const current = [...values];
+            const toUpdate = current.indexOf(accessory);
+            current[toUpdate] = res.data as Accessory;
+            return current;
           });
 
           this.navCtrl.navigateRoot(['/accessories']);

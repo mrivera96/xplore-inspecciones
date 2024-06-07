@@ -50,5 +50,7 @@ export interface Inspection {
   correoCliente?: string;
   correoConductor?: string;
   numInspeccion?: string;
-  created_at?: string;
+  created_at?: Date;
+  comentariosLlantaRepuesto?: string;
+  updated_at?: Date;
 }

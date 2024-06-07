@@ -8,6 +8,7 @@ import {User} from "./user";
 export interface Contract {
   inspection?: Inspection;
   fechaSalida?: Date | undefined;
+  fechaEntrega?: Date | undefined;
   idAgenciaSalida?: number | undefined;
   idContrato: number;
   idCliente: number;

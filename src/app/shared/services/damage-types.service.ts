@@ -83,7 +83,10 @@ export class DamageTypesService {
         next: (res) => {
           this.alertsService.dismissDefaultLoading();
           this.damageTypes.update((values) => {
-            return [...(values as DamageType[]), res.data as DamageType];
+            const current = [...values];
+            const toUpdate = current.indexOf(damageType);
+            current[toUpdate] = res.data as DamageType;
+            return current;
           });
 
           this.navCtrl.navigateRoot('damage-types');

@@ -35,6 +35,7 @@ export class SigningComponent implements OnInit {
   notas: {
     comentariosLlantasDelanteras?: string;
     comentariosLlantasTraseras?: string;
+    comentariosLlantaRepuesto?: string;
     comentariosBateria?: string;
     emailCliente?: string;
     emailCC?: string;
@@ -61,6 +62,7 @@ export class SigningComponent implements OnInit {
           this.currentInspection()?.comentariosLlantasDelanteras,
         comentariosLlantasTraseras:
           this.currentInspection()?.comentariosLlantasTraseras,
+          comentariosLlantaRepuesto: this.currentInspection()?.comentariosLlantaRepuesto,
         otrasObservacionesSalida:
           this.currentInspection()?.otrasObservacionesSalida,
         otrasObservacionesEntrega:
@@ -142,6 +144,8 @@ export class SigningComponent implements OnInit {
           this.notas.comentariosLlantasDelanteras;
         current.comentariosLlantasTraseras =
           this.notas.comentariosLlantasTraseras;
+          current.comentariosLlantaRepuesto =
+          this.notas.comentariosLlantaRepuesto;
         current.comentariosBateria = this.notas.comentariosBateria;
         current.correoCliente = this.notas.emailCliente;
         current.correoConductor = this.notas.emailCC;
@@ -164,6 +168,8 @@ export class SigningComponent implements OnInit {
           this.notas.comentariosLlantasDelanteras;
         current.comentariosLlantasTraseras =
           this.notas.comentariosLlantasTraseras;
+          current.comentariosLlantaRepuesto =
+          this.notas.comentariosLlantaRepuesto;
         current.comentariosBateria = this.notas.comentariosBateria;
         current.otrasObservacionesSalida = this.notas.otrasObservacionesSalida;
         current.otrasObservacionesEntrega = this.notas.otrasObservacionesEntrega;

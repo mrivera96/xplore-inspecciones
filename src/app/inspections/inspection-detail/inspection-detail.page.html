@@ -3,19 +3,27 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
 
-      <img [routerLink]="['/home']" routerDirection="root" src="assets/img/logo.png" width="30%" />
+      <img
+        [routerLink]="['/home']"
+        routerDirection="root"
+        src="assets/img/logo.png"
+        width="30%"
+      />
 
       <ion-title style="margin-left: 10px">Inspecciones</ion-title>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="setOpen(true)" expand="block" fill="clear" shape="round">
-        <fa-icon style="color: white;" slot="start" [icon]="options"></fa-icon>
+      <ion-button
+        (click)="setOpen(true)"
+        expand="block"
+        fill="clear"
+        shape="round"
+      >
+        <fa-icon style="color: white" slot="start" [icon]="options"></fa-icon>
       </ion-button>
-      
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
-
 
 <ion-content>
   <ion-card style="border-radius: 10px">
@@ -61,7 +69,7 @@
     <ion-card-content>
       <ion-list>
         <ion-list-header>
-          <ion-label>Datos generales</ion-label>
+          <ion-label>Datos Generales</ion-label>
         </ion-list-header>
         <ion-item>
           <fa-icon slot="start" [icon]="agency"></fa-icon>
@@ -80,7 +88,7 @@
         <ion-item>
           <fa-icon slot="start" [icon]="gas"></fa-icon>
           <ion-label
-            >Nivel de combustible:
+            >Nivel de Combustible:
             {{currentInspection()?.check_out_fuel?.descTanqueComb}}</ion-label
           >
         </ion-item>
@@ -94,8 +102,15 @@
         <ion-item>
           <fa-icon slot="start" [icon]="calendar"></fa-icon>
           <ion-label
-            >Fecha y hora:
-            {{currentInspection()?.fechaSalida | date:'dd/MM/yyyy HH:mm'}}</ion-label
+            >Fecha y Hora: {{currentInspection()?.contract?.fechaSalida |
+            date:'dd/MM/yyyy HH:mm'}}</ion-label
+          >
+        </ion-item>
+        <ion-item>
+          <fa-icon slot="start" [icon]="calendar"></fa-icon>
+          <ion-label
+            >Fecha y Hora de Ingreso: {{currentInspection()?.created_at |
+            date:'dd/MM/yyyy HH:mm'}}</ion-label
           >
         </ion-item>
         <ion-item lines="none">
@@ -172,21 +187,32 @@
         </ion-list-header>
         <ion-item lines="none">
           <fa-icon slot="start" [icon]="wheel"></fa-icon>
-          <ion-label>Notas Llantas delanteras: </ion-label>
+          <ion-label>Notas Llantas Delanteras: </ion-label>
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosLlantasDelanteras || 'Sin Registro'}}</ion-label
+            >{{currentInspection()?.comentariosLlantasDelanteras || 'Sin
+            Registro'}}</ion-label
           >
         </ion-item>
         <ion-item lines="none">
           <fa-icon slot="start" [icon]="wheel"></fa-icon>
-          <ion-label>Notas Llantas traseras: </ion-label>
+          <ion-label>Notas Llantas Traseras: </ion-label>
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosLlantasTraseras ||
-            'SinRegistro'}}</ion-label
+            >{{currentInspection()?.comentariosLlantasTraseras || 'Sin
+            Registro'}}</ion-label
+          >
+        </ion-item>
+        <ion-item lines="none">
+          <fa-icon slot="start" [icon]="wheel"></fa-icon>
+          <ion-label>Notas Llanta Repuesto: </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label
+            >{{currentInspection()?.comentariosLlantaRepuesto || 'Sin
+            Registro'}}</ion-label
           >
         </ion-item>
         <ion-item lines="none">
@@ -195,12 +221,22 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosBateria ||
-            'SinRegistro'}}</ion-label
+            >{{currentInspection()?.comentariosBateria || 'Sin
+            Registro'}}</ion-label
           >
         </ion-item>
         <ion-item lines="none">
-          <ion-label>Firma del cliente</ion-label>
+          <fa-icon slot="start" [icon]="message"></fa-icon>
+          <ion-label>Otras Observaciones: </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-label
+            >{{currentInspection()?.otrasObservacionesSalida || 'Sin
+            Registro'}}</ion-label
+          >
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label>Firma del Cliente</ion-label>
         </ion-item>
         <ion-item>
           @if(currentInspection()?.firmaClienteSalida != undefined){
@@ -229,7 +265,7 @@
     <ion-card-content>
       <ion-list>
         <ion-list-header>
-          <ion-label>Datos generales</ion-label>
+          <ion-label>Datos Generales</ion-label>
         </ion-list-header>
         <ion-item>
           <fa-icon slot="start" [icon]="agency"></fa-icon>
@@ -248,7 +284,7 @@
         <ion-item>
           <fa-icon slot="start" [icon]="gas"></fa-icon>
           <ion-label
-            >Nivel de combustible:
+            >Nivel de Combustible:
             {{currentInspection()?.check_in_fuel?.descTanqueComb}}</ion-label
           >
         </ion-item>
@@ -262,8 +298,15 @@
         <ion-item>
           <fa-icon slot="start" [icon]="calendar"></fa-icon>
           <ion-label
-            >Fecha y hora:
-            {{currentInspection()?.fechaEntrega | date:'dd/MM/yyyy HH:mm'}}</ion-label
+            >Fecha y Hora: {{currentInspection()?.contract?.fechaEntrega |
+            date:'dd/MM/yyyy HH:mm'}}</ion-label
+          >
+        </ion-item>
+        <ion-item>
+          <fa-icon slot="start" [icon]="calendar"></fa-icon>
+          <ion-label
+            >Fecha y Hora de Ingreso: {{currentInspection()?.updated_at |
+            date:'dd/MM/yyyy HH:mm'}}</ion-label
           >
         </ion-item>
         <ion-item lines="none">
@@ -298,7 +341,7 @@
         >
         }@else {
         <ion-item>
-          <ion-label>Sin registro</ion-label>
+          <ion-label>Sin Registro</ion-label>
         </ion-item>
         }
       </ion-list>
@@ -324,21 +367,13 @@
           <ion-label>Adicional</ion-label>
         </ion-list-header>
         <ion-item lines="none">
-          <fa-icon slot="start" [icon]="wheel"></fa-icon>
-          <ion-label>Notas Llantas delanteras: </ion-label>
+          <fa-icon slot="start" [icon]="message"></fa-icon>
+          <ion-label>Observaciones de Entrada: </ion-label>
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosLlantasDelanteras || 'Sin Registro'}}</ion-label
-          >
-        </ion-item>
-        <ion-item lines="none">
-          <fa-icon slot="start" [icon]="wheel"></fa-icon>
-          <ion-label>Notas Llantas traseras: </ion-label>
-        </ion-item>
-        <ion-item>
-          <ion-label
-            >{{currentInspection()?.comentariosLlantasTraseras || 'SinRegistro'}}</ion-label
+            >{{currentInspection()?.otrasObservacionesEntrega || 'Sin
+            Registro'}}</ion-label
           >
         </ion-item>
 
@@ -365,9 +400,9 @@
   }
 
   <ion-action-sheet
-  [isOpen]="isActionSheetOpen"
-  header="Actions"
-  [buttons]="actionSheetButtons"
-  (didDismiss)="setOpen(false)"
-></ion-action-sheet>
+    [isOpen]="isActionSheetOpen"
+    header="Actions"
+    [buttons]="actionSheetButtons"
+    (didDismiss)="setOpen(false)"
+  ></ion-action-sheet>
 </ion-content>

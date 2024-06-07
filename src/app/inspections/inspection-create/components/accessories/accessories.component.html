@@ -9,10 +9,15 @@
     <ion-card>
       <ion-card-content>
         <ion-list>
-          @defer (when accessories()) { @for (accessory of accessories(); track
-          $index) {
+          @for (accessory of accessories; track $index) {
           <ion-item>
             @if(currentInspection()?.stage=='checkin'){
+            <ion-checkbox
+              (ionChange)="onAccessoryAdd($event, accessory)"
+              [value]="accessory.idAccesorio"
+              [checked]="accessory.isInCheckin"
+              >{{ accessory.nomAccesorio }}</ion-checkbox
+            >
 
             <ion-checkbox
               color="secondary"
@@ -21,15 +26,16 @@
               [checked]="accessory.isInCheckout"
             >
             </ion-checkbox>
-            }
-
+            }@else if (currentInspection()?.stage=='checkout') {
             <ion-checkbox
               (ionChange)="onAccessoryAdd($event, accessory)"
               [value]="accessory.idAccesorio"
+              [checked]="accessory.isInCheckout"
               >{{ accessory.nomAccesorio }}</ion-checkbox
             >
+            }
           </ion-item>
-          } }@placeholder(){
+          } @empty(){
           <ion-item>
             <ion-label>Obteniendo datos..</ion-label>
             <ion-spinner color="secondary" name="crescent"></ion-spinner>
