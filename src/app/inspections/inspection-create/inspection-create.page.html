@@ -10,47 +10,47 @@
         </ion-title>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-card style="border-radius: 10px">
-          <ion-item lines="none">
-            <ion-label>Seleccione un Contrato</ion-label>
-            @defer (when contracts.length > 0) {
-            <fa-icon
-              style="color: var(--ion-color-secondary)"
-              color="secondary"
-              slot="start"
-              [icon]="contract"
-            ></fa-icon>
-            <ionic-selectable
-              [ngModel]="currentContract()"
-              class="ion-margin-start"
-              color="secondary"
-              [items]="contracts"
-              itemValueField="idContrato"
-              itemTextField="numContrato"
-              [canSearch]="true"
-              (onChange)="selectContract($event)"
-            >
-            </ionic-selectable>
-
-            } @placeholder {
-
-            <ion-label>Obteniendo Datos..</ion-label>
-            <ion-spinner color="secondary" name="crescent"></ion-spinner>
-
-            } @error {
-            <span>Error</span>
-            } @loading () {
-            <span>Loading...</span>
-
-            }
-          </ion-item>
-        </ion-card>
-      </ion-col>
-    </ion-row>
+  
     @if (currentInspection()?.stage === 'checkout') {
-
+      <ion-row>
+        <ion-col>
+          <ion-card style="border-radius: 10px">
+            <ion-item lines="none">
+              <ion-label>Seleccione un Contrato</ion-label>
+              @defer (when contracts.length > 0) {
+              <fa-icon
+                style="color: var(--ion-color-secondary)"
+                color="secondary"
+                slot="start"
+                [icon]="contract"
+              ></fa-icon>
+              <ionic-selectable
+                [ngModel]="currentContract()"
+                class="ion-margin-start"
+                color="secondary"
+                [items]="contracts"
+                itemValueField="idContrato"
+                itemTextField="numContrato"
+                [canSearch]="true"
+                (onChange)="selectContract($event)"
+              >
+              </ionic-selectable>
+  
+              } @placeholder {
+  
+              <ion-label>Obteniendo Datos..</ion-label>
+              <ion-spinner color="secondary" name="crescent"></ion-spinner>
+  
+              } @error {
+              <span>Error</span>
+              } @loading () {
+              <span>Loading...</span>
+  
+              }
+            </ion-item>
+          </ion-card>
+        </ion-col>
+      </ion-row>
     <ion-row>
       <ion-col>
         <ion-card style="border-radius: 10px">
@@ -85,7 +85,44 @@
         </ion-card>
       </ion-col>
     </ion-row>
-    } @if (currentInspection()?.idVehiculo === undefined) {
+    } @else if (currentInspection()?.stage == 'checkin') {
+      <ion-row>
+        <ion-col>
+          <ion-card style="border-radius: 10px">
+            <ion-item lines="none">
+              <ion-label>Seleccione un Vehículo</ion-label>
+              @defer (when checkinCars()) {
+              <ion-icon color="secondary" slot="start" name="car"></ion-icon>
+              <ionic-selectable
+                [ngModel]="currentCar()"
+                class="ion-margin-start"
+                color="secondary"
+                [items]="checkinCars()"
+                itemValueField="idVehiculo"
+                itemTextField="nemVehiculo"
+                [canSearch]="true"
+                (onChange)="selectCar($event)"
+              >
+              </ionic-selectable>
+  
+              } @placeholder {
+  
+              <ion-label>Obteniendo Datos..</ion-label>
+              <ion-spinner color="secondary" name="crescent"></ion-spinner>
+  
+              } @error {
+              <span>Error</span>
+              } @loading () {
+              <span>Loading...</span>
+  
+              }
+            </ion-item>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    }
+    
+    @if (currentInspection()?.idVehiculo === undefined) {
     <ion-row class="ion-align-items-center">
       <ion-col size="12">
         <span>Aún no ha seleccionado un contrato...</span>
@@ -159,7 +196,7 @@
               >
               <ion-input
                 required
-                [value]="currentInspection()?.stage==='checkout'? currentCar().odometro : currentInspection()?.odoSalida"
+                [value]="currentInspection()?.stage==='checkout'? currentCar().odometro : null"
                 type="number"
                 [min]="currentInspection()?.stage==='checkout'? currentCar().odometro : currentInspection()?.odoSalida! + 1"
                 [max]="currentInspection()?.stage==='checkout'? currentCar().odometro! + 1000 : currentInspection()?.odoSalida! + 999999999"

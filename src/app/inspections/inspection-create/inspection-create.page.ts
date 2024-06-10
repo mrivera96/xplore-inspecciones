@@ -1,4 +1,4 @@
-import { Component, OnDestroy, effect, inject } from '@angular/core';
+import { Component, OnDestroy, computed, effect, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { faFileInvoice } from '@fortawesome/free-solid-svg-icons';
 import { NavController } from '@ionic/angular';
@@ -37,10 +37,16 @@ export class InspectionCreatePage implements OnDestroy {
   currentCar = this.carsService.currentCar;
 
   cars = this.carsService.cars;
+  checkinCars = computed(() => {
+    return this.inspectionsServices
+      .inspections()
+      ?.filter((x) => x.idEstado! == 48)
+      .map((x) => x.car) as Car[];
+  });
   currentStage: string;
   fuelTanks = this.fuelTanksService.fuelTanks;
   contract = faFileInvoice;
-  currentFuel: number | undefined = undefined;
+  currentFuel: number | null = null;
 
   constructor() {
     this.currentStage =
@@ -48,7 +54,7 @@ export class InspectionCreatePage implements OnDestroy {
     this.title = this.currentStage == 'checkin' ? ' Checkin' : ' Checkout';
 
     effect(() => {
-      console.log(this.currentInspection());
+   
       if (this.currentStage == 'checkin') {
         this.contracts = this.contractsService
           .contracts()
@@ -78,7 +84,7 @@ export class InspectionCreatePage implements OnDestroy {
 
     if (this.currentStage == 'checkin' && current != undefined) {
       const currInspection = current.find(
-        (x) => x.idContrato == currentContract.idContrato
+        (x) => x.idVehiculo == e.idVehiculo
       );
       this.initializeCheckin(currInspection as Inspection);
     } else {
@@ -87,9 +93,14 @@ export class InspectionCreatePage implements OnDestroy {
   }
 
   selectCar(e: any) {
+    
     const currentCar = this.carsService
       .cars()
       ?.find((x) => x.idVehiculo == e.value.idVehiculo) as Car;
+
+      if(this.currentInspection()?.stage == 'checkin'){
+        this.selectContract(e)
+      }
 
     this.carsService.currentCar.set(currentCar);
     this.inspectionsServices.currentInspection.update((values) => {
@@ -103,12 +114,12 @@ export class InspectionCreatePage implements OnDestroy {
       return current as Inspection;
     });
 
-    this.currentFuel = undefined;
+    this.currentFuel = null;
   }
 
   private initializeCheckin(current: Inspection) {
     this.inspectionsServices.currentInspection.set(current);
-    this.currentFuel = undefined;
+    this.currentFuel = null;
     this.inspectionsServices.currentInspection.update((values) => {
       const current = { ...values };
       {
@@ -134,7 +145,7 @@ export class InspectionCreatePage implements OnDestroy {
     this.carsService.currentCar.set(this.currentInspection()?.car as Car);
   }
   private initializeCheckout() {
-    this.currentFuel = this.currentContract().check_out_fuel?.idTanqueComb;
+    this.currentFuel = this.currentContract().check_out_fuel?.idTanqueComb!;
     this.inspectionsServices.currentInspection.update((values) => {
       const current = { ...values };
       {
@@ -152,7 +163,7 @@ export class InspectionCreatePage implements OnDestroy {
           this.contractsService.currentContract().customer?.nomCliente;
         current.accesoriosSalida = [];
         current.photos = [];
-        current.combSalida = this.currentFuel;
+        current.combSalida = this.currentFuel!;
       }
 
       return current as Inspection;

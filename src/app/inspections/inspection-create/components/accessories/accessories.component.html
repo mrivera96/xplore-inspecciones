@@ -11,21 +11,24 @@
         <ion-list>
           @for (accessory of accessories; track $index) {
           <ion-item>
-            @if(currentInspection()?.stage=='checkin'){
-            <ion-checkbox
-              (ionChange)="onAccessoryAdd($event, accessory)"
-              [value]="accessory.idAccesorio"
-              [checked]="accessory.isInCheckin"
-              >{{ accessory.nomAccesorio }}</ion-checkbox
-            >
-
-            <ion-checkbox
-              color="secondary"
-              disabled="true"
-              slot="end"
-              [checked]="accessory.isInCheckout"
-            >
-            </ion-checkbox>
+            @if(currentInspection()?.stage=='checkin' ){
+              @if(accessory.isInCheckout!){
+                <ion-checkbox
+                (ionChange)="onAccessoryAdd($event, accessory)"
+                [value]="accessory.idAccesorio"
+                [checked]="accessory.isInCheckin"
+                >{{ accessory.nomAccesorio }}</ion-checkbox
+              >
+  
+              <ion-checkbox
+                color="secondary"
+                disabled="true"
+                slot="end"
+                [checked]="true"
+              >
+              </ion-checkbox>
+              }
+           
             }@else if (currentInspection()?.stage=='checkout') {
             <ion-checkbox
               (ionChange)="onAccessoryAdd($event, accessory)"
