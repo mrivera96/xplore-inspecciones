@@ -36,7 +36,16 @@ export class InspectionCreatePage implements OnDestroy {
   currentContract = this.contractsService.currentContract;
   currentCar = this.carsService.currentCar;
 
-  cars = this.carsService.cars;
+  cars = computed(() => {
+    return this.carsService.cars().filter((x) => {
+      const exists = this.inspectionsServices
+        .inspections()
+        ?.filter((x) => x.idEstado! == 48)
+        .map((x) => x.car?.idVehiculo);
+
+      return !exists?.includes(x.idVehiculo)
+    });
+  });
   checkinCars = computed(() => {
     return this.inspectionsServices
       .inspections()
@@ -54,7 +63,6 @@ export class InspectionCreatePage implements OnDestroy {
     this.title = this.currentStage == 'checkin' ? ' Checkin' : ' Checkout';
 
     effect(() => {
-   
       if (this.currentStage == 'checkin') {
         this.contracts = this.contractsService
           .contracts()
@@ -83,9 +91,7 @@ export class InspectionCreatePage implements OnDestroy {
     const current = this.inspectionsServices.inspections()!;
 
     if (this.currentStage == 'checkin' && current != undefined) {
-      const currInspection = current.find(
-        (x) => x.idVehiculo == e.idVehiculo
-      );
+      const currInspection = current.find((x) => x.idVehiculo == e.idVehiculo);
       this.initializeCheckin(currInspection as Inspection);
     } else {
       this.initializeCheckout();
@@ -93,14 +99,13 @@ export class InspectionCreatePage implements OnDestroy {
   }
 
   selectCar(e: any) {
-    
     const currentCar = this.carsService
       .cars()
       ?.find((x) => x.idVehiculo == e.value.idVehiculo) as Car;
 
-      if(this.currentInspection()?.stage == 'checkin'){
-        this.selectContract(e)
-      }
+    if (this.currentInspection()?.stage == 'checkin') {
+      this.selectContract(e);
+    }
 
     this.carsService.currentCar.set(currentCar);
     this.inspectionsServices.currentInspection.update((values) => {
