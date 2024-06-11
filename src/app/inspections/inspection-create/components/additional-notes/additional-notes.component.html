@@ -1,0 +1,95 @@
+<app-toolbar></app-toolbar>
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-card>
+      <ion-card-content>
+        <ion-list>
+          <ion-list-header>
+            <h3>Notas</h3>
+          </ion-list-header>
+          <ion-item>
+            <ion-input
+              [readonly]="currentInspection()?.stage == 'checkin'"
+              [(ngModel)]="notas.comentariosLlantasDelanteras"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Comentarios sobre llantas delanteras"
+              label="Notas Llantas Delanteras"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [readonly]="currentInspection()?.stage == 'checkin'"
+              [(ngModel)]="notas.comentariosLlantasTraseras"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Comentarios sobre llantas traseras"
+              label="Notas Llantas Traseras"
+            ></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-input
+              [readonly]="currentInspection()?.stage == 'checkin'"
+              [(ngModel)]="notas.comentariosLlantaRepuesto"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Comentarios sobre llantas traseras"
+              label="Notas Llanta de Repuesto"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input
+              [(ngModel)]="notas.comentariosBateria"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Comentarios sobre batería"
+              label="Notas Batería"
+              [disabled]="currentInspection()?.stage == 'checkin'"
+            ></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-input
+              [(ngModel)]="notas.otrasObservacionesSalida"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Otras Observaciones"
+              label="Otras Observaciones"
+              [disabled]="currentInspection()?.stage == 'checkin'"
+            ></ion-input>
+          </ion-item>
+          @if (currentInspection()?.stage=='checkin') {
+          <ion-item>
+            <ion-input
+              [(ngModel)]="notas.otrasObservacionesEntrega"
+              labelPlacement="stacked"
+              type="text"
+              placeholder="Observaciones de Entrada"
+              label="Observaciones de Entrada"
+            ></ion-input>
+          </ion-item>
+          }
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goToPrev()">
+        Atrás
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToNext()">
+        Siguiente
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

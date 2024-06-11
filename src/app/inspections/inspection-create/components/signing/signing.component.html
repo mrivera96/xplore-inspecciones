@@ -5,72 +5,41 @@
     <ion-card>
       <ion-card-content>
         <ion-list>
-          <ion-list-header>
-            <h3>Notas</h3>
-          </ion-list-header>
           <ion-item>
-            <ion-input
-              [readonly]="currentInspection()?.stage == 'checkin'"
-              [(ngModel)]="notas.comentariosLlantasDelanteras"
-              labelPlacement="stacked"
-              type="text"
-              placeholder="Comentarios sobre llantas delanteras"
-              label="Notas Llantas Delanteras"
-            ></ion-input>
+            <fa-icon slot="start" [icon]="contract"></fa-icon>
+            <ion-label
+              >Contrato No: {{currentInspection.contract?.numContrato}}
+            </ion-label>
           </ion-item>
           <ion-item>
-            <ion-input
-              [readonly]="currentInspection()?.stage == 'checkin'"
-              [(ngModel)]="notas.comentariosLlantasTraseras"
-              labelPlacement="stacked"
-              type="text"
-              placeholder="Comentarios sobre llantas traseras"
-              label="Notas Llantas Traseras"
-            ></ion-input>
+            <fa-icon slot="start" [icon]="user"></fa-icon>
+            <ion-label
+              >Cliente:
+              {{currentInspection.contract?.customer?.nomCliente}}</ion-label
+            >
           </ion-item>
           <ion-item>
-            <ion-input
-              [readonly]="currentInspection()?.stage == 'checkin'"
-              [(ngModel)]="notas.comentariosLlantaRepuesto"
-              labelPlacement="stacked"
-              type="text"
-              placeholder="Comentarios sobre llantas traseras"
-              label="Notas Llanta de Repuesto"
-            ></ion-input>
+            <fa-icon slot="start" [icon]="car"></fa-icon>
+            <ion-label
+              >Vehículo: {{currentInspection.car?.nemVehiculo}} |
+              {{currentInspection.car?.model?.brand?.descMarca}}
+              {{currentInspection.car?.modelo}}</ion-label
+            >
           </ion-item>
-
           <ion-item>
-            <ion-input
-              [(ngModel)]="notas.comentariosBateria"
-              labelPlacement="stacked"
-              type="text"
-              placeholder="Comentarios sobre batería"
-              label="Notas sobre batería"
-              [disabled]="currentInspection()?.stage == 'checkin'"
-            ></ion-input>
+            <fa-icon slot="start" [icon]="gauge"></fa-icon>
+            <ion-label
+              >Kilometraje: {{currentInspection.odoSalida |
+              number:'0.0'}}</ion-label
+            >
           </ion-item>
-
           <ion-item>
-            <ion-input
-              [(ngModel)]="notas.otrasObservacionesSalida"
-              labelPlacement="stacked"
-              type="text"
-              placeholder="Otras Observaciones"
-              label="Otras Observaciones"
-              [disabled]="currentInspection()?.stage == 'checkin'"
-            ></ion-input>
+            <fa-icon slot="start" [icon]="gas"></fa-icon>
+            <ion-label
+              >Nivel de Combustible:
+              {{currentInspection.check_out_fuel?.descTanqueComb}}</ion-label
+            >
           </ion-item>
-          @if (currentInspection()?.stage=='checkin') {
-          <ion-item>
-            <ion-input
-              [(ngModel)]="notas.otrasObservacionesEntrega"
-              labelPlacement="stacked"
-              type="text"
-              placeholder="Observaciones de Entrada"
-              label="Observaciones de Entrada"
-            ></ion-input>
-          </ion-item>
-          }
           <ion-item>
             <ion-input
               [(ngModel)]="notas.emailCliente"

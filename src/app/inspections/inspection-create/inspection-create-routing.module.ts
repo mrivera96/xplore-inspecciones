@@ -28,6 +28,14 @@ const routes: Routes = [
     canActivate: [UserGuard, InspectionGuard],
   },
   {
+    path: 'notes',
+    loadComponent: () =>
+      import('./components/additional-notes/additional-notes.component').then(
+        (m) => m.AdditionalNotesComponent
+      ),
+    canActivate: [UserGuard, InspectionGuard],
+  },
+  {
     path: 'signing',
     loadComponent: () =>
       import('./components/signing/signing.component').then(

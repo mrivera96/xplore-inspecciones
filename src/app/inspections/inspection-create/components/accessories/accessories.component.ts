@@ -123,7 +123,7 @@ export class AccessoriesComponent implements OnInit {
             text: 'Ok',
             role: 'ok',
             handler: () => {
-              this.navCtrl.navigateForward(['/inspections/create/signing'], {
+              this.navCtrl.navigateForward(['/inspections/create/notes'], {
                 state: {
                   customer: this.customer,
                   driver: this.driver,
@@ -135,7 +135,7 @@ export class AccessoriesComponent implements OnInit {
         ]
       );
     } else {
-      this.navCtrl.navigateForward(['/inspections/create/signing'], {
+      this.navCtrl.navigateForward(['/inspections/create/notes'], {
         state: {
           customer: this.customer,
           driver: this.driver,

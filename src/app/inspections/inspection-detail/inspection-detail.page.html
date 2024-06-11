@@ -29,34 +29,34 @@
   <ion-card style="border-radius: 10px">
     <ion-card-header>
       <ion-card-title
-        >Inspección No. {{currentInspection()?.numInspeccion}}</ion-card-title
+        >Inspección No. {{currentInspection.numInspeccion}}</ion-card-title
       >
     </ion-card-header>
     <ion-card-content>
       <ion-list>
         <ion-item>
           <fa-icon slot="start" [icon]="bar"></fa-icon>
-          Estado: {{currentInspection()?.state?.descEstado}}
+          Estado: {{currentInspection.state?.descEstado}}
         </ion-item>
         <ion-item>
           <fa-icon slot="start" [icon]="contract"></fa-icon>
           <ion-label
-            >Contrato No: {{currentInspection()?.contract?.numContrato}}
+            >Contrato No: {{currentInspection.contract?.numContrato}}
           </ion-label>
         </ion-item>
         <ion-item>
           <fa-icon slot="start" [icon]="user"></fa-icon>
           <ion-label
             >Cliente:
-            {{currentInspection()?.contract?.customer?.nomCliente}}</ion-label
+            {{currentInspection.contract?.customer?.nomCliente}}</ion-label
           >
         </ion-item>
         <ion-item>
           <fa-icon slot="start" [icon]="car"></fa-icon>
           <ion-label
-            >Vehículo: {{currentInspection()?.car?.nemVehiculo}} |
-            {{currentInspection()?.car?.model?.brand?.descMarca}}
-            {{currentInspection()?.car?.modelo}}</ion-label
+            >Vehículo: {{currentInspection.car?.nemVehiculo}} |
+            {{currentInspection.car?.model?.brand?.descMarca}}
+            {{currentInspection.car?.modelo}}</ion-label
           >
         </ion-item>
       </ion-list>
@@ -75,13 +75,13 @@
           <fa-icon slot="start" [icon]="agency"></fa-icon>
           <ion-label
             >Agencia:
-            {{currentInspection()?.contract?.check_out_agency?.descAgencia}}</ion-label
+            {{currentInspection.contract?.check_out_agency?.descAgencia}}</ion-label
           >
         </ion-item>
         <ion-item>
           <fa-icon slot="start" [icon]="gauge"></fa-icon>
           <ion-label
-            >Kilometraje: {{currentInspection()?.odoSalida |
+            >Kilometraje: {{currentInspection.odoSalida |
             number:'0.0'}}</ion-label
           >
         </ion-item>
@@ -89,27 +89,26 @@
           <fa-icon slot="start" [icon]="gas"></fa-icon>
           <ion-label
             >Nivel de Combustible:
-            {{currentInspection()?.check_out_fuel?.descTanqueComb}}</ion-label
+            {{currentInspection.check_out_fuel?.descTanqueComb}}</ion-label
           >
         </ion-item>
         <ion-item>
           <fa-icon slot="start" [icon]="agent"></fa-icon>
           <ion-label
-            >Agente:
-            {{currentInspection()?.checkout_agent?.nomUsuario}}</ion-label
+            >Agente: {{currentInspection.checkout_agent?.nomUsuario}}</ion-label
           >
         </ion-item>
         <ion-item>
           <fa-icon slot="start" [icon]="calendar"></fa-icon>
           <ion-label
-            >Fecha y Hora: {{currentInspection()?.contract?.fechaSalida |
+            >Fecha y Hora: {{currentInspection.contract?.fechaSalida |
             date:'dd/MM/yyyy HH:mm'}}</ion-label
           >
         </ion-item>
         <ion-item>
           <fa-icon slot="start" [icon]="calendar"></fa-icon>
           <ion-label
-            >Fecha y Hora de Ingreso: {{currentInspection()?.created_at |
+            >Fecha y Hora de Ingreso: {{currentInspection.created_at |
             date:'dd/MM/yyyy HH:mm'}}</ion-label
           >
         </ion-item>
@@ -118,13 +117,13 @@
           <ion-label>Licencia:</ion-label>
         </ion-item>
         <ion-item>
-          @if (currentInspection()?.fotoLicencia != null) {
+          @if (currentInspection.fotoLicencia != null) {
 
           <ion-img-viewer
             title="Licencia"
             text="Preview"
             scheme="light"
-            [src]="photosDirectory + currentInspection()?.fotoLicencia"
+            [src]="photosDirectory + currentInspection.fotoLicencia"
           >
           </ion-img-viewer>
 
@@ -136,9 +135,9 @@
           <fa-icon slot="start" [icon]="cam"></fa-icon>
           <ion-label>Fotografías:</ion-label>
         </ion-item>
-        @if (currentInspection()?.photos?.length! >0) {
+        @if (currentInspection.photos?.length! >0) {
         <ion-grid>
-          @for (photo of currentInspection()?.photos; track $index) { @if
+          @for (photo of currentInspection.photos; track $index) { @if
           (photo.etapa == 'checkout') {
           <ion-col>
             <ion-card>
@@ -169,7 +168,7 @@
         <ion-list-header>
           <ion-label>Accesorios</ion-label>
         </ion-list-header>
-        @for (accessory of accessories(); track $index) {
+        @for (accessory of accessories; track $index) {
         <ion-item>
           <ion-checkbox
             disabled
@@ -191,7 +190,7 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosLlantasDelanteras || 'Sin
+            >{{currentInspection.comentariosLlantasDelanteras || 'Sin
             Registro'}}</ion-label
           >
         </ion-item>
@@ -201,7 +200,7 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosLlantasTraseras || 'Sin
+            >{{currentInspection.comentariosLlantasTraseras || 'Sin
             Registro'}}</ion-label
           >
         </ion-item>
@@ -211,7 +210,7 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosLlantaRepuesto || 'Sin
+            >{{currentInspection.comentariosLlantaRepuesto || 'Sin
             Registro'}}</ion-label
           >
         </ion-item>
@@ -221,7 +220,7 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.comentariosBateria || 'Sin
+            >{{currentInspection.comentariosBateria || 'Sin
             Registro'}}</ion-label
           >
         </ion-item>
@@ -231,7 +230,7 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.otrasObservacionesSalida || 'Sin
+            >{{currentInspection.otrasObservacionesSalida || 'Sin
             Registro'}}</ion-label
           >
         </ion-item>
@@ -239,12 +238,12 @@
           <ion-label>Firma del Cliente</ion-label>
         </ion-item>
         <ion-item>
-          @if(currentInspection()?.firmaClienteSalida != undefined){
+          @if(currentInspection.firmaClienteSalida != undefined){
           <ion-img-viewer
             title="Firma del Cliente OUT"
             text="Preview"
             scheme="light"
-            [src]="photosDirectory + currentInspection()?.firmaClienteSalida"
+            [src]="photosDirectory + currentInspection.firmaClienteSalida"
           >
           </ion-img-viewer>
 
@@ -256,7 +255,7 @@
     </ion-card-content>
   </ion-card>
 
-  @if (currentInspection()?.idEstado == 49) {
+  @if (currentInspection.idEstado == 49) {
   <ion-card style="border-radius: 10px">
     <ion-card-header>
       <ion-card-title>Entrada</ion-card-title>
@@ -271,13 +270,13 @@
           <fa-icon slot="start" [icon]="agency"></fa-icon>
           <ion-label
             >Agencia:
-            {{currentInspection()?.contract?.check_in_agency?.descAgencia}}</ion-label
+            {{currentInspection.contract?.check_in_agency?.descAgencia}}</ion-label
           >
         </ion-item>
         <ion-item>
           <fa-icon slot="start" [icon]="gauge"></fa-icon>
           <ion-label
-            >Kilometraje: {{currentInspection()?.odoEntrega |
+            >Kilometraje: {{currentInspection.odoEntrega |
             number:'0.0'}}</ion-label
           >
         </ion-item>
@@ -285,27 +284,26 @@
           <fa-icon slot="start" [icon]="gas"></fa-icon>
           <ion-label
             >Nivel de Combustible:
-            {{currentInspection()?.check_in_fuel?.descTanqueComb}}</ion-label
+            {{currentInspection.check_in_fuel?.descTanqueComb}}</ion-label
           >
         </ion-item>
         <ion-item>
           <fa-icon slot="start" [icon]="agent"></fa-icon>
           <ion-label
-            >Agente:
-            {{currentInspection()?.checkin_agent?.nomUsuario}}</ion-label
+            >Agente: {{currentInspection.checkin_agent?.nomUsuario}}</ion-label
           >
         </ion-item>
         <ion-item>
           <fa-icon slot="start" [icon]="calendar"></fa-icon>
           <ion-label
-            >Fecha y Hora: {{currentInspection()?.contract?.fechaEntrega |
+            >Fecha y Hora: {{currentInspection.contract?.fechaEntrega |
             date:'dd/MM/yyyy HH:mm'}}</ion-label
           >
         </ion-item>
         <ion-item>
           <fa-icon slot="start" [icon]="calendar"></fa-icon>
           <ion-label
-            >Fecha y Hora de Ingreso: {{currentInspection()?.updated_at |
+            >Fecha y Hora de Ingreso: {{currentInspection.updated_at |
             date:'dd/MM/yyyy HH:mm'}}</ion-label
           >
         </ion-item>
@@ -313,9 +311,9 @@
           <fa-icon slot="start" [icon]="cam"></fa-icon>
           <ion-label>Daños:</ion-label>
         </ion-item>
-        @if (currentInspection()?.damages?.length! >0) {
+        @if (currentInspection.damages.length! >0) {
         <ion-grid>
-          @for (damage of currentInspection()?.damages; track $index) {
+          @for (damage of currentInspection.damages; track $index) {
           <ion-col>
             <ion-card>
               <ion-card-header>
@@ -350,7 +348,7 @@
         <ion-list-header>
           <ion-label>Accesorios</ion-label>
         </ion-list-header>
-        @for (accessory of accessories(); track $index) {
+        @for (accessory of accessories; track $index) {
         <ion-item>
           <ion-checkbox
             disabled
@@ -372,7 +370,7 @@
         </ion-item>
         <ion-item>
           <ion-label
-            >{{currentInspection()?.otrasObservacionesEntrega || 'Sin
+            >{{currentInspection.otrasObservacionesEntrega || 'Sin
             Registro'}}</ion-label
           >
         </ion-item>
@@ -381,13 +379,13 @@
           <ion-label>Firma del cliente</ion-label>
         </ion-item>
         <ion-item>
-          @if(currentInspection()?.firmaClienteEntrega != undefined){
+          @if(currentInspection.firmaClienteEntrega != undefined){
 
           <ion-img-viewer
             title="Firma del Cliente IN"
             text="Preview"
             scheme="light"
-            [src]="photosDirectory + currentInspection()?.firmaClienteEntrega"
+            [src]="photosDirectory + currentInspection.firmaClienteEntrega"
           >
           </ion-img-viewer>
           }@else {

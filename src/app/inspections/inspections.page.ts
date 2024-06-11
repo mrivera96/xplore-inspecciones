@@ -3,7 +3,7 @@ import { InspectionsService } from '../shared/services/inspections.service';
 import { NavController } from '@ionic/angular';
 import { AuthService } from '../shared/services/auth.service';
 import { Inspection } from '../shared/interfaces/inspection';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Component({
   selector: 'app-inspections',
@@ -17,6 +17,7 @@ export class InspectionsPage {
 
   //inyeccion de dependencias
   private router = inject(Router);
+  private navController = inject(NavController);
 
   //declara la variable signal que filtra las inspecciones en estado abierto
   protected openInspections = computed(() => {
@@ -71,7 +72,12 @@ export class InspectionsPage {
 
   gotToDetail(inspection: Inspection) {
     this.inspectionsServices.currentInspection.set(inspection);
-    this.router.navigate(['/inspections/detail']);
+    let navigationExtras: NavigationExtras = {
+      state: {
+        idInspeccion: inspection.idInspeccion,
+      },
+    };
+    this.navController.navigateForward('/inspections/detail', navigationExtras);
   }
 
   onLogout() {

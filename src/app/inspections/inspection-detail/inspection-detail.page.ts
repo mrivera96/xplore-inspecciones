@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
-import { IonicModule, Platform } from '@ionic/angular';
+import { IonicModule, NavController, Platform } from '@ionic/angular';
 import { environment } from 'src/environments/environment';
 import { InspectionsService } from '../../shared/services/inspections.service';
 import { ToolbarComponent } from 'src/app/shared/components/toolbar/toolbar.component';
@@ -26,13 +26,14 @@ import { AccessoriesService } from 'src/app/shared/services/accessories.service'
 import { NgxIonicImageViewerModule } from '@herdwatch-apps/ngx-ionic-image-viewer';
 import { catchError, retry, shareReplay } from 'rxjs';
 import { AlertService } from 'src/app/shared/services/alert.service';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import {
   FileOpener,
   FileOpenerOptions,
 } from '@capacitor-community/file-opener';
 import { Directory, Filesystem } from '@capacitor/filesystem';
 import write_blob from 'capacitor-blob-writer';
+import { Inspection } from 'src/app/shared/interfaces/inspection';
 
 @Component({
   selector: 'app-inspection-detail',
@@ -56,9 +57,12 @@ export class InspectionDetailPage implements OnInit {
 
   //inyeccion de dependencias
   private platform = inject(Platform);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private navCtrl = inject(NavController);
 
   //declaracion de propiedades
-  protected currentInspection = this.inspectionService.currentInspection;
+  protected currentInspection: Inspection = {} as Inspection;
   protected photosDirectory = environment.imagesUrl;
   agency = faBuildingCircleArrowRight;
   gauge = faGauge;
@@ -75,7 +79,7 @@ export class InspectionDetailPage implements OnInit {
   options = faEllipsisVertical;
   calendar = faCalendar;
   message = faMessage;
-  protected accessories = this.accessoriesService.accessories;
+  protected accessories = this.accessoriesService.accessories();
 
   public actionSheetButtons = [
     {
@@ -89,27 +93,38 @@ export class InspectionDetailPage implements OnInit {
   isActionSheetOpen: boolean = false;
 
   constructor() {
-    this.accessories.update((values) => {
-      const current = [...values];
-      current.forEach((accessory) => {
-        const accesories = this.currentInspection()?.checkout_accessories;
-        if (
-          accesories != undefined &&
-          accesories.some((x) => x.idAccesorio == accessory.idAccesorio)
-        ) {
-          accessory.isInCheckout = true;
-        }
+    this.route.queryParams.subscribe(() => {
+      if (this.router.getCurrentNavigation()?.extras.state) {
+        this.currentInspection = this.inspectionService
+          .inspections()
+          ?.find(
+            (x) =>
+              x.idInspeccion ==
+              this.router.getCurrentNavigation()?.extras?.state?.[
+                'idInspeccion'
+              ]!
+          ) as Inspection;
+      } else {
+        this.navCtrl.back();
+      }
+    });
 
-        const checkinAccessory = this.currentInspection()?.checkin_accessories;
-        if (
-          checkinAccessory != undefined &&
-          checkinAccessory.some((x) => x.idAccesorio == accessory.idAccesorio)
-        ) {
-          accessory.isInCheckin = true;
-        }
-      });
+    this.accessories.forEach((accessory) => {
+      const accesories = this.currentInspection?.checkout_accessories;
+      if (
+        accesories != undefined &&
+        accesories.some((x) => x.idAccesorio == accessory.idAccesorio)
+      ) {
+        accessory.isInCheckout = true;
+      }
 
-      return current;
+      const checkinAccessory = this.currentInspection?.checkin_accessories;
+      if (
+        checkinAccessory != undefined &&
+        checkinAccessory.some((x) => x.idAccesorio == accessory.idAccesorio)
+      ) {
+        accessory.isInCheckin = true;
+      }
     });
   }
 
@@ -123,7 +138,7 @@ export class InspectionDetailPage implements OnInit {
     await this.alertsService.presentLoading();
     (
       await this.inspectionService.printInspection(
-        this.currentInspection()?.idInspeccion!
+        this.currentInspection?.idInspeccion!
       )
     )
       .pipe(
@@ -161,7 +176,7 @@ export class InspectionDetailPage implements OnInit {
     if (this.platform.is('mobile')) {
       const fileOpenerOptions: FileOpenerOptions = {
         filePath: (await this._getFilePath(
-          `${this.currentInspection()!.numInspeccion}.pdf`,
+          `${this.currentInspection!.numInspeccion}.pdf`,
           file
         )) as string,
         contentType: 'application/pdf',
