@@ -14,7 +14,6 @@ import { InspectionsService } from 'src/app/shared/services/inspections.service'
 import { PhotoService } from 'src/app/shared/services/photo.service';
 import { environment } from 'src/environments/environment';
 import { PhotoDamageComponent } from '../photo-damage/photo-damage.component';
-import { Damage } from 'src/app/shared/interfaces/damage';
 
 @Component({
   selector: 'app-photos',

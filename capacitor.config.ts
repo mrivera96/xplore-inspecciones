@@ -1,8 +1,7 @@
 import type { CapacitorConfig } from '@capacitor/cli';
-import { CapacitorHttp } from '@capacitor/core';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'com.xplore.inspecciones',
   appName: 'Xplore Inspecciones',
   webDir: 'www/browser',
  server:{hostname:'localhost',androidScheme:'http',iosScheme:'http',cleartext:true, },
