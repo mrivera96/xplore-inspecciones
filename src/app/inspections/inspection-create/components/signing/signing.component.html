@@ -219,6 +219,7 @@
           @if (currentInspection()?.photos?.length! >0) {
           <ion-grid>
             @for (photo of currentInspection()?.photos; track $index) {
+            @if(photo.etapa=='checkin'){
             <ion-col>
               <ion-card>
                 <ion-card-header>
@@ -234,13 +235,17 @@
                     [title]="photo.damage?.damage_part?.descPieza + ' ' + 'IN'"
                     text="Preview"
                     scheme="light"
-                    [src]="'data:image/png;base64,' + photo.foto"
+                    [src]="
+                      photo.foto!.length > 100
+                        ? 'data:image/png;base64,' + photo.foto
+                        : photosDirectory + photo.foto
+                    "
                   >
                   </ion-img-viewer>
                 </ion-card-content>
               </ion-card>
             </ion-col>
-            }</ion-grid
+            } }</ion-grid
           >
           }@else {
           <ion-item>
@@ -258,7 +263,7 @@
           <ion-item>
             <ion-checkbox
               disabled
-              [checked]="accessory.isInCheckin"
+              [checked]="true"
               [value]="accessory.idAccesorio"
               >{{ accessory.nomAccesorio }}</ion-checkbox
             >

@@ -38,6 +38,7 @@ import { CarsService } from 'src/app/shared/services/cars.service';
 import { ContractsService } from 'src/app/shared/services/contracts.service';
 import { FuelTanksService } from 'src/app/shared/services/fuel-tanks.service';
 import { InspectionsService } from 'src/app/shared/services/inspections.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-signing',
@@ -92,6 +93,7 @@ export class SigningComponent implements OnInit {
   currentFuel: FuelTank | undefined = undefined;
   currentContract = this.contractsService.currentContract();
   currentCar = this.carsService.currentCar();
+  protected photosDirectory = environment.imagesUrl;
 
   @ViewChild('signContainer') signContainer!: ElementRef<HTMLElement>;
   title: string;

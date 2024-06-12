@@ -45,7 +45,7 @@ export class PhotoDamageComponent implements OnInit {
   addDamage() {
     if (this.damage.idTipoDanio != null) {
       this.damage.damage_type = this.damageTypes()?.find(
-        (x) => x.idTipoDanio == this.damage.idDanio
+        (x) => x.idTipoDanio == this.damage.idTipoDanio
       ) as DamageType;
       this.damage.damage_part = this.photo.auto_part;
       this.photoService.clearPhotos();

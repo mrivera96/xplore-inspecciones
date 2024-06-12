@@ -125,7 +125,6 @@ export class AdditionalNotesComponent implements OnInit {
       return current as Inspection;
     });
 
-    this.inspectionsService.closeInspection();
   }
 
   goToPrev() {

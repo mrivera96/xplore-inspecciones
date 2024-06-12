@@ -34,7 +34,7 @@
               [(ngModel)]="notas.comentariosLlantaRepuesto"
               labelPlacement="stacked"
               type="text"
-              placeholder="Comentarios sobre llantas traseras"
+              placeholder="Comentarios sobre llanta de repuesto"
               label="Notas Llanta de Repuesto"
             ></ion-input>
           </ion-item>
@@ -46,7 +46,7 @@
               type="text"
               placeholder="Comentarios sobre batería"
               label="Notas Batería"
-              [disabled]="currentInspection()?.stage == 'checkin'"
+              [readonly]="currentInspection()?.stage == 'checkin'"
             ></ion-input>
           </ion-item>
 
@@ -56,8 +56,8 @@
               labelPlacement="stacked"
               type="text"
               placeholder="Otras Observaciones"
-              label="Otras Observaciones"
-              [disabled]="currentInspection()?.stage == 'checkin'"
+              label="Otras Observaciones Salida"
+              [readonly]="currentInspection()?.stage == 'checkin'"
             ></ion-input>
           </ion-item>
           @if (currentInspection()?.stage=='checkin') {

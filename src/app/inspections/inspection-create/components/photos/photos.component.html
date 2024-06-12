@@ -49,10 +49,10 @@
           @if(photo.foto!.length > 100){
           <ion-card-header>
             <ion-list>
-              @if (currentInspection()?.stage=='checkin' && photo.damage!=
-            undefined) {
-            <ion-item>{{ photo.damage.damage_type }}</ion-item>
-            }
+              <ion-item>{{
+                photo.damage?.damage_type?.descTipoDanio
+              }}</ion-item>
+
               <ion-item lines="none">
                 <ion-icon
                   button
@@ -65,11 +65,15 @@
             </ion-list>
           </ion-card-header>
           }
-          
+
           <ion-card-content>
             <ion-img-viewer
               [title]="photo.auto_part?.descPieza"
-              text="Preview"
+              [text]="
+                photo.foto!.length > 100
+                  ? photo.damage?.damage_type?.descTipoDanio
+                  : 'Preview'
+              "
               scheme="light"
               [src]="
                 photo.foto!.length > 100
@@ -78,7 +82,6 @@
               "
             >
             </ion-img-viewer>
-            
           </ion-card-content>
         </ion-card>
         } }

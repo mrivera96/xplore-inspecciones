@@ -83,19 +83,26 @@ export class InspectionCreatePage implements OnDestroy {
   }
   //Establece el vehiculo en el estado global de la inspección actual
   selectContract(e: any) {
-    const currentContract = this.contractsService
-      .contracts()
-      ?.find((x) => x.idVehiculo == e.value.idVehiculo) as Contract;
+    let currentContract = undefined;
 
-    this.contractsService.setCurrentContract(currentContract);
-    const current = this.inspectionsServices  
-      .inspections()
-      ?.filter((x) => x.idEstado == 48)!;
+    if (this.currentStage == 'checkin') {
+      const current = this.inspectionsServices
+        .inspections()
+        ?.filter((x) => x.idEstado == 48)!;
 
-    if (this.currentStage == 'checkin' && current != undefined) {
-      const currInspection = current.find((x) => x.idVehiculo == e.value.idVehiculo);
+      const currInspection = current.find(
+        (x) => x.idVehiculo == e.value.idVehiculo
+      );
+      currentContract = this.contractsService
+        .contracts()
+        ?.find((x) => x.idContrato == currInspection?.idContrato) as Contract;
+      this.contractsService.setCurrentContract(currentContract);
       this.initializeCheckin(currInspection as Inspection);
     } else {
+      currentContract = this.contractsService
+        .contracts()
+        ?.find((x) => x.idContrato == e.value.idContrato) as Contract;
+      this.contractsService.setCurrentContract(currentContract);
       this.initializeCheckout();
     }
   }
@@ -140,9 +147,6 @@ export class InspectionCreatePage implements OnDestroy {
       return current as Inspection;
     });
 
-    console.log(currentI)
-
-    
     this.contractsService.currentContract.update((values) => {
       const current = { ...values };
       {

@@ -9,34 +9,39 @@
     <ion-card>
       <ion-card-content>
         <ion-list>
-          @for (accessory of accessories; track $index) {
+          @if(currentInspection()?.stage=='checkin' ){ @for (accessory of
+          currentInspection()?.checkout_accessories; track $index) {
           <ion-item>
-            @if(currentInspection()?.stage=='checkin' ){
-              @if(accessory.isInCheckout!){
-                <ion-checkbox
-                (ionChange)="onAccessoryAdd($event, accessory)"
-                [value]="accessory.idAccesorio"
-                [checked]="accessory.isInCheckin"
-                >{{ accessory.nomAccesorio }}</ion-checkbox
-              >
-  
-              <ion-checkbox
-                color="secondary"
-                disabled="true"
-                slot="end"
-                [checked]="true"
-              >
-              </ion-checkbox>
-              }
-           
-            }@else if (currentInspection()?.stage=='checkout') {
+            <ion-checkbox
+              (ionChange)="onAccessoryAdd($event, accessory)"
+              [value]="accessory.idAccesorio"
+              [checked]="accessory.isInCheckin"
+              >{{ accessory.nomAccesorio }}</ion-checkbox
+            >
+
+            <ion-checkbox
+              color="secondary"
+              disabled="true"
+              slot="end"
+              [checked]="true"
+            >
+            </ion-checkbox>
+          </ion-item>
+          }@empty(){
+          <ion-item>
+            <ion-label>Obteniendo datos..</ion-label>
+            <ion-spinner color="secondary" name="crescent"></ion-spinner>
+          </ion-item>
+
+          } }@else if (currentInspection()?.stage=='checkout') { @for(accessory
+          of accessories; track $index){
+          <ion-item>
             <ion-checkbox
               (ionChange)="onAccessoryAdd($event, accessory)"
               [value]="accessory.idAccesorio"
               [checked]="accessory.isInCheckout"
               >{{ accessory.nomAccesorio }}</ion-checkbox
             >
-            }
           </ion-item>
           } @empty(){
           <ion-item>
@@ -44,7 +49,7 @@
             <ion-spinner color="secondary" name="crescent"></ion-spinner>
           </ion-item>
 
-          }
+          } }
         </ion-list>
       </ion-card-content>
     </ion-card>
