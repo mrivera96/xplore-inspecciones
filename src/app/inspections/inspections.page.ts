@@ -20,16 +20,29 @@ export class InspectionsPage {
   private navController = inject(NavController);
 
   //declara la variable signal que filtra las inspecciones en estado abierto
+  protected serviceInspections = this.inspectionsServices.inspections;
+  private allOpenInspections = computed(() => {
+    return this.serviceInspections()?.filter(
+      (x) => x.state?.descEstado == 'Abierta'
+    );
+  });
+
   protected openInspections = computed(() => {
-    return this.inspectionsServices
-      .inspections()
-      ?.filter((x) => x.state?.descEstado == 'Abierta');
+    return this.serviceInspections()?.filter(
+      (x) => x.state?.descEstado == 'Abierta'
+    );
+  });
+
+  private allClosedInspections = computed(() => {
+    return this.serviceInspections()?.filter(
+      (x) => x.state?.descEstado == 'Cerrada'
+    );
   });
 
   protected closedInspections = computed(() => {
-    return this.inspectionsServices
-      .inspections()
-      ?.filter((x) => x.state?.descEstado == 'Cerrada');
+    return this.serviceInspections()?.filter(
+      (x) => x.state?.descEstado == 'Cerrada'
+    );
   });
 
   //declaracion de propiedades
@@ -82,5 +95,57 @@ export class InspectionsPage {
 
   onLogout() {
     this.authService.logout();
+  }
+
+  onSearch(e: any) {
+    if (this.currentStage == 'checkout') {
+      if (e.value != '') {
+        this.openInspections = computed(() => {
+          return this.allOpenInspections()?.filter(
+            (x) =>
+              x.car?.nemVehiculo.includes(e.target.value) ||
+              x.contract?.numContrato.includes(e.target.value)
+          );
+        });
+      } else {
+        this.openInspections = computed(() => {
+          return this.serviceInspections()?.filter(
+            (x) => x.state?.descEstado == 'Abierta'
+          );
+        });
+      }
+    } else if (this.currentStage == 'checkin') {
+      if (e.value != '') {
+        this.closedInspections = computed(() => {
+          return this.allClosedInspections()?.filter(
+            (x) =>
+              x.car?.nemVehiculo.includes(e.target.value) ||
+              x.contract?.numContrato.includes(e.target.value)
+          );
+        });
+      } else {
+        this.closedInspections = computed(() => {
+          return this.serviceInspections()?.filter(
+            (x) => x.state?.descEstado == 'Cerrada'
+          );
+        });
+      }
+    }
+  }
+
+  onCancel(e: any) {
+    if (this.currentStage == 'checkout') {
+      this.openInspections = computed(() => {
+        return this.serviceInspections()?.filter(
+          (x) => x.state?.descEstado == 'Abierta'
+        );
+      });
+    } else {
+      this.closedInspections = computed(() => {
+        return this.serviceInspections()?.filter(
+          (x) => x.state?.descEstado == 'Cerrada'
+        );
+      });
+    }
   }
 }

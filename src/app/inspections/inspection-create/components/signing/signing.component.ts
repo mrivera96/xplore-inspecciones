@@ -123,7 +123,7 @@ export class SigningComponent implements OnInit {
       this.currentInspection()?.stage === 'checkout'
         ? this.router.getCurrentNavigation()?.extras?.state?.['driver']
             ?.correoI || ''
-        : this.currentInspection()?.correoCliente;
+        : this.currentInspection()?.correoConductor;
   }
 
   ngOnInit() {}

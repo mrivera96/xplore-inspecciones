@@ -1,4 +1,25 @@
-<app-toolbar></app-toolbar>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+
+      <img
+        [routerLink]="['/home']"
+        routerDirection="root"
+        src="assets/img/logo.png"
+        width="30%"
+      />
+
+      <ion-title style="margin-left: 10px">Inspecciones</ion-title>
+    </ion-buttons>
+    <ion-searchbar
+     placeholder="Búsqueda por vehículo o contrato"
+      (ionInput)="onSearch($event)"
+      (ionCancel)="onCancel($event)"
+      slot="end"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
 
 <ion-content>
   <ion-grid fixed>
@@ -13,7 +34,7 @@
   </ion-grid>
   <ion-card style="border-radius: 10px">
     <ion-card-content>
-      @if(currentStage == 'checkout'){ @defer (when openInspections()) {
+      @if(currentStage == 'checkout'){ @defer ( when serviceInspections()) {
       <ion-list>
         @for (openInspection of openInspections(); track $index) {
         <ion-item detail="true" button (click)="gotToDetail(openInspection)">
@@ -37,13 +58,6 @@
         </ion-item>
         }
       </ion-list>
-      }@loading {
-      <ion-item>
-        <ion-icon slot="start" name="alert-circle"></ion-icon>
-        <ion-label>Obteniendo datos..</ion-label>
-        <ion-spinner color="secondary" name="crescent"></ion-spinner>
-      </ion-item>
-
       }@placeholder {
       <ion-item>
         <ion-icon slot="start" name="alert-circle"></ion-icon>
@@ -51,7 +65,7 @@
         <ion-spinner color="secondary" name="crescent"></ion-spinner>
       </ion-item>
 
-      } } @if(currentStage == 'checkin'){ @defer (when closedInspections()) {
+      } } @if(currentStage == 'checkin'){ @defer (when serviceInspections) {
       <ion-list>
         @for (closedInspection of closedInspections(); track $index) {
         <ion-item detail="true" button (click)="gotToDetail(closedInspection)">
@@ -92,7 +106,7 @@
       }}
     </ion-card-content>
   </ion-card>
-<!-- 
+  <!-- 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button
       aria-labelledby="Agregar inspeccion"

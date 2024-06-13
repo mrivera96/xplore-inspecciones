@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonicModule } from '@ionic/angular';
+import { IonSearchbar, IonicModule } from '@ionic/angular';
 
 import { ToolbarComponent } from '../shared/components/toolbar/toolbar.component';
 import { InspectionDetailPage } from './inspection-detail/inspection-detail.page';
@@ -15,7 +15,7 @@ import { InspectionsPage } from './inspections.page';
     ReactiveFormsModule,
     FormsModule,
     ToolbarComponent,
-    InspectionDetailPage,
+    InspectionDetailPage, 
   ],
   declarations: [InspectionsPage],
   providers: [],
