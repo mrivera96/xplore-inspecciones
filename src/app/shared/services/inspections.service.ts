@@ -45,6 +45,10 @@ export class InspectionsService {
   currentInspection = signal<Inspection | undefined>(undefined);
 
   constructor() {
+    this.loadData();
+  }
+
+  public loadData() {
     const subsc = this.httpClient
       .get<ApiResponse>(`${this.apiEndPoint}/list`)
       .pipe(
@@ -152,11 +156,9 @@ export class InspectionsService {
   }
 
   async printInspection(inspectionId: number) {
-    return this.httpClient
-      .get<ApiResponse>(
-        `${this.apiEndPoint}/print?idInspeccion=${inspectionId}`
-      )
-      
+    return this.httpClient.get<ApiResponse>(
+      `${this.apiEndPoint}/print?idInspeccion=${inspectionId}`
+    );
   }
 
   clearState() {

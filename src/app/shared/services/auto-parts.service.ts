@@ -24,6 +24,10 @@ export class AutoPartsService {
   //declaracion de signal a partir de los datos obtenidos
   autoParts = signal<AutoPart[]>([]);
   constructor() {
+    this.loadData();
+  }
+
+  public loadData() {
     const subsc = this.httpClient
       .get<ApiResponse>(`${this.apiEndPoint}/list`)
       .pipe(retry(3), shareReplay(1))

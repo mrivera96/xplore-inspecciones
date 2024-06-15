@@ -24,6 +24,10 @@ export class CarsService {
   currentCar = signal<Car>({} as Car);
 
   constructor() {
+    this.loadData();
+  }
+
+  public loadData() {
     const subsc = this.httpClient
       .get<ApiResponse>(`${this.apiEndPoint}/list`)
       .pipe(retry(3), shareReplay(1))
@@ -32,7 +36,4 @@ export class CarsService {
         subsc.unsubscribe();
       });
   }
-
-
-
 }

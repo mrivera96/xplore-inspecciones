@@ -148,4 +148,9 @@ export class InspectionsPage {
       });
     }
   }
+
+  handleRefresh(event: any) {
+    this.inspectionsServices.loadData();
+    event.target.complete();
+  }
 }

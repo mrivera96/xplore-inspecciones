@@ -24,6 +24,10 @@ export class DamageTypesService {
   //declaracion de signal a partir de los datos obtenidos
   damageTypes = signal<DamageType[]>([]);
   constructor() {
+    this.loadData();
+  }
+
+  public loadData() {
     const subsc = this.httpClient
       .get<ApiResponse>(`${this.apiEndPoint}/list`)
       .pipe(

@@ -9,11 +9,9 @@
         src="assets/img/logo.png"
         width="30%"
       />
-
-      <ion-title style="margin-left: 10px">Inspecciones</ion-title>
     </ion-buttons>
     <ion-searchbar
-     placeholder="Búsqueda por vehículo o contrato"
+      placeholder="Búsqueda por vehículo o contrato"
       (ionInput)="onSearch($event)"
       (ionCancel)="onCancel($event)"
       slot="end"
@@ -22,6 +20,9 @@
 </ion-header>
 
 <ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
   <ion-grid fixed>
     <ion-row>
       <ion-col size="12">

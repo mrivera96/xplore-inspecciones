@@ -26,6 +26,10 @@ export class AccessoriesService {
   accessories = signal<Accessory[]>([]);
   currentAccessories = signal<Accessory[]>([]);
   constructor() {
+    this.loadData();
+  }
+
+  public loadData() {
     const subsc = this.httpClient
       .get<ApiResponse>(`${this.apiEndPoint}/list`)
       .pipe(

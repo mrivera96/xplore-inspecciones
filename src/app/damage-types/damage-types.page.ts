@@ -31,4 +31,9 @@ export class DamageTypesPage implements OnInit {
   goToCreate() {
     this.navCtrl.navigateForward([`damage-types/create`]);
   }
+
+  handleRefresh(event: any) {
+    this.damageTypesService.loadData();
+    event.target.complete();
+  }
 }

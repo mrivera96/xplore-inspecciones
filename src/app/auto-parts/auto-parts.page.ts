@@ -29,4 +29,9 @@ export class AutoPartsPage implements OnInit {
   goToCreate() {
     this.navCtrl.navigateForward([`auto-parts/create`]);
   }
+
+  handleRefresh(event: any) {
+    this.autoPartsService.loadData();
+    event.target.complete();
+  }
 }

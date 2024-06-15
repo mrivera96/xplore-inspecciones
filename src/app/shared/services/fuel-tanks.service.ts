@@ -21,7 +21,9 @@ export class FuelTanksService {
 
   //declaracion de signal a partir de los datos obtenidos
   fuelTanks = signal<FuelTank[]>([]);
-  constructor() {
+  constructor() {}
+
+  public loadData() {
     const subsc = this.httpClient
       .get<ApiResponse>(`${this.apiEndPoint}/list`)
       .pipe(retry(3), shareReplay(1))

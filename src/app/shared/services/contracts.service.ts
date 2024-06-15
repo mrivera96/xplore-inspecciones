@@ -30,6 +30,10 @@ export class ContractsService {
   currentContract = signal<Contract>({} as Contract);
 
   constructor() {
+    this.loadData();
+  }
+
+  public loadData() {
     const subsc = this.httpClient
       .get<ApiResponse>(`${this.apiEndPoint}/list`)
       .pipe(
@@ -49,11 +53,9 @@ export class ContractsService {
         subsc.unsubscribe();
       });
   }
-
   setCurrentContract(contract: Contract) {
     this.currentContract.update(() => {
       return contract;
     });
   }
-
 }

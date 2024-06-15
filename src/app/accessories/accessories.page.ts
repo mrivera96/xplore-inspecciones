@@ -31,4 +31,10 @@ export class AccessoriesPage implements OnInit {
   goToCreate() {
     this.navCtrl.navigateForward([`accessories/create`]);
   }
+
+  handleRefresh(event: any) {
+    this.accessoriesService.loadData();
+    event.target.complete();
+  }
+
 }
