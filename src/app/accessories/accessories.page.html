@@ -1,0 +1,49 @@
+<app-toolbar></app-toolbar>
+
+<ion-content>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-title>Accesorios</ion-title>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-card style="border-radius: 10px">
+    <ion-card-content>
+      @if (accessories().length >0) {
+      <ion-list>
+        @for (accessory of accessories(); track $index) {
+        <ion-item detail="true" button (click)="goToDetail(accessory)">
+          <ion-icon color="primary" slot="start" name="ellipse"></ion-icon>
+          <ion-label color="secondary">
+            <h2>{{accessory.nomAccesorio}}</h2>
+            <p>Accesorio No.: {{accessory.idAccesorio}}</p>
+          </ion-label>
+        </ion-item>
+        } @empty() {
+        <ion-item lines="none">
+          <ion-icon slot="start" name="alert-circle"></ion-icon>
+          <ion-label>No se encontraron accesorios</ion-label>
+        </ion-item>
+        }
+      </ion-list>
+      }@else {
+      <ion-item>
+        <ion-icon slot="start" name="alert-circle"></ion-icon>
+        <ion-label>Obteniendo datos..</ion-label>
+        <ion-spinner color="secondary" name="crescent"></ion-spinner>
+      </ion-item>
+
+      }
+    </ion-card-content>
+  </ion-card>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button
+      (click)="goToCreate()"
+      aria-labelledby="Agregar accesorio"
+      aria-label="Agregar una accesorio"
+    >
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

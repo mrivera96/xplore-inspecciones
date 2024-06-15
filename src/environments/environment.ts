@@ -4,9 +4,12 @@
 
 export const environment = {
   production: false,
-  apiUrl:'http://192.168.1.146:8000/api',
-  //'http://localhost:8000/api' ||
-  cryptKey:'0436b7ac-c152-4839-b054-f5852e06bc02'
+  apiUrl:'http://localhost/inspApi/api',
+  //apiUrl: 'http://inspApi.test/api',
+  cryptKey: '0436b7ac-c152-4839-b054-f5852e06bc02',
+  //imagesUrl: 'http://inspApi.test'
+  imagesUrl: 'http://localhost/inspApi'
+  //CAPACITOR_ANDROID_STUDIO_PATH: '/snap/android-studio/current/bin/',
 };
 
 /*

@@ -1,0 +1,73 @@
+<app-toolbar></app-toolbar>
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-title>Accesorios</ion-title>
+      </ion-col>
+    </ion-row>
+    <ion-card>
+      <ion-card-content>
+        <ion-list>
+          @if(currentInspection()?.stage=='checkin' ){ @for (accessory of
+          currentInspection()?.checkout_accessories; track $index) {
+          <ion-item>
+            <ion-checkbox
+              (ionChange)="onAccessoryAdd($event, accessory)"
+              [value]="accessory.idAccesorio"
+              [checked]="accessory.isInCheckin"
+              >{{ accessory.nomAccesorio }}</ion-checkbox
+            >
+
+            <ion-checkbox
+              color="secondary"
+              disabled="true"
+              slot="end"
+              [checked]="true"
+            >
+            </ion-checkbox>
+          </ion-item>
+          }@empty(){
+          <ion-item>
+            <ion-label>Obteniendo datos..</ion-label>
+            <ion-spinner color="secondary" name="crescent"></ion-spinner>
+          </ion-item>
+
+          } }@else if (currentInspection()?.stage=='checkout') { @for(accessory
+          of accessories; track $index){
+          <ion-item>
+            <ion-checkbox
+              (ionChange)="onAccessoryAdd($event, accessory)"
+              [value]="accessory.idAccesorio"
+              [checked]="accessory.isInCheckout"
+              >{{ accessory.nomAccesorio }}</ion-checkbox
+            >
+          </ion-item>
+          } @empty(){
+          <ion-item>
+            <ion-label>Obteniendo datos..</ion-label>
+            <ion-spinner color="secondary" name="crescent"></ion-spinner>
+          </ion-item>
+
+          } }
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goToPrev()">
+        Atrás
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToNext()">
+        Siguiente
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

@@ -1,4 +1,7 @@
 export const environment = {
   production: true,
-  cryptKey:'0436b7ac-c152-4839-b054-f5852e06bc02'
+  apiUrl:'http://190.4.56.14/inspApiDesa/api',
+  cryptKey:'0436b7ac-c152-4839-b054-f5852e06bc02',
+  imagesUrl: 'http://190.4.56.14/inspApiDesa',
+  CAPACITOR_ANDROID_STUDIO_PATH: "C:\\Program Files\\Android\\Android Studio\\bin",
 };

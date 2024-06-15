@@ -1,0 +1,183 @@
+<app-toolbar></app-toolbar>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col>
+        <ion-card
+          button
+          style="text-align: center; border-radius: 10px"
+          (click)="goToCheckOut()"
+        >
+          <ion-card-header>
+            <fa-icon
+              style="color: var(--ion-color-primary)"
+              [icon]="circleArrowRigth"
+              size="7x"
+            ></fa-icon>
+          </ion-card-header>
+
+          <ion-card-content> <h2>Inspección de salida</h2> </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card
+          (click)="goToCheckIn()"
+          style="text-align: center; border-radius: 10px"
+          button
+        >
+          <ion-card-header>
+            <fa-icon
+              style="color: var(--ion-color-primary)"
+              [icon]="circleArrowLeft"
+              size="7x"
+            ></fa-icon>
+          </ion-card-header>
+
+          <ion-card-content> <h2>Inspección de entrada</h2> </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-card
+          button
+          style="text-align: center; border-radius: 10px"
+          (click)="goToCheckouts()"
+        >
+          <ion-card-header>
+            <fa-icon
+              style="color: var(--ion-color-primary)"
+              [icon]="folderOpen"
+              size="7x"
+            ></fa-icon>
+          </ion-card-header>
+
+          <ion-card-content> <h2>Inspecciones abiertas</h2> </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card
+          style="text-align: center; border-radius: 10px"
+          button
+          (click)="goToCheckins()"
+        >
+          <ion-card-header>
+            <fa-icon
+              style="color: var(--ion-color-primary)"
+              [icon]="folderClosed"
+              size="7x"
+            ></fa-icon>
+          </ion-card-header>
+
+          <ion-card-content> <h2>Inspecciones cerradas</h2> </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <!--  @defer (when openInspections()) {
+  <ion-list lines="inset" inset="true">
+    <ion-list-header>
+      <ion-label>Últimas inspecciones abiertas</ion-label>
+    </ion-list-header>
+
+    @for (openInspection of openInspections(); track $index) {
+    <ion-item button (click)="gotToReview(openInspection)">
+      <ion-icon color="primary" slot="start" name="checkmark-circle"></ion-icon>
+      <ion-label color="secondary">
+        <h2>Vehículo: {{openInspection.car?.nemVehiculo}}</h2>
+        <p>
+          No. Inspección: {{openInspection.idInspeccion}} | No. Contrato:
+          {{openInspection.contract?.numContrato}}
+        </p>
+      </ion-label>
+    </ion-item>
+    } @empty() {
+    <ion-item lines="none">
+      <ion-icon slot="start" name="alert-circle"></ion-icon>
+      <ion-label>No se encontraron inspecciones abiertas</ion-label>
+    </ion-item>
+    }
+  </ion-list>
+  }@loading {
+  <ion-item>
+    <ion-icon slot="start" name="alert-circle"></ion-icon>
+    <ion-label>Obteniendo datos..</ion-label>
+    <ion-spinner color="secondary" name="crescent"></ion-spinner>
+  </ion-item>
+
+  }@placeholder {
+  <ion-item>
+    <ion-icon slot="start" name="alert-circle"></ion-icon>
+    <ion-label>Obteniendo datos..</ion-label>
+    <ion-spinner color="secondary" name="crescent"></ion-spinner>
+  </ion-item>
+
+  } @defer (when closedInspections()) {
+  <ion-list lines="inset" inset="true">
+    <ion-list-header>
+      <ion-label>Últimas inspecciones cerradas</ion-label>
+    </ion-list-header>
+
+    @for (closedInspection of closedInspections(); track $index) {
+    <ion-item button (click)="gotToReview(closedInspection)">
+      <ion-icon
+        color="secondary"
+        slot="start"
+        name="checkmark-done-circle"
+      ></ion-icon>
+      <ion-label color="primary">
+        <h2>Vehículo: {{closedInspection.car?.nemVehiculo}}</h2>
+        <p>
+          No. Inspección: {{closedInspection.idInspeccion}} | No. Contrato:
+          {{closedInspection.contract?.numContrato}}
+        </p>
+      </ion-label>
+    </ion-item>
+    }@empty() {
+    <ion-item lines="none">
+      <ion-icon slot="start" name="alert-circle"></ion-icon>
+      <ion-label>No se encontraron inspecciones cerradas</ion-label>
+    </ion-item>
+    }
+  </ion-list>
+  }@placeholder {
+  <ion-item>
+    <ion-icon slot="start" name="alert-circle"></ion-icon>
+    <ion-label>Obteniendo datos..</ion-label>
+    <ion-spinner color="secondary" name="crescent"></ion-spinner>
+  </ion-item>
+
+  }@loading {
+  <ion-item>
+    <ion-icon slot="start" name="alert-circle"></ion-icon>
+    <ion-label>Obteniendo datos..</ion-label>
+    <ion-spinner color="secondary" name="crescent"></ion-spinner>
+  </ion-item>
+
+  }
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button
+      aria-labelledby="Agregar inspeccion"
+      aria-label="Agregar una inspección"
+    >
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button (click)="goToCheckIn()"
+        ><ion-icon name="arrow-undo"></ion-icon
+      ></ion-fab-button>
+      <ion-fab-button
+        (click)="goToCheckOut()"
+        aria-labelledby="Agregar inspeccion"
+        aria-label="Agregar una inspección"
+      >
+        <ion-icon name="arrow-redo"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab> -->
+</ion-content>

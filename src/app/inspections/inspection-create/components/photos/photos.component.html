@@ -1,0 +1,116 @@
+<app-toolbar></app-toolbar>
+@if (photoService.photos().length > 0 && currentInspection()?.stage ===
+'checkin') {
+<ion-content [fullscreen]="true">
+  <app-photo-damage
+    [photo]="photo"
+    (photoEvent)="onDamageAdd($event)"
+  ></app-photo-damage>
+</ion-content>
+}@else {
+
+<ion-content [fullscreen]="true">
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col size="12">
+        <ion-title>Fotografías</ion-title>
+      </ion-col>
+    </ion-row>
+
+    @defer (when autoParts().length > 0) { @for (part of autoParts(); track
+    $index) {
+    <ion-card style="border-radius: 10px">
+      <ion-card-header>
+        <ion-list>
+          <ion-item lines="none">
+            <ion-card-title>{{ part.descPieza }}</ion-card-title>
+            <ion-chip
+              slot="end"
+              [color]="part.count! > 0 ? 'secondary' : 'default'"
+              >{{ part.count }}</ion-chip
+            >
+            <ion-button
+              slot="end"
+              (click)="addPhoto(part)"
+              expand="block"
+              fill="clear"
+              shape="round"
+            >
+              <ion-icon slot="end" name="camera"></ion-icon>
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-card-header>
+      <ion-card-content>
+        @for (photo of currentInspection()?.photos; track $index) {
+        @if(photo.idPieza == part.idPieza){
+
+        <ion-card>
+          @if(photo.foto!.length > 100){
+          <ion-card-header>
+            <ion-list>
+              <ion-item>{{
+                photo.damage?.damage_type?.descTipoDanio
+              }}</ion-item>
+
+              <ion-item lines="none">
+                <ion-icon
+                  button
+                  color="danger"
+                  name="close-circle"
+                  slot="end"
+                  (click)="removePhoto(photo.foto)"
+                ></ion-icon>
+              </ion-item>
+            </ion-list>
+          </ion-card-header>
+          }
+
+          <ion-card-content>
+            <ion-img-viewer
+              [title]="photo.auto_part?.descPieza"
+              [text]="
+                photo.foto!.length > 100
+                  ? photo.damage?.damage_type?.descTipoDanio
+                  : 'Preview'
+              "
+              scheme="light"
+              [src]="
+                photo.foto!.length > 100
+                  ? 'data:image/png;base64,' + photo.foto
+                  : photosDirectory + photo.foto
+              "
+            >
+            </ion-img-viewer>
+          </ion-card-content>
+        </ion-card>
+        } }
+      </ion-card-content>
+    </ion-card>
+    } }@placeholder(){
+    <ion-item>
+      <ion-label>Obteniendo datos..</ion-label>
+      <ion-spinner color="secondary" name="crescent"></ion-spinner>
+    </ion-item>
+
+    }
+  </ion-grid>
+</ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goToPrev()">
+        Atrás
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="goToNext()">
+        Siguiente
+        <ion-icon slot="end" name="arrow-forward"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>
+}
