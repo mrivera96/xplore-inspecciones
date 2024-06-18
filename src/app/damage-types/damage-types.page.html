@@ -16,8 +16,9 @@
       @if (damageTypes().length >0) {
       <ion-list>
         @for (damageType of damageTypes(); track $index) {
+
         <ion-item detail="true" button (click)="goToDetail(damageType)">
-          <ion-icon color="primary" slot="start" name="ellipse"></ion-icon>
+          <ion-icon slot="start" color="primary" name="ellipse"></ion-icon>
           <ion-label color="secondary">
             <h2>{{damageType.descTipoDanio}}</h2>
             <p>Tipo de Daño No.: {{damageType.idTipoDanio}}</p>

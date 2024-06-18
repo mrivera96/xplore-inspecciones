@@ -108,24 +108,6 @@ export class InspectionDetailPage implements OnInit {
         this.navCtrl.back();
       }
     });
-
-    this.accessories.forEach((accessory) => {
-      const accesories = this.currentInspection?.checkout_accessories;
-      if (
-        accesories != undefined &&
-        accesories.some((x) => x.idAccesorio == accessory.idAccesorio)
-      ) {
-        accessory.isInCheckout = true;
-      }
-
-      const checkinAccessory = this.currentInspection?.checkin_accessories;
-      if (
-        checkinAccessory != undefined &&
-        checkinAccessory.some((x) => x.idAccesorio == accessory.idAccesorio)
-      ) {
-        accessory.isInCheckin = true;
-      }
-    });
   }
 
   ngOnInit() {}
