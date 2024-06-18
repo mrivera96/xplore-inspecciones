@@ -1,7 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { DamageTypesService } from '../shared/services/damage-types.service';
 import { DamageType } from '../shared/interfaces/damage-type';
-import { NavController } from '@ionic/angular';
+import { ItemReorderEventDetail, NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-damage-types',
@@ -36,4 +36,5 @@ export class DamageTypesPage implements OnInit {
     this.damageTypesService.loadData();
     event.target.complete();
   }
+
 }

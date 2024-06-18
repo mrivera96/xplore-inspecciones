@@ -22,6 +22,17 @@
             errorText="Este campo es obligatorio"
           ></ion-input>
         </ion-item>
+        <ion-item lines="none">
+          <ion-input
+          required
+          [(ngModel)]="currentDamageType.orden"
+          label="Orden"
+          labelPlacement="stacked"
+          type="text"
+          placeholder="Orden de Tipo de Daño"
+          errorText="Este campo es obligatorio"
+        ></ion-input>
+        </ion-item>
       </ion-list>
     </ion-card-content>
   </ion-card>
