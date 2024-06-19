@@ -21,7 +21,9 @@ export class FuelTanksService {
 
   //declaracion de signal a partir de los datos obtenidos
   fuelTanks = signal<FuelTank[]>([]);
-  constructor() {}
+  constructor() {
+    this.loadData();
+  }
 
   public loadData() {
     const subsc = this.httpClient
