@@ -69,3 +69,4 @@ Thumbs.db
 
 resources/ios/**/*
 resources/android/**/*
+src/environments

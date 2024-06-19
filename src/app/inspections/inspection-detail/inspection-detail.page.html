@@ -168,15 +168,19 @@
         <ion-list-header>
           <ion-label>Accesorios</ion-label>
         </ion-list-header>
-        @for (accessory of accessories; track $index) {
+        @for (accessory of currentInspection.checkout_accessories; track $index) {
         <ion-item>
           <ion-checkbox
             disabled
-            [checked]="accessory.isInCheckout"
+            [checked]="true"
             [value]="accessory.idAccesorio"
             >{{ accessory.nomAccesorio }}</ion-checkbox
           >
         </ion-item>
+        }@empty{
+          <ion-item>
+            <ion-label>Sin Registro</ion-label>
+          </ion-item>
         }
       </ion-list>
 
@@ -348,15 +352,19 @@
         <ion-list-header>
           <ion-label>Accesorios</ion-label>
         </ion-list-header>
-        @for (accessory of accessories; track $index) {
+        @for (accessory of currentInspection.checkin_accessories; track $index) {
         <ion-item>
           <ion-checkbox
             disabled
-            [checked]="accessory.isInCheckin"
+            [checked]="true"
             [value]="accessory.idAccesorio"
             >{{ accessory.nomAccesorio }}</ion-checkbox
           >
         </ion-item>
+        }@empty{
+          <ion-item>
+            <ion-label>Sin Registro</ion-label>
+          </ion-item>
         }
       </ion-list>
 
