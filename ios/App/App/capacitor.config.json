@@ -1,0 +1,27 @@
+{
+	"appId": "com.xplore.inspecciones",
+	"appName": "Xplore Inspecciones",
+	"webDir": "www/browser",
+	"server": {
+		"hostname": "localhost",
+		"androidScheme": "http",
+		"iosScheme": "http",
+		"cleartext": true
+	},
+	"android": {
+		"allowMixedContent": true
+	},
+	"packageClassList": [
+		"FileOpenerPlugin",
+		"FileOpenerPlugin",
+		"AppPlugin",
+		"CAPCameraPlugin",
+		"FilesystemPlugin",
+		"HapticsPlugin",
+		"KeyboardPlugin",
+		"ScreenOrientationPlugin",
+		"StatusBarPlugin",
+		"BlobWriter",
+		"BlobWriter"
+	]
+}
