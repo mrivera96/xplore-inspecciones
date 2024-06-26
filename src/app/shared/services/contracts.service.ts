@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
+import { catchError, retry, shareReplay } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ApiResponse } from '../interfaces/api-response';
-import { catchError, map, retry, shareReplay } from 'rxjs';
 import { Contract } from '../interfaces/contract';
-import { toSignal } from '@angular/core/rxjs-interop';
 import { AlertService } from './alert.service';
 
 @Injectable({

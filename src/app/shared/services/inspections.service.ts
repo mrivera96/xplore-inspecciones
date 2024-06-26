@@ -56,7 +56,7 @@ export class InspectionsService {
         catchError((error) => {
           this.alertsService.basicAlert(
             'Error',
-            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
+            `Ocurrió un error al conectarse al servidor: ${error.error.message}`,
             ['Ok']
           );
           return [];
@@ -93,7 +93,7 @@ export class InspectionsService {
           });
 
           this.clearState();
-          this.navCtrl.navigateRoot('home');
+          this.router.navigate(['/home']);
           this.alertsService.basicAlert(
             'Éxito!',
             `Inspección ${res.data.numInspeccion} - guardada exitosamente. Vehículo: ${res.data.car.nemVehiculo} | Contrato No.: ${res.data.contract.numContrato}.`,
@@ -104,7 +104,7 @@ export class InspectionsService {
           this.alertsService.dismissDefaultLoading();
           this.alertsService.basicAlert(
             'Error',
-            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
+            `Ocurrió un error al conectarse al servidor: ${error.error.message}`,
             ['Ok']
           );
         },
@@ -137,7 +137,7 @@ export class InspectionsService {
           });
 
           this.clearState();
-          this.navCtrl.navigateRoot('home');
+          this.router.navigate(['/home']);
           this.alertsService.basicAlert(
             'Éxito!',
             `Inspección ${res.data.numInspeccion} - cerrada exitosamente. Vehículo: ${res.data.car.nemVehiculo} | Contrato No.: ${res.data.contract.numContrato}.`,
@@ -148,7 +148,7 @@ export class InspectionsService {
           this.alertsService.dismissDefaultLoading();
           this.alertsService.basicAlert(
             'Error',
-            `Ocurrió un error al conectarse al servidor: ${error.statusText}`,
+            `Ocurrió un error al conectarse al servidor: ${error.error.message}`,
             ['Ok']
           );
         }
@@ -166,6 +166,7 @@ export class InspectionsService {
     this.contractsService.currentContract.set({} as Contract);
     this.damagesService.damages.set([]);
     this.accessoriesService.currentAccessories.set([]);
+    this.accessoriesService.loadData();
     this.carsService.currentCar.set({} as Car);
   }
 }

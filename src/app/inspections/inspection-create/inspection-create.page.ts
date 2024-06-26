@@ -69,8 +69,7 @@ export class InspectionCreatePage implements OnDestroy {
           .filter((x) => x.inspection?.idEstado == 48) as Contract[];
       } else {
         this.contracts = this.contractsService
-          .contracts()
-          .filter((x) => x.inspection == undefined) as Contract[];
+          .contracts();
       }
     });
   }
@@ -287,5 +286,12 @@ export class InspectionCreatePage implements OnDestroy {
 
       return current as Inspection;
     });
+  }
+
+  handleRefresh(event: any) {
+    this.contractsService.loadData();
+    this.carsService.loadData();
+    this.fuelTanksService.loadData();
+    event.target.complete();
   }
 }

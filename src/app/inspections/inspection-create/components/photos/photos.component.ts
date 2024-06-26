@@ -53,7 +53,6 @@ export class PhotosComponent implements OnInit, OnDestroy {
         ? ' Checkin'
         : ' Checkout';
     effect(() => {
-      console.log(this.currentInspection());
       this.autoParts()?.forEach((x) => {
         x.count = this.currentInspection()?.photos?.filter(
           (y) => x.idPieza == y.idPieza

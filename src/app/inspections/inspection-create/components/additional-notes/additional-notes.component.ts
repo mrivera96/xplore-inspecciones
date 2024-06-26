@@ -45,21 +45,19 @@ export class AdditionalNotesComponent implements OnInit {
         ? ' Checkin'
         : ' Checkout';
 
-    if (this.currentInspection()?.stage == 'checkin') {
-      this.notas = {
-        comentariosBateria: this.currentInspection()?.comentariosBateria,
-        comentariosLlantasDelanteras:
-          this.currentInspection()?.comentariosLlantasDelanteras,
-        comentariosLlantasTraseras:
-          this.currentInspection()?.comentariosLlantasTraseras,
-        comentariosLlantaRepuesto:
-          this.currentInspection()?.comentariosLlantaRepuesto,
-        otrasObservacionesSalida:
-          this.currentInspection()?.otrasObservacionesSalida,
-        otrasObservacionesEntrega:
-          this.currentInspection()?.otrasObservacionesEntrega,
-      };
-    }
+    this.notas = {
+      comentariosBateria: this.currentInspection()?.comentariosBateria,
+      comentariosLlantasDelanteras:
+        this.currentInspection()?.comentariosLlantasDelanteras,
+      comentariosLlantasTraseras:
+        this.currentInspection()?.comentariosLlantasTraseras,
+      comentariosLlantaRepuesto:
+        this.currentInspection()?.comentariosLlantaRepuesto,
+      otrasObservacionesSalida:
+        this.currentInspection()?.otrasObservacionesSalida,
+      otrasObservacionesEntrega:
+        this.currentInspection()?.otrasObservacionesEntrega,
+    };
 
     this.customer =
       this.router.getCurrentNavigation()?.extras?.state?.['customer'];
@@ -82,7 +80,7 @@ export class AdditionalNotesComponent implements OnInit {
         customer: this.customer,
         driver: this.driver,
       },
-    })
+    });
   }
 
   saveCheckout() {
@@ -103,7 +101,6 @@ export class AdditionalNotesComponent implements OnInit {
 
       return current as Inspection;
     });
-
   }
 
   saveCheckin() {
@@ -124,7 +121,14 @@ export class AdditionalNotesComponent implements OnInit {
 
       return current as Inspection;
     });
+  }
 
+  updateNotes() {
+    if (this.currentInspection()?.stage == 'checkout') {
+      this.saveCheckout();
+    } else {
+      this.saveCheckin();
+    }
   }
 
   goToPrev() {
