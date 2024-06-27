@@ -53,9 +53,14 @@ export class AccessoriesService {
   }
 
   addCurrentAccessory(accessory: Accessory) {
-    this.currentAccessories.update((values) => {
-      return [...values, accessory];
-    });
+    const exists = this.currentAccessories().some(
+      (x) => x.idAccesorio == accessory.idAccesorio
+    );
+    if (!exists) {
+      this.currentAccessories.update((values) => {
+        return [...values, accessory];
+      });
+    }
   }
 
   removeCurrentAccessory(accessory: Accessory) {
